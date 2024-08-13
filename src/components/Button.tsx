@@ -1,5 +1,4 @@
-import React from 'react';
-
+import colors from '../css/colors.ts'
 export interface ButtonProps {
  /**
   * How large should the button be?
@@ -8,7 +7,7 @@ export interface ButtonProps {
  /**
   * What background color to use
   */
- color?: string;
+ color?: keyof typeof colors;
  /**
   * Did you use Button hover style?
   */
@@ -40,16 +39,24 @@ export interface ButtonProps {
 }
 
 export const Button = ({
+ label,
  size = 'sm',
  color = 'Blue_B_Default',
- type = 'button',
- label,
+ outline = false,
  ...props
 }: ButtonProps) => {
- const btnColor = `bg-[]`
+ const propsColor = !outline ? `bg-[${colors[color]}] text-white` : `text-[${colors[color]}] border-[${colors[color]}]`
+
+ const propsSize = {
+  xs: 'px-2 py-0.5',
+  sm: 'py-1 px-3',
+  md: 'py-1 px-5',
+  lg: 'py-4 px-7'
+ }
+
  return (
   <button
-   className={['s-button font-Pretendard'].join(' ')}
+   className={['s-button rounded-4 text-xs leading-5', propsColor, propsSize[size]].join(' ')}
    {...props}
   >
    {label}
