@@ -2,27 +2,28 @@ import colors from '../css/colors.ts'
 import Svg from './Svg.tsx'
 export interface ButtonProps {
  /**
-  * How large should the button be?
+  * Button size
   */
  size?: 'xs' | 'sm' | 'md' | 'lg';
  /**
-  * What background color to use
+  * Button color
+  * @description Changing background color without outline or text color with outline
   */
  color?: keyof typeof colors;
  /**
-  * Did you use Button hover style?
+  * Use button hover
   */
  noHover?: boolean;
  /**
-  * Button contents
+  * Button text
   */
  label?: string;
  /**
-  * Optional click handler
+  * Click handler
   */
  onClick?: () => void;
  /**
-  * Button ClassName
+  * Button className
   */
  className?: string;
  /**
@@ -30,16 +31,20 @@ export interface ButtonProps {
   */
  type?: HTMLButtonElement['type'];
  /**
-  * Button Outline
+  * Button outline
+  * @description Outline 'true' means changing the color of the text to the color you specified.
   */
  outline?: boolean;
  /**
-  * Button Icon
+  * Button icon
+  * @description Icon type should be just string or svg file path.
+  * @example 'M1.xxx xxxx.xxx@@fill:none&&M1.xxx xxxx.xxx@@stroke:currentColor' // Icon type string is such as
+  * @example './assets/icons/icon.svg' // and other type is such as 
   */
  icon?: string;
  /**
-   * Button disable
-   */
+  * Button disable
+  */
  disabled?: boolean;
 }
 
@@ -70,9 +75,9 @@ const SButton = ({
 
  const hover = 'hover:overflow-hidden hover:relative hover:before:w-full hover:before:h-full hover:before:top-0 hover:before:left-0 hover:before:absolute'
 
- const hoverClass = !outline 
- ? 'hover:before:bg-black hover:before:opacity-10' 
- : `hover:before:bg-[${argColor}] hover:before:opacity-20`
+ const hoverClass = !outline
+  ? 'hover:before:bg-black hover:before:opacity-10'
+  : `hover:before:bg-[${argColor}] hover:before:opacity-20`
 
  return (
   <button
@@ -80,7 +85,7 @@ const SButton = ({
     's-button rounded-4 text-xs leading-5 inline-flex items-center',
     propsColor,
     propsSize[size],
-    disabled ? disableClass : !noHover ? `${hoverClass} ${hover}` : '' ,
+    disabled ? disableClass : !noHover ? `${hoverClass} ${hover}` : '',
     className,
    ].join(' ')}
    {...props}
