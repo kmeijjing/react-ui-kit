@@ -60,7 +60,9 @@ const SButton = ({
  ...props
 }: ButtonProps) => {
  const argColor = colors[color] || color
- const propsColor = !outline ? `bg-[${argColor}] text-white` : `text-[${argColor}] border border-[${argColor}]`
+ const propsColor = !outline
+  ? `bg-[${argColor}] text-white`
+  : `text-[${argColor}] before:rounded-4 before:absolute before:top-0 before:left-0 before:w-full before:h-full relative before:border before:border-[${argColor}]`
 
  const propsSize = {
   xs: !icon ? 'px-2.5 py-0.5 text-base leading-6.5' : 'p-1.5',
@@ -69,7 +71,7 @@ const SButton = ({
   lg: !icon ? 'py-5.5 px-9.5 text-2xl leading-10' : 'p-[1.917rem]',
  }
 
- const disableClass = 'disabled:bg-Grey_Lighten-3 disabled:border disabled:border-Grey_Lighten-2 disabled:text-Grey_Default disabled:cursor-not-allowed'
+ const disableClass = 'disabled:relative disabled:bg-Grey_Lighten-3 disabled:before:rounded-4 disabled:before:absolute disabled:before:w-full disabled:before:h-full disabled:before:top-0 disabled:before:left-0 disabled:before:border disabled:before:border-Grey_Lighten-2 disabled:text-Grey_Default disabled:cursor-not-allowed'
 
  const iconMargin = {
   xs: 'mr-1.5',
@@ -84,7 +86,7 @@ const SButton = ({
 
  const hoverClass = !outline
   ? 'hover:before:bg-black hover:before:opacity-10'
-  : `hover:before:bg-[${argColor}] hover:before:opacity-20`
+  : `hover:before:bg-${color}/10 hover:before:border hover:before:border-[${argColor}]`
 
  return (
   <button
@@ -95,8 +97,8 @@ const SButton = ({
     disabled ? disableClass : !noHover ? `${hoverClass} ${hover}` : '',
     className,
    ].join(' ')}
-   {...props}
    disabled={disabled}
+   {...props}
   >
    {icon && (
     !icon.includes('.svg')
