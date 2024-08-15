@@ -63,15 +63,22 @@ const SButton = ({
  const propsColor = !outline ? `bg-[${argColor}] text-white` : `text-[${argColor}] border border-[${argColor}]`
 
  const propsSize = {
-  xs: !icon ? 'px-2 py-0.5' : 'p-1',
-  sm: !icon ? 'py-1 px-3' : 'p-1.5',
-  md: !icon ? 'py-1 px-5' : 'p-[0.563rem]',
-  lg: !icon ? 'py-4 px-7' : 'p-[1.438rem]',
+  xs: !icon ? 'px-2.5 py-0.5 text-base leading-6.5' : 'p-1.5',
+  sm: !icon ? 'py-1.5 px-4 text-base leading-6.5' : 'p-2',
+  md: !icon ? 'py-1.5 px-6.5 text-16 leading-8.5' : 'p-[0.751rem]',
+  lg: !icon ? 'py-5.5 px-9.5 text-2xl leading-10' : 'p-[1.917rem]',
  }
 
  const disableClass = 'disabled:bg-Grey_Lighten-3 disabled:border disabled:border-Grey_Lighten-2 disabled:text-Grey_Default disabled:cursor-not-allowed'
 
- const iconMargin = label ? 'mr-1' : ''
+ const iconMargin = {
+  xs: 'mr-1.5',
+  sm: 'mr-1.5',
+  md: 'mr-2.5',
+  lg: 'mr-4',
+ }
+
+ const iconClass = label ? iconMargin[size] : ''
 
  const hover = 'hover:overflow-hidden hover:relative hover:before:w-full hover:before:h-full hover:before:top-0 hover:before:left-0 hover:before:absolute'
 
@@ -82,7 +89,7 @@ const SButton = ({
  return (
   <button
    className={[
-    's-button rounded-4 text-xs leading-5 inline-flex items-center',
+    's-button rounded-4 inline-flex items-center',
     propsColor,
     propsSize[size],
     disabled ? disableClass : !noHover ? `${hoverClass} ${hover}` : '',
@@ -93,8 +100,8 @@ const SButton = ({
   >
    {icon && (
     !icon.includes('.svg')
-     ? <Svg svgString={icon} className={iconMargin} />
-     : <img className={iconMargin} src={icon}></img>
+     ? <Svg svgString={icon} className={iconClass} />
+     : <img className={iconClass} src={icon}></img>
    )}
    {label}
   </button>
