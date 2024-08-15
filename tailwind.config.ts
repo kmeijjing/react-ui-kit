@@ -8,12 +8,16 @@ const config: Config = {
   "./src/**/*.{html,js,ts,tsx,jsx,css,mdx}",
   // './.storybook/**/*.{js,ts,jsx,tsx,mdx}',
  ],
- safelist: Object.values(colors).flatMap((color) => [
+ safelist: Object.entries(colors).flatMap(([key, color]) => [
   `bg-[${color}]`,
   `text-[${color}]`,
   `border-[${color}]`,
+  `border-${key}/30`,
   `decoration-[${color}]`,
   `hover:before:bg-[${color}]`,
+  `hover:before:bg-${key}/10`,
+  `hover:before:border-[${color}]`,
+  `before:border-[${color}]`,
 ]),
  mode: 'jit',
  important: true,
@@ -41,6 +45,9 @@ const config: Config = {
    },
    borderRadius: {
     4: '0.333rem',
+   },
+   borderColor: {
+    dropdownInner: 'color-mix(in srgb, white 30%, transparent)'
    },
    colors,
   },
