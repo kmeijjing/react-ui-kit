@@ -43,7 +43,7 @@ export interface ButtonProps {
  disabled?: boolean;
 }
 
-export const SButton = ({
+const SButton = ({
  label,
  size = 'sm',
  color = 'Blue_B_Default',
@@ -95,3 +95,5 @@ export const SButton = ({
   </button>
  );
 };
+
+export default SButton
