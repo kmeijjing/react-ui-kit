@@ -44,10 +44,14 @@ const config: Config = {
     '8.5': '2.167rem', // 26px
    },
    borderRadius: {
+    2: '0.167rem',
     4: '0.333rem',
    },
    borderColor: {
     dropdownInner: 'color-mix(in srgb, white 30%, transparent)'
+   },
+   boxShadow: {
+    dropdownOptions: '2px 2px 12px 2px #0000001A;',
    },
    colors,
   },
