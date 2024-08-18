@@ -1,5 +1,5 @@
 import SButton from "../components/SButton.tsx";
-import { Setting24 } from "../assets/icons/icons.tsx";
+import { Setting24 } from "../assets/icons.tsx";
 
 const Button = () => {
   return (
@@ -7,7 +7,7 @@ const Button = () => {
       <div className="xs m-2">
         xs
         <SButton label="button" color="primary" size="xs" />
-        <SButton label="button" color="positive" size="xs" />
+        <SButton label="button" color="positive" size="xs" rounded />
         <SButton label="button" color="negative" size="xs" />
         <SButton label="button" color="negative" size="xs" disabled />
       </div>

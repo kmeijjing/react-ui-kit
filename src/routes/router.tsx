@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import Button from "../pages/Button";
+import DropdownButton from "../pages/DropdownButton";
 
 export const Router = createBrowserRouter([
   {
@@ -10,6 +11,10 @@ export const Router = createBrowserRouter([
       {
         path: "/button",
         element: <Button />,
+      },
+      {
+        path: "/dropdown-button",
+        element: <DropdownButton />,
       },
     ],
   },

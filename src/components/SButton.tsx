@@ -1,11 +1,9 @@
 import clsx from "clsx";
-import colors from "../css/colors";
-import styled from "styled-components";
+import styled, { StyleSheetManager } from "styled-components";
 import { SVGProps } from "react";
-
-type Colors = {
-  [key: string]: string;
-};
+import colors from "../css/colors";
+import { getBgColor, getTextColor } from "../utils/colorUtils.tsx";
+import isPropValid from "@emotion/is-prop-valid";
 
 export interface ButtonProps {
   size?: "xs" | "sm" | "md" | "lg";
@@ -18,30 +16,26 @@ export interface ButtonProps {
   rounded?: boolean;
   className?: string;
 }
-const colorsPallete: Colors = colors;
-const bgColor = (color: string): string => {
-  console.log(color);
-  return colorsPallete[color || "primary"];
-};
 
-const SButtonDiv = styled.button`
+const SButtonDiv = styled.button<ButtonProps>`
   min-height: 24px;
   min-width: 24px;
   width: fit-content;
   position: relative;
   overflow: hidden;
-  border-radius: 4px;
+  border-radius: ${({ rounded }) => (rounded ? "50%" : "4px")};
   display: flex;
   align-items: center;
   justify-content: center;
-
+  cursor: ${({ disabled }) => (disabled ? "no-drop" : "pointer")};
   .s-button-content {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
     justify-content: center;
+
     .icon {
-      margin-right: 4px;
+      margin-right: ${({ label }) => (label ? "4px" : "0")};
     }
   }
 
@@ -49,11 +43,10 @@ const SButtonDiv = styled.button`
     height: 24px;
     padding: 0 8px;
     font-size: 12px;
-    .icon {
-      svg {
-        width: 12px;
-        height: 12px;
-      }
+
+    .icon svg {
+      width: 12px;
+      height: 12px;
     }
   }
 
@@ -61,11 +54,10 @@ const SButtonDiv = styled.button`
     height: 28px;
     padding: 0 12px;
     font-size: 12px;
-    .icon {
-      svg {
-        width: 16px;
-        height: 16px;
-      }
+
+    .icon svg {
+      width: 16px;
+      height: 16px;
     }
   }
 
@@ -74,8 +66,10 @@ const SButtonDiv = styled.button`
     padding: 0 20px;
     font-size: 16px;
     font-weight: 500;
+
     .icon {
       margin-right: 8px;
+
       svg {
         width: 20px;
         height: 20px;
@@ -88,8 +82,10 @@ const SButtonDiv = styled.button`
     padding: 0 28px;
     font-size: 18px;
     font-weight: 500;
+
     .icon {
       margin-right: 12px;
+
       svg {
         width: 24px;
         height: 24px;
@@ -103,33 +99,30 @@ const SButtonDiv = styled.button`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: ${({ color }) => bgColor(color || "primary")};
+    background-color: ${({ color }) => getBgColor(color)};
     z-index: -1;
+    border-radius: inherit;
   }
 
   &.s-btn-outlined {
     .s-button-helper {
       &:after {
-        background-color: white !important;
         content: "";
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        border-radius: 4px;
-        border: 1px solid ${({ color }) => bgColor(color || "primary")};
+        background-color: white !important;
+        border-radius: inherit;
+        border: 1px solid ${({ color }) => getBgColor(color)};
       }
     }
 
     .s-button-content {
-      .label {
-        color: ${({ color }) => bgColor(color || "primary")};
-      }
-      .icon {
-        svg {
-          color: ${({ color }) => bgColor(color || "primary")};
-        }
+      .label,
+      .icon svg {
+        color: ${({ color }) => getBgColor(color)};
       }
     }
   }
@@ -137,7 +130,7 @@ const SButtonDiv = styled.button`
   &.s-btn-disabled {
     .s-button-helper {
       background-color: ${colors["Grey_Lighten-3"]} !important;
-      &:before {
+      &:after {
         content: "";
         position: absolute;
         top: 0;
@@ -145,11 +138,12 @@ const SButtonDiv = styled.button`
         width: 100%;
         height: 100%;
         border-radius: 4px;
-        border: 1px solid ${colors["Grey_Lighten-2"]};
+        background-color: ${colors["Grey_Lighten-3"]} !important;
+        border: 1px solid ${colors["Grey_Lighten-2"]} !important;
       }
     }
     color: ${colors["Grey_Default"]} !important;
-    cursor: no-drop;
+
     .label {
       color: ${colors["Grey_Default"]} !important;
     }
@@ -167,8 +161,7 @@ const SButtonDiv = styled.button`
     &.s-btn-outlined:hover {
       .s-button-helper {
         &:before {
-          background-color: ${({ color }) =>
-            bgColor(color || "primary")} !important;
+          background-color: ${({ color }) => getBgColor(color)} !important;
           opacity: 0.3 !important;
         }
         &:after {
@@ -220,9 +213,9 @@ const SButtonDiv = styled.button`
 
 const SButton = (props: ButtonProps) => {
   const {
-    size,
-    type,
-    color,
+    size = "sm",
+    type = "button",
+    color = "primary",
     icon: Icon,
     label,
     disabled,
@@ -231,54 +224,32 @@ const SButton = (props: ButtonProps) => {
     className,
   } = props;
 
-  const textColor: string = getTextColor(colorsPallete[color || "primary"]);
-
   const buttonClasses = clsx(
     "s-button",
-    `s-button--${size || "sm"}`,
-    `text-${textColor}`,
+    `s-button--${size}`,
+    `text-${getTextColor(getBgColor(color))}`,
     Icon && !label && "s-btn-icon-only",
-    outlined && `s-btn-outlined`,
+    outlined && "s-btn-outlined",
     rounded && "s-btn-rounded",
     disabled && "s-btn-disabled",
     className
   );
 
   return (
-    <SButtonDiv className={buttonClasses} {...props}>
-      <div className="s-button-helper"></div>
-      <div className="s-button-content">
-        {Icon && (
-          <div className="icon">
-            <Icon />
-          </div>
-        )}
-        <div className="label">{label}</div>
-      </div>
-    </SButtonDiv>
+    <StyleSheetManager shouldForwardProp={isPropValid}>
+      <SButtonDiv className={buttonClasses} type={type} {...props}>
+        <div className="s-button-helper"></div>
+        <div className="s-button-content">
+          {Icon && (
+            <div className="icon">
+              <Icon />
+            </div>
+          )}
+          <div className="label">{label}</div>
+        </div>
+      </SButtonDiv>
+    </StyleSheetManager>
   );
 };
-
-// 명도 계산 함수
-const getLuminance = (hex: string): number => {
-  hex = hex.replace("#", "");
-
-  const r = parseInt(hex.substring(0, 2), 16) / 255;
-  const g = parseInt(hex.substring(2, 4), 16) / 255;
-  const b = parseInt(hex.substring(4, 6), 16) / 255;
-
-  const a = [r, g, b].map((v) => {
-    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
-  });
-
-  return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
-};
-
-// 글자색 결정 함수
-const getTextColor = (backgroundColor: string): string => {
-  return getLuminance(backgroundColor) > 0.5 ? "black" : "white";
-};
-
-SButton.displayName = "Button";
 
 export default SButton;
