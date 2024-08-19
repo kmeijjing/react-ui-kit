@@ -51,7 +51,7 @@ const DropdownOptions = ({ parentId = '', options = [], onClick }: DropdownOptio
       <li
        key={`s-dropdown__option--${idx}`}
        className={[
-        'py-1.5 px-4 text-Grey_Darken-4 hover:bg-Blue_C_Default hover:text-white aria-disabled:text-Grey_Lighten-1 aria-disabled:bg-white',
+        'py-1.5 px-4 text-Grey_Darken-4 hover:bg-Grey_Lighten-5 aria-disabled:text-Grey_Lighten-1 aria-disabled:bg-white',
         opt?.disable ? 'cursor-not-allowed' : 'cursor-pointer',
        ].join(' ')}
        aria-disabled={opt.disable}
