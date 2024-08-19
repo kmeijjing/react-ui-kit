@@ -12,7 +12,7 @@ _일시: 8/19 13:00_
 
 3) 알게된 점(키워드)
 - 테일윈드 커스텀 색상 동적 적용 => SafeList 참고
-- str => dangerouslysetinnerhtml
+- str => dangerouslySetInnerHTML
 - icon => string
 
 4) QA
