@@ -37,7 +37,7 @@ const DropdownOptions = ({ parentId = '', options = [], onClick }: DropdownOptio
  return (
   <ul
    id={`s-dropdown__options--${parentId}`}
-   className='shadow-dropdownOptions py-1.5 round-2'
+   className='shadow-dropdownOptions py-1.5 round-2 bg-white'
    style={{
     position: 'absolute',
     top: position.top + position.height + 5,
