@@ -1,5 +1,5 @@
-import { useEffect, useState, type InputHTMLAttributes } from 'react';
-import CheckboxIcon from '../assets/CheckboxIcon';
+import { type ChangeEvent, useEffect, useState, type InputHTMLAttributes, useMemo } from 'react';
+import { CheckboxIcon, IndeterminateCheckboxIcon } from '../assets/CheckboxIcon';
 
 export interface CheckboxProps {
 	/**
@@ -17,11 +17,11 @@ export interface CheckboxProps {
 	/**
 	 * Checkbox value
 	 */
-	value: InputHTMLAttributes<HTMLInputElement>['value'];
+	value: string;
 	/**
 	 * Checkbox checked
 	 */
-	checked: boolean;
+	checked: boolean | null;
 	/**
 	 * Checkbox name
 	 */
@@ -29,22 +29,35 @@ export interface CheckboxProps {
 	/**
 	 * Click handler
 	 */
-	onClick: (arg: InputHTMLAttributes<HTMLInputElement>['value']) => void;
+	onClick: (arg: boolean | null) => void;
 }
 
 const SCheckbox = ({ checked, label, value, name, onClick, disabled = false }: CheckboxProps) => {
-	const [inputChecked, setInputChecked] = useState(checked);
+	const [isChecked, setIsChecked] = useState(checked);
 
-	const handleChange = () => {
+	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
 		if (disabled) return;
-		setInputChecked((prev) => !prev);
-		onClick(value);
+		onClick(event.target.checked);
 	};
 
- useEffect(() => {
-  setInputChecked(checked)
- }, [checked])
- 
+	useEffect(() => {
+		setIsChecked(checked);
+	}, [checked]);
+
+	const isCheckedInIcon = useMemo(() => isChecked !== false, [isChecked]);
+
+	const iconClass = useMemo(
+		() =>
+			isCheckedInIcon && !disabled
+				? 'text-white'
+				: isCheckedInIcon && disabled
+					? 'text-Grey_Default'
+					: !isCheckedInIcon
+						? 'text-transparent'
+						: '',
+		[isCheckedInIcon, disabled]
+	);
+
 	return (
 		<label
 			className={[
@@ -54,7 +67,7 @@ const SCheckbox = ({ checked, label, value, name, onClick, disabled = false }: C
 		>
 			<input
 				value={value}
-				checked={inputChecked}
+				checked={!!isChecked}
 				type='checkbox'
 				hidden
 				name={name}
@@ -62,26 +75,20 @@ const SCheckbox = ({ checked, label, value, name, onClick, disabled = false }: C
 			/>
 			<span
 				className={[
-					'relative inline-flex items-center justify-center w-5.5 h-5.5 mr-2.5 before:border before:absolute before:top-0 before:left-0 before:w-full before:h-full rounded-2 before:rounded-2 aria-disabled:bg-Grey_Lighten-4 aria-disabled:before:border-Grey_Lighten-2',
-					inputChecked
+					`relative inline-flex items-center justify-center w-5.5 h-5.5 mr-2.5 rounded-2 
+     before:border before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rounded-2 
+     aria-disabled:bg-Grey_Lighten-4 aria-disabled:before:border-Grey_Lighten-2`,
+					isCheckedInIcon
 						? 'bg-Blue_C_Default before:border-Blue_C_Default'
 						: 'bg-white before:border-Grey_Default',
 				].join(' ')}
 				aria-disabled={disabled}
 			>
-				{
-					<CheckboxIcon
-						className={
-							inputChecked && !disabled
-								? 'text-white'
-								: inputChecked && disabled
-									? 'text-Grey_Default'
-									: !inputChecked
-										? 'text-transparent'
-										: ''
-						}
-					/>
-				}
+				{isChecked === null ? (
+					<IndeterminateCheckboxIcon className={iconClass} />
+				) : (
+					<CheckboxIcon className={iconClass} />
+				)}
 			</span>
 			<span>{label}</span>
 		</label>

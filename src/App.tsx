@@ -1,40 +1,38 @@
+import { useState } from 'react';
 import './css/App.css';
-import SDropdown from './components/SDropdown';
 import SCheckbox from './components/SCheckbox';
 
 function App() {
+	const checkboxes = [
+		{
+			label: 'checkbox1',
+			value: '1',
+   disabled: true,
+		},
+		{
+			label: 'checkbox2',
+			value: '2',
+		},
+	];
+	const [checked, setChecked] = useState<Record<string, boolean | null>>({});
+
 	return (
 		<>
 			<main>
-				<SDropdown
-					options={[
-						{ label: 'option 1', value: 1 },
-						{ label: 'option 2', value: 2 },
-					]}
-     onClick={() => ''}
-					label='dropdown'
-					className='m-11'
-				/>
-    <SDropdown
-					options={[
-						{ label: 'option 1', value: 1, disable: true },
-						{ label: 'option 2', value: 2 },
-					]}
-     onClick={() => ''}
-					label='dropdown'
-					className='m-11'
-				/>
-    <SDropdown
-					options={[
-						{ label: `<span style="color: red">option 1</span>`, value: 1 },
-						{ label: 'option 2', value: 2, display: false },
-					]}
-     onClick={() => ''}
-					label='dropdown'
-					className='m-11'
-				/>
-    <SCheckbox label="label1" value='label' onClick={() => ''} checked={true} />
-    <SCheckbox label="label2" value='label2' onClick={() => ''} checked={false} />
+				{checkboxes.map((item) => (
+					<SCheckbox
+						label={item.label}
+						value={item.value}
+						key={item.value}
+      disabled={item.disabled}
+						onClick={(val) =>
+							setChecked((prev) => {
+								return { ...prev, [item.value]: val === true ? null : false };
+							})
+						}
+						checked={checked[item.value]}
+					/>
+				))}
 			</main>
 		</>
 	);

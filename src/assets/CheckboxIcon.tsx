@@ -1,4 +1,4 @@
-const CheckboxIcon = ({className = ''}) => {
+const CheckboxIcon = ({ className = '' }) => {
 	return (
 		<svg
 			width='12'
@@ -6,7 +6,7 @@ const CheckboxIcon = ({className = ''}) => {
 			viewBox='0 0 12 12'
 			fill='none'
 			xmlns='http://www.w3.org/2000/svg'
-   className={className}
+			className={className}
 		>
 			<g clipPath='url(#clip0_8877_128)'>
 				<path
@@ -29,4 +29,24 @@ const CheckboxIcon = ({className = ''}) => {
 	);
 };
 
-export default CheckboxIcon;
+const IndeterminateCheckboxIcon = ({ className = '' }) => {
+	return (
+		<svg
+			width='12'
+			height='12'
+			viewBox='0 0 12 12'
+			fill='none'
+			xmlns='http://www.w3.org/2000/svg'
+			className={className}
+		>
+			<path
+				d='M1.40002 6H10.6'
+				stroke='currentColor'
+    strokeWidth='1.25'
+				strokeLinecap='round'
+			/>
+		</svg>
+	);
+};
+
+export { CheckboxIcon, IndeterminateCheckboxIcon };

@@ -15,6 +15,7 @@ const meta = {
 	// More on argTypes: https://storybook.js.org/docs/api/argtypes
 	argTypes: {
 		label: { control: 'text' },
+		checked: { control: 'select', options: [true, false, null] },
 	},
 	args: { onClick: fn() },
 } satisfies Meta<typeof SCheckbox>;
@@ -27,6 +28,49 @@ export const Default: Story = {
 	args: {
 		label: 'label',
 		value: 'value',
-  checked: false,
+		checked: false,
+	},
+};
+
+export const Checked: Story = {
+	args: {
+		label: 'label',
+		value: 'value',
+		checked: true,
+	},
+};
+
+export const Indeterminate: Story = {
+ args: {
+		label: 'label',
+		value: 'value',
+		checked: null,
+	},
+};
+
+export const CheckedDisabled: Story = {
+	args: {
+		label: 'label',
+		value: 'value',
+		checked: true,
+  disabled: true
+	},
+};
+
+export const IndeterminateDisabled: Story = {
+	args: {
+		label: 'label',
+		value: 'value',
+		checked: null,
+  disabled: true
+	},
+};
+
+export const Disabled: Story = {
+	args: {
+		label: 'label',
+		value: 'value',
+		checked: false,
+  disabled: true
 	},
 };
