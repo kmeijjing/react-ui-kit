@@ -22,39 +22,45 @@ export interface CheckboxProps {
 	 * Checkbox name
 	 */
 	name?: InputHTMLAttributes<HTMLInputElement>['name'];
- /**
-  * Click handler
-  */
- onClick: (arg: InputHTMLAttributes<HTMLInputElement>['value']) => void;
+	/**
+	 * Click handler
+	 */
+	onClick: (arg: InputHTMLAttributes<HTMLInputElement>['value']) => void;
 }
 
 const SCheckbox = ({ label, value, name, onClick, disabled = false }: CheckboxProps) => {
- const [checked, setChecked] = useState(false)
+	const [checked, setChecked] = useState(false);
 
- const handleChange =() => {
-  setChecked((prev) => !prev)
-  onClick(value)
- }
+	const handleChange = () => {
+		setChecked((prev) => !prev);
+		onClick(value);
+	};
 	return (
-		<label className='inline-flex items-center cursor-pointer'>
+		<label className='inline-flex items-center cursor-pointer s-checkbox'>
 			<input
 				value={value}
-    checked={checked}
+				checked={checked}
+				type='checkbox'
 				hidden
 				name={name}
-    onChange={handleChange}
+				onChange={handleChange}
 			/>
 			<span
 				className={[
-					'block w-5.5 h-5.5 mr-2.5 border border-Grey_Default rounded-2 aria-disabled:bg-Grey_Lighten-4 aria-disabled:border-Grey_Lighten-2',
-					checked ? 'bg-Blue_C_Default' : 'bg-white',
+					'relative inline-flex items-center justify-center w-5.5 h-5.5 mr-2.5 before:border before:absolute before:top-0 before:left-0 before:w-full before:h-full rounded-2 before:rounded-2 aria-disabled:bg-Grey_Lighten-4 aria-disabled:before:border-Grey_Lighten-2',
+					checked
+						? 'bg-Blue_C_Default before:border-Blue_C_Default'
+						: 'bg-white before:border-Grey_Default',
 				].join(' ')}
 				aria-disabled={disabled}
 			>
-    {checked && <CheckboxIcon />}
+				{
+					<CheckboxIcon
+						className={checked && !disabled ? 'text-white' : disabled ? 'text-Grey_Default' : 'text-transparent'}
+					/>
+				}
 			</span>
 			<span>{label}</span>
-   checked{checked}
 		</label>
 	);
 };

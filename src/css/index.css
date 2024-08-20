@@ -19,3 +19,11 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.s-checkbox + .s-checkbox {
+ margin-left: 20px;
+}
+
+.s-checkbox:first-of-type {
+ margin-left: 0;
+}

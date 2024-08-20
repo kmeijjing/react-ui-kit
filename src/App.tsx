@@ -1,5 +1,6 @@
 import './css/App.css';
 import SDropdown from './components/SDropdown';
+import SCheckbox from './components/SCheckbox';
 
 function App() {
 	return (
@@ -32,6 +33,8 @@ function App() {
 					label='dropdown'
 					className='m-11'
 				/>
+    <SCheckbox label="label1" value='label' onClick={() => ''} />
+    <SCheckbox label="label2" value='label2' onClick={() => ''} />
 			</main>
 		</>
 	);
