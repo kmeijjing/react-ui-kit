@@ -24,10 +24,10 @@ function App() {
 						label={item.label}
 						value={item.value}
 						key={item.value}
-      disabled={item.disabled}
+      disabled={item.disabled || false}
 						onClick={(val) =>
 							setChecked((prev) => {
-								return { ...prev, [item.value]: val === true ? null : false };
+								return { ...prev, [item.value]: val };
 							})
 						}
 						checked={checked[item.value]}
