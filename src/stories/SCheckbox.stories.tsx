@@ -27,5 +27,6 @@ export const Default: Story = {
 	args: {
 		label: 'label',
 		value: 'value',
+  checked: false,
 	},
 };

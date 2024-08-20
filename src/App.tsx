@@ -33,8 +33,8 @@ function App() {
 					label='dropdown'
 					className='m-11'
 				/>
-    <SCheckbox label="label1" value='label' onClick={() => ''} />
-    <SCheckbox label="label2" value='label2' onClick={() => ''} />
+    <SCheckbox label="label1" value='label' onClick={() => ''} checked={true} />
+    <SCheckbox label="label2" value='label2' onClick={() => ''} checked={false} />
 			</main>
 		</>
 	);
