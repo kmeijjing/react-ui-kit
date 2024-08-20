@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import { Button } from '../components/Button';
+import SButton from '../components/SButton';
+import colors from '../css/colors';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Example/Button',
-  component: Button,
+  title: 'SButton',
+  component: SButton,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: 'centered',
@@ -14,11 +15,11 @@ const meta = {
   tags: ['autodocs'],
   // More on argTypes: https://storybook.js.org/docs/api/argtypes
   argTypes: {
-   color: { control: 'color' },
+   color: { control: 'select', options: Object.keys(colors) },
+   icon: { control: 'text' },
   },
-  // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
   args: { onClick: fn() },
-} satisfies Meta<typeof Button>;
+} satisfies Meta<typeof SButton>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -31,16 +32,40 @@ export const Color: Story = {
   },
 };
 
-export const Icon: Story = {
+export const Outline: Story = {
  args: {
-   icon: '',
+   color: 'Blue_B_Default',
    label: 'Button',
+   outline: true,
  },
 };
 
+const icon = 'M1.86664 8H14.1333@@stroke: currentColor; stroke-linecap: round;&&M8 1.8667L8 14.1334@@stroke: currentColor; stroke-linecap: round;|0 0 16 16'
+
+export const Icon: Story = {
+ args: {
+   icon,
+   label: 'Icon Button',
+   size:'sm',
+ },
+};
+
+export const IconWithOutline: Story = {
+ args: {
+   icon,
+   label: 'Icon Button',
+   size:"md",
+   outline: true,
+   noHover: true,
+   className: ""
+ },
+};
+
+
 export const IconWithoutLabel: Story = {
  args: {
-   icon: '',
+   icon,
+   size: 'xs',
  },
 };
 

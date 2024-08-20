@@ -1,50 +1,34 @@
-# React + TypeScript + Vite
+# Sellmate UI KIT with React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![React](https://img.shields.io/badge/react-18.3.1-569AB7.svg)
+![typescript](https://img.shields.io/badge/typescript-4.9.5-3078C6.svg)
+![storybook](https://img.shields.io/badge/storybook-8.2.8-FF4785.svg)
 
-Currently, two official plugins are available:
+## ⚙️ 실행 방법
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```cmd
+npm install
+npm run dev // for development
+npm run build // for production build
+npm run storybook // for storybook
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## 📂 파일 경로
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+<details>
+  <summary>src</summary>
+  <pre>
+ ┣ assets [...] // icon
+ ┣ components [...]
+ ┣ css [...]
+ ┣ App.tsx
+ ┗ main.tsx
+  </pre>
+</details>
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## 📝 개발 과정
+
+### 프로젝트
+
+- [Sellmate UI KIT](https://gitlab.corp.sellmate.co.kr/sellmate/frontend/quasar-ui-kit) React로 전환
+- Storybook 으로 문서 대체
