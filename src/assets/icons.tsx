@@ -58,3 +58,20 @@ export const Check12 = (_props: SVGProps<SVGSVGElement>) => (
 		</defs>
 	</svg>
 );
+
+export const Minus8 = (_props: SVGProps<SVGSVGElement>) => (
+	<svg
+		width='8'
+		height='8'
+		viewBox='0 0 8 8'
+		fill='none'
+		xmlns='http://www.w3.org/2000/svg'
+	>
+		<path
+			d='M0.93335 4H7.06668'
+			stroke='currentColor'
+			stroke-width='0.6'
+			stroke-linecap='round'
+		/>
+	</svg>
+);

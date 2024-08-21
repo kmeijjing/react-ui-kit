@@ -38,3 +38,10 @@ export const CheckedAndDisabled: Story = {
 		disabled: true,
 	},
 };
+
+export const Multi: Story = {
+	args: {
+		checked: true,
+		multi: true,
+	},
+};

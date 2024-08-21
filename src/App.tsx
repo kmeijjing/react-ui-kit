@@ -11,14 +11,13 @@ function App() {
 				<SCheckbox
 					label='aaa'
 					checked
-					disabled
 					className='m-11'
 				/>
 				<SCheckbox
 					label='aaa'
 					className='m-11'
 					checked={checkedValue}
-					disabled
+					multi
 				/>
 				<SCheckbox
 					label='aaa'
