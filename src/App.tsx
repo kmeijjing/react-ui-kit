@@ -16,7 +16,6 @@ function App() {
 				<SCheckbox
 					label='aaa'
 					checked
-					disabled
 					className='m-11'
 				/>
 				<SCheckbox
