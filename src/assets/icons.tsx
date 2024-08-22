@@ -40,7 +40,7 @@ export const Check12 = (_props: SVGProps<SVGSVGElement>) => (
 		fill='none'
 		xmlns='http://www.w3.org/2000/svg'
 	>
-		<g clip-path='url(#clip0_8697_9693)'>
+		<g clipPath='url(#clip0_8697_9693)'>
 			<path
 				d='M10.61 3.25L5.04153 8.81847C4.99272 8.86728 4.91357 8.86728 4.86476 8.81847L1.41761 5.37132'
 				stroke='currentColor'

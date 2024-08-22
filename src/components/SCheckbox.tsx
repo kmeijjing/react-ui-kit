@@ -5,33 +5,47 @@ import { Check12, Minus8 } from '../assets/icons';
 export interface CheckboxProps {
 	label?: string;
 	disabled?: boolean;
-	checked: boolean;
+	checked: boolean | (string | number)[];
+	val?: string | number;
 	className?: string;
-	multi?: boolean;
-	onChange?: (checked: boolean) => void;
+	onChange?: (checked: boolean | (string | number)[]) => void;
 }
 
 const SCheckbox = ({
 	label,
 	disabled = false,
 	checked,
-	multi = false,
+	val,
 	className,
 	onChange,
 }: CheckboxProps) => {
-	const [internalChecked, setInternalChecked] = useState(checked);
+	const [internalChecked, setInternalChecked] = useState<boolean>(
+		Array.isArray(checked) ? checked.includes(val!) : checked
+	);
 
 	useEffect(() => {
-		setInternalChecked(checked);
-	}, [checked]);
+		setInternalChecked(Array.isArray(checked) ? checked.includes(val!) : checked);
+	}, [checked, val]);
 
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (disabled) return;
+
 		const isChecked = event.target.checked;
-		setInternalChecked(isChecked);
-		if (onChange) {
-			onChange(isChecked);
+		let newChecked: boolean | (string | number)[] = isChecked;
+
+		if (val !== undefined) {
+			if (Array.isArray(checked)) {
+				newChecked = isChecked
+					? [...new Set([...checked, val])]
+					: checked.filter((item) => item !== val);
+				console.log('newChecked : ', newChecked);
+			} else {
+				newChecked = isChecked ? [val] : [];
+			}
 		}
+
+		setInternalChecked(Array.isArray(newChecked) ? newChecked.includes(val!) : !!newChecked);
+		onChange?.(newChecked);
 	};
 
 	const checkboxClass = clsx(
@@ -57,8 +71,8 @@ const SCheckbox = ({
 				onChange={handleCheckboxChange}
 			/>
 			<span className={clsx(checkmarkClass)}>
-				{internalChecked && !multi && <Check12 />}
-				{internalChecked && multi && <Minus8 />}
+				{internalChecked && <Check12 />}
+				{/* {internalChecked && multi && <Minus8 />} */}
 			</span>
 			<span className='leading-20'>{label}</span>
 		</label>
