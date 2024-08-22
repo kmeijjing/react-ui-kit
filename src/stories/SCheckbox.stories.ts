@@ -17,6 +17,7 @@ const meta = {
 } satisfies Meta<typeof SCheckbox>;
 
 export default meta;
+
 type Story = StoryObj<typeof meta>;
 
 export const Checked: Story = {
@@ -36,5 +37,13 @@ export const CheckedAndDisabled: Story = {
 	args: {
 		checked: true,
 		disabled: true,
+	},
+};
+
+export const Array: Story = {
+	args: {
+		checked: ['사자', '호랑이', '코끼리'],
+		val: '코끼리',
+		label: '코끼리',
 	},
 };
