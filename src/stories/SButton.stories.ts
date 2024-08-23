@@ -61,7 +61,6 @@ export const IconWithOutline: Story = {
  },
 };
 
-
 export const IconWithoutLabel: Story = {
  args: {
    icon,
