@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
-import { Check12, Minus8 } from '../assets/icons';
+import { Check12 } from '../assets/icons';
 
 export interface CheckboxProps {
 	label?: string;
@@ -70,10 +70,7 @@ const SCheckbox = ({
 				className='hidden'
 				onChange={handleCheckboxChange}
 			/>
-			<span className={clsx(checkmarkClass)}>
-				{internalChecked && <Check12 />}
-				{/* {internalChecked && multi && <Minus8 />} */}
-			</span>
+			<span className={clsx(checkmarkClass)}>{internalChecked && <Check12 />}</span>
 			<span className='leading-20'>{label}</span>
 		</label>
 	);

@@ -1,28 +1,36 @@
+import React, { useState, useEffect } from 'react';
 import './css/App.css';
 import SDropdown from './components/SDropdown';
 import SCheckbox from './components/SCheckbox';
 
 function App() {
-	let checkedValue = true;
+	const [checked, setChecked] = useState<boolean>(false);
+	function handleClick() {
+		setChecked(!checked);
+	}
 	return (
 		<>
 			<main>
-				{checkedValue ? 'checked' : 'unchecked'}
+				<button
+					type='button'
+					onClick={handleClick}
+				>
+					!!!!!!!
+				</button>
 				<SCheckbox
 					label='aaa'
-					checked
+					checked={checked}
 					className='m-11'
 				/>
 				<SCheckbox
 					label='aaa'
 					className='m-11'
-					checked={checkedValue}
-					multi
+					checked={checked}
 				/>
 				<SCheckbox
 					label='aaa'
 					className='m-11'
-					checked={false}
+					checked={checked}
 					disabled
 				/>
 				<SDropdown
