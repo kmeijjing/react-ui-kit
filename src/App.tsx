@@ -12,7 +12,13 @@ function App() {
 	return (
 		<>
 			<main>
-				{checked ? 'checked' : 'unchecked'}
+				<button
+					type='button'
+					onClick={handleClick}
+					className='bg-positive'
+				>
+					toggle button
+				</button>
 				<SCheckbox
 					label='aaa'
 					checked={checked}
