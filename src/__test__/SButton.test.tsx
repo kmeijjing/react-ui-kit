@@ -21,7 +21,7 @@ describe('SButton Component', () => {
 
   it('applies the correct outline classes when outline prop is true', () => {
     render(<SButton label="Outlined Button" color="Red_Default" outline />);
-    expect(screen.getByText('Outlined Button')).toHaveClass('text-[#E30000]');
+    expect(screen.getByText('Outlined Button')).toHaveClass('before:border-[#E30000] text-[#E30000]');
   });
 
   it('handles button click event', () => {
