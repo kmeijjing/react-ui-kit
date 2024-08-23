@@ -15,19 +15,18 @@ function App() {
 				{checked ? 'checked' : 'unchecked'}
 				<SCheckbox
 					label='aaa'
-					checked
+					checked={checked}
 					className='m-11'
 				/>
 				<SCheckbox
 					label='aaa'
 					className='m-11'
 					checked={checked}
-					disabled
 				/>
 				<SCheckbox
 					label='aaa'
 					className='m-11'
-					checked={false}
+					checked={checked}
 					disabled
 				/>
 				<SDropdown

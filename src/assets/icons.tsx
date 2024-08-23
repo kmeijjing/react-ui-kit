@@ -44,7 +44,7 @@ export const Check12 = (_props: SVGProps<SVGSVGElement>) => (
 			<path
 				d='M10.61 3.25L5.04153 8.81847C4.99272 8.86728 4.91357 8.86728 4.86476 8.81847L1.41761 5.37132'
 				stroke='currentColor'
-				stroke-linecap='round'
+				strokeLinecap='round'
 			/>
 		</g>
 		<defs>
@@ -71,7 +71,7 @@ export const Minus8 = (_props: SVGProps<SVGSVGElement>) => (
 			d='M0.93335 4H7.06668'
 			stroke='currentColor'
 			stroke-width='0.6'
-			stroke-linecap='round'
+			strokeLinecap='round'
 		/>
 	</svg>
 );

@@ -70,10 +70,7 @@ const SCheckbox = ({
 				className='hidden'
 				onChange={handleCheckboxChange}
 			/>
-			<span className={clsx(checkmarkClass)}>
-				{internalChecked && <Check12 />}
-				{/* {internalChecked && multi && <Minus8 />} */}
-			</span>
+			<span className={clsx(checkmarkClass)}>{internalChecked && <Check12 />}</span>
 			<span className='leading-20'>{label}</span>
 		</label>
 	);
