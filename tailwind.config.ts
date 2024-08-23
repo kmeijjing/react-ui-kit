@@ -1,8 +1,6 @@
 import type { Config } from 'tailwindcss';
 import colors from './src/css/colors.ts';
 
-const px0_10 = Object.fromEntries(Array.from({ length: 11 }, (_, i) => [i.toString(), `${i}px`]));
-const px0_100 = Object.fromEntries(Array.from({ length: 101 }, (_, i) => [i.toString(), `${i}px`]));
 const px0_200 = Object.fromEntries(Array.from({ length: 201 }, (_, i) => [i.toString(), `${i}px`]));
 
 /** @type {import('tailwindcss').Config} */

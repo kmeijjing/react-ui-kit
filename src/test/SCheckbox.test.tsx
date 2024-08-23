@@ -1,7 +1,7 @@
 import { render, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 
-import SCheckbox from '../components/SCheckbox';
+import SCheckbox from '@/components/SCheckbox';
 
 describe('SCheckbox', () => {
 	it('should render with a label', () => {

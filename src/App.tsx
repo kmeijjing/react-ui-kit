@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './css/App.css';
 import SDropdown from './components/SDropdown';
 import SCheckbox from './components/SCheckbox';
@@ -14,8 +14,9 @@ function App() {
 				<button
 					type='button'
 					onClick={handleClick}
+					className='bg-positive'
 				>
-					!!!!!!!
+					toggle button
 				</button>
 				<SCheckbox
 					label='aaa'
