@@ -4,7 +4,6 @@ import colors from '../css/colors.ts';
 import DropdownIcon from '../assets/DropdownIcon.tsx';
 import DropdownOptions, { type DropdownOptionProps } from './DropdownOptions.tsx';
 
-
 export interface DropdownProps {
 	/**
 	 * Dropdown size
@@ -28,7 +27,7 @@ export interface DropdownProps {
 	 * @description Options can using HTML code
 	 * @example [{ label: '<span style="color: red">label</span>', value: 'label' }]
 	 */
-	options: DropdownOptionProps[]
+	options: DropdownOptionProps[];
 	/**
 	 * Dropdown outline
 	 * @description Outline 'true' means changing the color of the text to the color you specified.
@@ -51,8 +50,8 @@ const SDropdown = ({
 	outline = false,
 	disabled,
 	className,
- options,
- onClick,
+	options,
+	onClick,
 	...props
 }: DropdownProps) => {
 	const argColor = colors[color] || color;
@@ -116,7 +115,15 @@ const SDropdown = ({
 					/>
 				</span>
 			</button>
-			{isOpen && createPortal(<DropdownOptions onClick={onClick} parentId={id} options={options} />, document.body)}
+			{isOpen &&
+				createPortal(
+					<DropdownOptions
+						onClick={onClick}
+						parentId={id}
+						options={options}
+					/>,
+					document.body
+				)}
 		</>
 	);
 };
