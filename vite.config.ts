@@ -1,4 +1,5 @@
-import { defineConfig } from 'vitest/config';
+/// <reference types="vitest" />
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
@@ -19,8 +20,9 @@ export default defineConfig({
 			plugins: [tailwindcss(), autoprefixer()],
 		},
 	},
- test: {
-  globals: true,
-  environment: "jsdom",
-},
+	test: {
+		globals: true,
+		environment: 'jsdom',
+		setupFiles: ['./vitest-setup.ts'],
+	},
 });

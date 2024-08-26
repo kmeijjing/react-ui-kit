@@ -1,5 +1,5 @@
 import { createPortal } from 'react-dom';
-import { useId, useState } from 'react';
+import React, { useId, useState } from 'react';
 import colors from '../css/colors.ts';
 import DropdownIcon from '../assets/DropdownIcon.tsx';
 import DropdownOptions, { type DropdownOptionProps } from './DropdownOptions.tsx';
