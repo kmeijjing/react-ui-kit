@@ -8,7 +8,6 @@ function App() {
 	function handleClick() {
 		setChecked(!checked);
 	}
-
 	return (
 		<>
 			<main>

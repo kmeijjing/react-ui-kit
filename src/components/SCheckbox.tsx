@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
-import { Check12 } from '@/assets/icons';
+import { Check12 } from '../assets/icons';
 
 export interface CheckboxProps {
 	label?: string;
