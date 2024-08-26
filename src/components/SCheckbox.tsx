@@ -55,10 +55,10 @@ const SCheckbox = ({
 	);
 
 	const checkmarkClass = clsx(
-		'w-16 h-16 bg-wthie border-1 bw-1 border-Grey_Default rounded-2 transition-all duration-200 mr-8 relative flex justify-center items-center',
-		internalChecked && !disabled && 'bg-positive border-positive text-white',
-		disabled && '!bg-Grey_Lighten-4 !border-Grey_Lighten-2 !text-Grey_Default',
-		!internalChecked && !disabled && 'hover:!bg-Blue_B_Lighten-5 hover:!border-positive'
+		'bg-wthie bw-1 relative mr-8 flex h-16 w-16 items-center justify-center rounded-2 border-1 border-Grey_Default transition-all duration-200',
+		internalChecked && !disabled && 'border-positive bg-positive text-white',
+		disabled && '!border-Grey_Lighten-2 !bg-Grey_Lighten-4 !text-Grey_Default',
+		!internalChecked && !disabled && 'hover:!border-positive hover:!bg-Blue_B_Lighten-5'
 	);
 
 	return (

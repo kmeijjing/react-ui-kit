@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import React from 'react';
+import { useEffect, useState } from 'react';
 
 const initParentDOMRect = {
 	height: 0,
@@ -20,12 +21,11 @@ export interface DropdownOptionProps {
 interface DropdownOptionsProps {
 	parentId: string;
 	options: DropdownOptionProps[];
-	onClick: (arg?: DropdownOptionProps) => void;
+	onClick: (arg: DropdownOptionProps) => void;
 }
 
 const DropdownOptions = ({ parentId = '', options = [], onClick }: DropdownOptionsProps) => {
 	const [position, setPosition] = useState<Omit<DOMRect, 'toJSON' | 'right'>>(initParentDOMRect);
-	const dropdownRef = useRef<HTMLUListElement>(null);
 
 	useEffect(() => {
 		const parent = document.getElementById(`s-dropdown--${parentId}`) || null;
@@ -35,31 +35,16 @@ const DropdownOptions = ({ parentId = '', options = [], onClick }: DropdownOptio
 		}
 	}, [parentId]);
 
-	useEffect(() => {
-		const handleClickOutside = (event: MouseEvent) => {
-			if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-				onClick();
-			}
-		};
-
-		document.addEventListener('mousedown', handleClickOutside);
-
-		return () => {
-			document.removeEventListener('mousedown', handleClickOutside);
-		};
-	}, [dropdownRef, onClick]);
-
 	return (
 		<ul
 			id={`s-dropdown__options--${parentId}`}
-			className='shadow-dropdownOptions py-1.5 round-2 bg-white'
+			className='round-2 py-1.5 shadow-dropdownOptions'
 			style={{
 				position: 'absolute',
 				top: position.top + position.height + 5,
 				left: position.left,
 				width: position.width,
 			}}
-			ref={dropdownRef}
 		>
 			{options.map(
 				(opt, idx) =>
@@ -67,7 +52,7 @@ const DropdownOptions = ({ parentId = '', options = [], onClick }: DropdownOptio
 						<li
 							key={`s-dropdown__option--${idx}`}
 							className={[
-								'py-1.5 px-4 text-Grey_Darken-4 hover:bg-Grey_Lighten-5 aria-disabled:text-Grey_Lighten-1 aria-disabled:bg-white',
+								'px-4 py-1.5 text-Grey_Darken-4 hover:bg-Blue_C_Default hover:text-white aria-disabled:bg-white aria-disabled:text-Grey_Lighten-1',
 								opt?.disable ? 'cursor-not-allowed' : 'cursor-pointer',
 							].join(' ')}
 							aria-disabled={opt.disable}
