@@ -4,7 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-*:not(svg) {
+*:not(i, svg) {
  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
    sans-serif;
@@ -18,4 +18,12 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.s-checkbox + .s-checkbox {
+ margin-left: 20px;
+}
+
+.s-checkbox:first-of-type {
+ margin-left: 0;
 }

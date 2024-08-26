@@ -12,12 +12,12 @@ _일시: 8/19 13:00_
 
 3) 알게된 점(키워드)
 - 테일윈드 커스텀 색상 동적 적용 => SafeList 참고
-- str => dangerouslysetinnerhtml
+- str => dangerouslySetInnerHTML
 - icon => string
 
 4) QA
 - path alias 설정 추가
-- 필요한 아이콘 path추가
+- 필요한 아이콘 path 추가
 - 드롭다운 외부 클릭 시 닫힘
 - 드롭다운 옵션 메뉴 bg 추가
 - 드롭다운 옵션 메뉴 호버시 bg 수정

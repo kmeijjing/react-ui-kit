@@ -37,3 +37,21 @@ export const Color: Story = {
    options,
  },
 };
+
+export const Disabled: Story = {
+ args: {
+   color: 'Blue_B_Default',
+   label: 'Button',
+   options,
+   disabled: true,
+ },
+};
+
+export const Outline: Story = {
+ args: {
+   color: 'Blue_B_Default',
+   label: 'Button',
+   options,
+   outline: true,
+ },
+};
