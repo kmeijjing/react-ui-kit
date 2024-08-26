@@ -1,3 +1,4 @@
+import React from 'react';
 import colors from '../css/colors.ts'
 import Svg from './Svg.tsx'
 export interface ButtonProps {
