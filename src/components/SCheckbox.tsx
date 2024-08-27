@@ -29,7 +29,7 @@ export interface CheckboxProps {
 	/**
 	 * Click handler
 	 */
-	onChange: (arg: boolean | null| (string | number)[]) => void;
+	onChange?: (arg: boolean | null| (string | number)[]) => void;
 }
 const SCheckbox = ({
 	label,
@@ -105,12 +105,12 @@ const SCheckbox = ({
 			/>
 			<span
 				className={[
-					`relative inline-flex items-center justify-center w-5.5 h-5.5 mr-2.5 rounded-0.5
+					`relative inline-flex items-center justify-center w-5.5 h-5.5 mr-2.5 rounded-0.5 
      before:border before:rounded-0.5 before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rounded-2 
      aria-disabled:bg-Grey_Lighten-4 aria-disabled:before:border-Grey_Lighten-2`,
 					isCheckedInIcon
 						? 'bg-Blue_C_Default before:border-Blue_C_Default'
-						: 'bg-white before:border-Grey_Default',
+						: 'bg-white before:border-Grey_Default hover:bg-Blue_B_Lighten-5 hover:before:border hover:before:border-Blue_C_Default',
 				].join(' ')}
 				aria-disabled={disabled}
 			>
