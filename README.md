@@ -11,6 +11,7 @@ npm install
 npm run dev // for development
 npm run build // for production build
 npm run storybook // for storybook
+npm run test // for test
 ```
 
 ## 📂 파일 경로
