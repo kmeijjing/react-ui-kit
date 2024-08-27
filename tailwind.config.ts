@@ -2,10 +2,10 @@ import type { Config } from 'tailwindcss';
 import colors from './src/css/colors.ts';
 import sizes from './src/css/sizes.ts';
 
-const px0_200 = Object.fromEntries(Array.from({ length: 201 }, (_, i) => [i.toString(), `${i}px`]));
-const px0_2000 = Object.fromEntries(
-	Array.from({ length: 2001 }, (_, i) => [i.toString(), `${i}px`])
-);
+// const px0_200 = Object.fromEntries(Array.from({ length: 201 }, (_, i) => [i.toString(), `${i}px`]));
+// const px0_2000 = Object.fromEntries(
+// 	Array.from({ length: 2001 }, (_, i) => [i.toString(), `${i}px`])
+// );
 
 /** @type {import('tailwindcss').Config} */
 const config: Config = {
@@ -32,18 +32,15 @@ const config: Config = {
 			fontFamily: {
 				pretendard: ['Pretendard'],
 			},
-			borderWidth: px0_200,
-			width: px0_2000,
-			height: px0_2000,
-			minWidth: px0_200,
-			minHeight: px0_200,
-			spacing: px0_200,
-			fontSize: px0_200,
-			lineHeight: px0_200,
-			borderRadius: px0_200,
-			// spacing: sizes,
-			// width: sizes,
-			// height: sizes,
+			borderWidth: sizes,
+			width: sizes,
+			height: sizes,
+			minWidth: sizes,
+			minHeight: sizes,
+			spacing: sizes,
+			fontSize: sizes,
+			lineHeight: sizes,
+			borderRadius: sizes,
 			borderColor: {
 				dropdownInner: 'color-mix(in srgb, white 30%, transparent)',
 			},

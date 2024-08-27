@@ -1,77 +1,126 @@
-import React, { useState, useEffect } from 'react';
-import clsx from 'clsx';
-import { Check12 } from '../assets/icons';
-
+import React, { useState, useEffect, InputHTMLAttributes, useMemo } from 'react';
+import { Check12 } from '../assets/CheckIcon'
+import { MinusIcon12 } from '../assets/MinusIcon'
 export interface CheckboxProps {
-	label?: string;
+	/**
+	 * Checkbox disable
+	 */
 	disabled?: boolean;
-	checked: boolean | (string | number)[];
-	val?: string | number;
+	/**
+	 * Checkbox className
+	 */
 	className?: string;
-	onChange?: (checked: boolean | (string | number)[]) => void;
+	/**
+	 * Checkbox text
+	 */
+	label?: string;
+	/**
+	 * Checkbox value
+	 */
+	value?: string;
+	/**
+	 * Checkbox checked
+	 */
+	checked: null | boolean | (string | number)[];
+	/**
+	 * Checkbox name
+	 */
+	name?: InputHTMLAttributes<HTMLInputElement>['name'];
+	/**
+	 * Click handler
+	 */
+	onChange: (arg: boolean | null| (string | number)[]) => void;
 }
-
 const SCheckbox = ({
 	label,
 	disabled = false,
 	checked,
-	val,
-	className,
+	value,
 	onChange,
 }: CheckboxProps) => {
-	const [internalChecked, setInternalChecked] = useState<boolean>(
-		Array.isArray(checked) ? checked.includes(val!) : checked
+	const [internalChecked, setInternalChecked] = useState<CheckboxProps['checked']>(
+		Array.isArray(checked) ? checked.includes(value!) : checked
 	);
 
 	useEffect(() => {
-		setInternalChecked(Array.isArray(checked) ? checked.includes(val!) : checked);
-	}, [checked, val]);
+		setInternalChecked(Array.isArray(checked) ? checked.includes(value!) : checked);
+	}, [checked, value]);
 
 	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (disabled) return;
 
-		const isChecked = event.target.checked;
-		let newChecked: boolean | (string | number)[] = isChecked;
+		const targetChecked = event.target.checked;
+		let newChecked: boolean | (string | number)[] = targetChecked;
 
-		if (val !== undefined) {
+		if (value !== undefined) {
 			if (Array.isArray(checked)) {
-				newChecked = isChecked
-					? [...new Set([...checked, val])]
-					: checked.filter((item) => item !== val);
+				newChecked = targetChecked
+					? [...new Set([...checked, value])]
+					: checked.filter((item) => item !== value);
 				console.log('newChecked : ', newChecked);
 			} else {
-				newChecked = isChecked ? [val] : [];
+				newChecked = targetChecked ? [value] : [];
 			}
 		}
 
-		setInternalChecked(Array.isArray(newChecked) ? newChecked.includes(val!) : !!newChecked);
+		setInternalChecked(Array.isArray(newChecked) ? newChecked.includes(value!) : !!newChecked);
 		onChange?.(newChecked);
 	};
 
-	const checkboxClass = clsx(
-		's-checkbox flex items-center',
-		disabled ? '!cursor-not-allowed' : 'cursor-pointer',
-		className
+	// const checkboxClass = clsx(
+	// 	's-checkbox flex items-center',
+	// 	disabled ? '!cursor-not-allowed' : 'cursor-pointer',
+	// 	className
+	// );
+ const isCheckedInIcon = useMemo(() => internalChecked !== false, [internalChecked]);
+ const iconClass = useMemo(
+		() =>
+			isCheckedInIcon && !disabled
+				? 'text-white'
+				: isCheckedInIcon && disabled
+					? 'text-Grey_Default'
+					: !isCheckedInIcon
+						? 'text-transparent'
+						: '',
+		[isCheckedInIcon, disabled]
 	);
-
-	const checkmarkClass = clsx(
-		'bg-wthie bw-1 relative mr-8 flex h-16 w-16 items-center justify-center rounded-2 border-1 border-Grey_Default transition-all duration-200',
-		internalChecked && !disabled && 'border-positive bg-positive text-white',
-		disabled && '!border-Grey_Lighten-2 !bg-Grey_Lighten-4 !text-Grey_Default',
-		!internalChecked && !disabled && 'hover:!border-positive hover:!bg-Blue_B_Lighten-5'
-	);
+	// const checkmarkClass = clsx(
+	// 	'bg-white bw-1 relative mr-8 flex h-16 w-16 items-center justify-center rounded-2 border-1 border-Grey_Default transition-all duration-200',
+	// 	internalChecked && !disabled && 'border-positive bg-positive text-white',
+	// 	disabled && '!border-Grey_Lighten-2 !bg-Grey_Lighten-4 !text-Grey_Default',
+	// 	!internalChecked && !disabled && 'hover:!border-positive hover:!bg-Blue_B_Lighten-5'
+	// );
 
 	return (
-		<label className={checkboxClass}>
+		<label className={[
+   'inline-flex items-center s-checkbox',
+   disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+  ].join(' ')}>
 			<input
 				type='checkbox'
-				checked={internalChecked}
+				checked={!!internalChecked}
 				disabled={disabled}
 				className='hidden'
 				onChange={handleCheckboxChange}
 			/>
-			<span className={clsx(checkmarkClass)}>{internalChecked && <Check12 />}</span>
-			<span className='leading-20'>{label}</span>
+			<span
+				className={[
+					`relative inline-flex items-center justify-center w-5.5 h-5.5 mr-2.5 rounded-0.5
+     before:border before:rounded-0.5 before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rounded-2 
+     aria-disabled:bg-Grey_Lighten-4 aria-disabled:before:border-Grey_Lighten-2`,
+					isCheckedInIcon
+						? 'bg-Blue_C_Default before:border-Blue_C_Default'
+						: 'bg-white before:border-Grey_Default',
+				].join(' ')}
+				aria-disabled={disabled}
+			>
+				{internalChecked === null ? (
+					<MinusIcon12 className={iconClass} />
+				) : (
+					<Check12 className={iconClass} />
+				)}
+			</span>
+			<span>{label}</span>
 		</label>
 	);
 };
