@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './css/App.css';
 import SDropdown from './components/SDropdown';
 import SCheckbox from './components/SCheckbox';
+import SButton from './components/SButton';
 
 function App() {
 	const [checked, setChecked] = useState<boolean>(false);
@@ -11,13 +12,12 @@ function App() {
 	return (
 		<>
 			<main>
-				<button
+				<SButton
 					type='button'
 					onClick={handleClick}
 					className='bg-positive'
-				>
-					toggle button
-				</button>
+     label='toggle button'
+				/>
 				<SCheckbox
 					label='aaa'
 					checked={checked}

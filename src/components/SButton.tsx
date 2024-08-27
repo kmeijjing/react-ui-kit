@@ -63,7 +63,7 @@ const SButton = ({
 	const argColor = colors[color] || color;
 	const propsColor = !outline
 		? `bg-[${argColor}] text-white`
-		: `text-[${argColor}] before:rounded-4 before:absolute before:top-0 before:left-0 before:w-full before:h-full relative before:border before:border-[${argColor}]`;
+		: `text-[${argColor}] before:rounded-1.5 before:absolute before:top-0 before:left-0 before:w-full before:h-full relative before:border before:border-[${argColor}]`;
 
 	const propsSize = {
 		xs: !icon ? 'px-2.5 py-0.5 text-base leading-6.5' : 'p-1.5',
@@ -94,7 +94,7 @@ const SButton = ({
 	return (
 		<button
 			className={[
-				's-button inline-flex items-center rounded-4',
+				's-button inline-flex items-center rounded-1.5',
 				propsColor,
 				propsSize[size],
 				disabled ? disableClass : !noHover ? `${hoverClass} ${hover}` : '',

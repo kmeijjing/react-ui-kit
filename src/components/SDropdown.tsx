@@ -1,5 +1,5 @@
 import { createPortal } from 'react-dom';
-import React, { useId, useState } from 'react';
+import { useId, useState } from 'react';
 import colors from '../css/colors.ts';
 import DropdownIcon from '../assets/DropdownIcon.tsx';
 import DropdownOptions, { type DropdownOptionProps } from './DropdownOptions.tsx';
@@ -97,7 +97,7 @@ const SDropdown = ({
 				onClick={() => setIsOpen((prev) => !prev)}
 				id={`s-dropdown--${id}`}
 				className={[
-					'inline-flex items-center rounded-4',
+					'inline-flex items-center rounded-1.5 before:rounded-1.5',
 					propsColor,
 					disabled ? disableClass : `${hoverClass} ${hover}`,
 					className,
