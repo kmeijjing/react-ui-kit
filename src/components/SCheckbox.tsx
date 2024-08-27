@@ -1,6 +1,12 @@
-import { type ChangeEvent, useState, useEffect, InputHTMLAttributes, useMemo } from 'react';
-import { Check12 } from '../assets/CheckIcon'
-import { MinusIcon12 } from '../assets/MinusIcon'
+import {
+	type ChangeEvent,
+	useState,
+	useEffect,
+	type InputHTMLAttributes,
+	useMemo,
+} from 'react';
+import { Check12 } from '../assets/CheckIcon';
+import { MinusIcon12 } from '../assets/MinusIcon';
 export interface CheckboxProps {
 	/**
 	 * Checkbox disable
@@ -29,7 +35,7 @@ export interface CheckboxProps {
 	/**
 	 * Click handler
 	 */
-	onChange?: (arg: boolean | null| (string | number)[]) => void;
+	onChange?: (arg: boolean | null | (string | number)[]) => void;
 }
 const SCheckbox = ({
 	label,
@@ -38,12 +44,14 @@ const SCheckbox = ({
 	value,
 	onChange,
 }: CheckboxProps) => {
-	const [internalChecked, setInternalChecked] = useState<CheckboxProps['checked']>(
-		Array.isArray(checked) ? checked.includes(value!) : checked
-	);
+	const [internalChecked, setInternalChecked] = useState<
+		CheckboxProps['checked']
+	>(Array.isArray(checked) ? checked.includes(value!) : checked);
 
 	useEffect(() => {
-		setInternalChecked(Array.isArray(checked) ? checked.includes(value!) : checked);
+		setInternalChecked(
+			Array.isArray(checked) ? checked.includes(value!) : checked
+		);
 	}, [checked, value]);
 
 	const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +71,9 @@ const SCheckbox = ({
 			}
 		}
 
-		setInternalChecked(Array.isArray(newChecked) ? newChecked.includes(value!) : !!newChecked);
+		setInternalChecked(
+			Array.isArray(newChecked) ? newChecked.includes(value!) : !!newChecked
+		);
 		onChange?.(newChecked);
 	};
 
@@ -72,8 +82,11 @@ const SCheckbox = ({
 	// 	disabled ? '!cursor-not-allowed' : 'cursor-pointer',
 	// 	className
 	// );
- const isCheckedInIcon = useMemo(() => internalChecked !== false, [internalChecked]);
- const iconClass = useMemo(
+	const isCheckedInIcon = useMemo(
+		() => internalChecked !== false,
+		[internalChecked]
+	);
+	const iconClass = useMemo(
 		() =>
 			isCheckedInIcon && !disabled
 				? 'text-white'
@@ -92,10 +105,12 @@ const SCheckbox = ({
 	// );
 
 	return (
-		<label className={[
-   'inline-flex items-center s-checkbox',
-   disabled ? 'cursor-not-allowed' : 'cursor-pointer',
-  ].join(' ')}>
+		<label
+			className={[
+				's-checkbox inline-flex items-center',
+				disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+			].join(' ')}
+		>
 			<input
 				type='checkbox'
 				checked={!!internalChecked}
@@ -105,8 +120,8 @@ const SCheckbox = ({
 			/>
 			<span
 				className={[
-					`relative inline-flex items-center justify-center w-5.5 h-5.5 mr-2.5 rounded-0.5 
-     before:border before:rounded-0.5 before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rounded-2 
+					`before:rounded-2 relative mr-2.5 inline-flex h-5.5 w-5.5 items-center justify-center 
+     rounded-0.5 before:absolute before:left-0 before:top-0 before:h-full before:w-full before:rounded-0.5 before:border 
      aria-disabled:bg-Grey_Lighten-4 aria-disabled:before:border-Grey_Lighten-2`,
 					isCheckedInIcon
 						? 'bg-Blue_C_Default before:border-Blue_C_Default'
