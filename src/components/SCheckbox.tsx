@@ -1,4 +1,4 @@
-import React, { useState, useEffect, InputHTMLAttributes, useMemo } from 'react';
+import { type ChangeEvent, useState, useEffect, InputHTMLAttributes, useMemo } from 'react';
 import { Check12 } from '../assets/CheckIcon'
 import { MinusIcon12 } from '../assets/MinusIcon'
 export interface CheckboxProps {
@@ -46,7 +46,7 @@ const SCheckbox = ({
 		setInternalChecked(Array.isArray(checked) ? checked.includes(value!) : checked);
 	}, [checked, value]);
 
-	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
 		if (disabled) return;
 
 		const targetChecked = event.target.checked;
