@@ -3,6 +3,9 @@ import React from 'react';
 export interface Tab {
 	label: string;
 	value: string;
+	badge?: string;
+	badgeColor?: string;
+	badgeTextColor?: string;
 	link?: string;
 	disabled?: boolean;
 	tabClassName?: string;
@@ -40,9 +43,16 @@ const STabs = ({
 								e.preventDefault();
 								if (!tab.disabled && !!tab.value) onChange(tab.value);
 							}}
-							className={`tab mr-4 inline-block rounded-t-lg border border-b-0 border-Grey_Lighten-2 bg-Grey_Lighten-5 px-32 py-12 text-Grey_Default hover:bg-Grey_Lighten-4 ${model === tab.value && 'border-positive !bg-[white] font-bold text-positive hover:bg-[#ECF1FC]'}`}
+							className={`tab mr-4 flex flex-nowrap items-center rounded-t-lg border border-b-0 border-Grey_Lighten-2 bg-Grey_Lighten-5 px-32 py-12 text-Grey_Default hover:bg-Grey_Lighten-4 ${model === tab.value && 'border-positive !bg-[white] font-bold text-positive hover:bg-[#ECF1FC]'}`}
 						>
-							{tab.label}
+							<span>{tab.label}</span>
+							{tab.badge && (
+								<span
+									className={`badge text-10 rounded-5 ml-4 flex h-20 items-center px-6 text-${tab.badgeTextColor || 'white'} bg-${tab.badgeColor || 'positive'}`}
+								>
+									{tab.badge}
+								</span>
+							)}
 						</a>
 					</li>
 				))}
