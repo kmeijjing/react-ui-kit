@@ -6,6 +6,7 @@ import SButton from './components/SButton';
 import SRadio from './components/SRadio';
 import STabs from './components/STabs';
 import STabPanel from './components/STabPanel';
+import STag from './components/STag';
 
 function App() {
 	const [checked, setChecked] = useState<boolean>(false);
@@ -122,6 +123,8 @@ function App() {
 					label='dropdown'
 					className='m-11'
 				/>
+
+    <STag label='tag' color="grey" />
 			</main>
 		</>
 	);
