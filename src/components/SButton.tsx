@@ -72,7 +72,7 @@ const SButton = ({
 	};
 
 	const disableClass =
-		'disabled:relative disabled:bg-Grey_Lighten-3 disabled:before:rounded-4 disabled:before:absolute disabled:before:w-full disabled:before:h-full disabled:before:top-0 disabled:before:left-0 disabled:before:border disabled:before:border-Grey_Lighten-2 disabled:text-Grey_Default disabled:cursor-not-allowed';
+		'disabled:relative disabled:bg-Grey_Lighten-3 disabled:before:rounded-1.5 disabled:before:absolute disabled:before:w-full disabled:before:h-full disabled:before:top-0 disabled:before:left-0 disabled:before:border disabled:before:border-Grey_Lighten-2 disabled:text-Grey_Default disabled:cursor-not-allowed';
 
 	const iconMargin = {
 		xs: 'mr-1.5',

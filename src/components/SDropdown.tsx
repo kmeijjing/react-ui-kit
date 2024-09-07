@@ -57,7 +57,7 @@ const SDropdown = ({
 	const argColor = colors[color] || color;
 	const propsColor = !outline
 		? `bg-[${argColor}] text-white`
-		: `text-[${argColor}] before:rounded-4 before:absolute before:top-0 before:left-0 before:w-full before:h-full relative before:border before:border-[${argColor}]`;
+		: `text-[${argColor}] before:rounded-1.5 before:absolute before:top-0 before:left-0 before:w-full before:h-full relative before:border before:border-[${argColor}]`;
 
 	const propsLabelPadding = {
 		xs: 'py-0.5 pl-2.5 pr-2',
@@ -72,7 +72,7 @@ const SDropdown = ({
 	};
 
 	const disableClass =
-		'disabled:relative disabled:bg-Grey_Lighten-3 disabled:before:rounded-4 disabled:before:absolute disabled:before:w-full disabled:before:h-full disabled:before:top-0 disabled:before:left-0 disabled:before:border disabled:before:border-Grey_Lighten-2 disabled:text-Grey_Default disabled:cursor-not-allowed';
+		'disabled:relative disabled:bg-Grey_Lighten-3 disabled:before:rounded-1.5 disabled:before:absolute disabled:before:w-full disabled:before:h-full disabled:before:top-0 disabled:before:left-0 disabled:before:border disabled:before:border-Grey_Lighten-2 disabled:text-Grey_Default disabled:cursor-not-allowed';
 
 	const hover =
 		'hover:overflow-hidden hover:relative hover:before:w-full hover:before:h-full hover:before:top-0 hover:before:left-0 hover:before:absolute';
@@ -97,7 +97,7 @@ const SDropdown = ({
 				onClick={() => setIsOpen((prev) => !prev)}
 				id={`s-dropdown--${id}`}
 				className={[
-					'inline-flex items-center rounded-1.5 before:rounded-1.5',
+					'inline-flex items-center rounded-1.5',
 					propsColor,
 					disabled ? disableClass : `${hoverClass} ${hover}`,
 					className,

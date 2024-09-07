@@ -26,7 +26,7 @@ function App() {
 
 	const [tabValue, setTabValue] = useState<string>('tab1');
 
-	function handleTablChange(val: string) {
+	function handleTabChange(val: string) {
 		console.log(val);
 		setTabValue(val);
 	}
@@ -43,7 +43,7 @@ function App() {
 							{ label: 'tab4', value: 'tab4' },
 						]}
 						model={tabValue}
-						onChange={handleTablChange}
+						onChange={handleTabChange}
 					>
 						<STabPanel value='tab1'>
 							<p>Tab 1 Content</p>
@@ -112,7 +112,6 @@ function App() {
 					]}
 					onClick={() => ''}
 					label='dropdown'
-					className='m-11'
 				/>
 				<SDropdown
 					options={[

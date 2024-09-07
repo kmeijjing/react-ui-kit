@@ -1,4 +1,6 @@
-import React from 'react';
+import type { ReactElement } from 'react';
+
+type Child = ReactElement;
 
 export interface Tab {
 	label: string;
@@ -16,7 +18,11 @@ export interface STabsProps {
 	model: string;
 	onChange: (value: string) => void;
 	className?: string;
-	children?: React.ReactNode;
+	children?: Child[];
+  /**
+	 * Tabs size
+	 */
+  size?: 'sm' | 'lg'
 }
 
 const STabs = ({
@@ -24,45 +30,60 @@ const STabs = ({
 	model,
 	onChange,
 	className = '',
+ size ='lg',
 	children,
 }: STabsProps) => {
+ const tabSize = {
+		sm: 'py-2.5 px-6.5',
+		lg: 'py-4 px-10.5',
+	};
+
 	return (
-		<>
-			<ul
-				className={`tabs flex flex-nowrap border-b border-positive text-center ${className}`}
-			>
+		<section className='flex flex-col'>
+  <div className={[
+   'relative flex flex-nowrap w-full items-center justify-start gap-1.5 before:absolute before:bottom-0 before:left-0 before:h-px before:w-full before:bg-Blue_C_Default', 
+   className
+   ].join(' ')}
+  >
 				{tabs.map((tab) => (
-					<li
-						key={tab.value}
-						className='cursor-pointer'
-					>
 						<a
-							href={tab.link || '#'}
-							aria-current={model === tab.value ? 'page' : undefined}
-							onClick={(e) => {
-								e.preventDefault();
-								if (!tab.disabled && !!tab.value) onChange(tab.value);
-							}}
-							className={`tab mr-4 flex flex-nowrap items-center rounded-t-lg border border-b-0 border-Grey_Lighten-2 bg-Grey_Lighten-5 px-32 py-12 text-Grey_Default hover:bg-Grey_Lighten-4 ${model === tab.value && 'border-positive !bg-[white] font-bold text-positive hover:bg-[#ECF1FC]'}`}
+       key={tab.value}
+       href={tab.link || '#'}
+       aria-current={model === tab.value ? 'page' : undefined}
+       onClick={(e) => {
+        e.preventDefault();
+        if (!tab.disabled && !!tab.value) onChange(tab.value);
+       }}
+       className={[
+        'cursor-pointer rounded-t-1.5 border-x border-t inline-flex flex-nowrap tab gap-4 items-center',
+        tabSize[size],
+        model === tab.value
+         ? 'border-Blue_C_Default bg-white font-bold text-Blue_C_Default'
+         : 'border-Grey_Lighten-2 bg-Grey_Lighten-5 text-Grey_Default',
+       ].join(' ')}
 						>
 							<span>{tab.label}</span>
 							{tab.badge && (
 								<span
-									className={`badge text-10 rounded-5 ml-4 flex h-20 items-center px-6 text-${tab.badgeTextColor || 'white'} bg-${tab.badgeColor || 'positive'}`}
-								>
+									className={[
+          'badge text-[10px] rounded-1.5 py-[1px] flex items-center px-2',
+          model === tab.value 
+          ? `text-${tab.badgeTextColor || 'white'} bg-${tab.badgeColor || 'positive'}`
+          : 'text-Grey_Darken-1 bg-Grey_Lighten-4',
+          ].join(' ')}
+          >
 									{tab.badge}
 								</span>
 							)}
 						</a>
-					</li>
 				))}
-			</ul>
+			</div>
 			<div className='mt-4'>
-				{React.Children.map(children, (child) =>
-					React.isValidElement(child) && child.props.value === model ? child : null
+				{children?.map((child) =>
+					child.props.value === model ? child : null
 				)}
 			</div>
-		</>
+		</section>
 	);
 };
 
