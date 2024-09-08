@@ -95,7 +95,8 @@ const SChip = ({
 
 					{removable && (
 						<Close12
-							className='ml-4 cursor-pointer text-Grey_Default'
+							className='close-btn ml-4 cursor-pointer text-Grey_Default'
+							data-testid='close-btn'
 							onClick={handleRemove}
 						/>
 					)}
