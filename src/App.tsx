@@ -6,6 +6,7 @@ import SButton from './components/SButton';
 import SRadio from './components/SRadio';
 import STabs from './components/STabs';
 import STabPanel from './components/STabPanel';
+import SChip from './components/SChip';
 
 function App() {
 	const [checked, setChecked] = useState<boolean>(false);
@@ -31,10 +32,54 @@ function App() {
 		setTabValue(val);
 	}
 
+	const chipItems = [
+		{ label: 'item1', value: true },
+		{ label: 'item2', value: true },
+		{ label: 'item3', value: true },
+		{ label: 'item4', value: true },
+	];
+
+	const [inputValue, setInputValue] = useState<string>('aaa');
+	function handleInput(val: string) {
+		console.log('onInput : ', val);
+		setInputValue(val);
+	}
 	return (
 		<>
 			<main>
-				<div className='p-4'>
+				<div className='p-12'>
+					<div className='font-bold'>chip</div>
+					<SChip value={true}>chip</SChip>
+					<SChip
+						value={true}
+						rounded
+					>
+						rounded chip
+					</SChip>
+
+					{inputValue}
+					<SChip
+						value={true}
+						removable
+						useInput
+						inputValue={inputValue}
+						onInput={handleInput}
+					/>
+
+					<div className='flex flex-nowrap'>
+						{chipItems.map((item) => (
+							<SChip
+								key={item.label}
+								value={item.value}
+								removable
+							>
+								{item.label}
+							</SChip>
+						))}
+					</div>
+				</div>
+				<div className='p-12'>
+					<div className='font-bold'>tabs</div>
 					<STabs
 						tabs={[
 							{ label: 'tab1', value: 'tab1', badge: 'tab1' },
@@ -59,8 +104,9 @@ function App() {
 						</STabPanel>
 					</STabs>
 				</div>
-				{selectedValue}
-				<div className='flex flex-col'>
+				<div className='flex flex-col p-12'>
+					<div className='font-bold'>radio</div>
+					{selectedValue}
 					{items.map((item) => (
 						<SRadio
 							key={item.value}
@@ -74,55 +120,63 @@ function App() {
 						/>
 					))}
 				</div>
-				<SButton
-					type='button'
-					onClick={handleClick}
-					className='bg-positive'
-					label='toggle button'
-				/>
-				<SCheckbox
-					label='aaa'
-					checked={checked}
-					className='m-11'
-				/>
-				<SCheckbox
-					label='aaa'
-					className='m-11'
-					checked={checked}
-				/>
-				<SCheckbox
-					label='aaa'
-					className='m-11'
-					checked={checked}
-					disabled
-				/>
-				<SDropdown
-					options={[
-						{ label: 'option 1', value: 1 },
-						{ label: 'option 2', value: 2 },
-					]}
-					onClick={() => ''}
-					label='dropdown'
-					className='m-11'
-				/>
-				<SDropdown
-					options={[
-						{ label: 'option 1', value: 1, disable: true },
-						{ label: 'option 2', value: 2 },
-					]}
-					onClick={() => ''}
-					label='dropdown'
-					className='m-11'
-				/>
-				<SDropdown
-					options={[
-						{ label: `<span style="color: red">option 1</span>`, value: 1 },
-						{ label: 'option 2', value: 2, display: false },
-					]}
-					onClick={() => ''}
-					label='dropdown'
-					className='m-11'
-				/>
+
+				<div className='p-12'>
+					<div className='font-bold'>checkbox</div>
+					<SButton
+						type='button'
+						onClick={handleClick}
+						className='bg-positive'
+						label='toggle button'
+					/>
+					<SCheckbox
+						label='aaa'
+						checked={checked}
+						className='m-11'
+					/>
+					<SCheckbox
+						label='aaa'
+						className='m-11'
+						checked={checked}
+					/>
+					<SCheckbox
+						label='aaa'
+						className='m-11'
+						checked={checked}
+						disabled
+					/>
+				</div>
+
+				<div className='p-12'>
+					<div className='font-bold'>dropdown</div>
+					<SDropdown
+						options={[
+							{ label: 'option 1', value: 1 },
+							{ label: 'option 2', value: 2 },
+						]}
+						onClick={() => ''}
+						label='dropdown'
+						className='m-11'
+					/>
+					<SDropdown
+						options={[
+							{ label: 'option 1', value: 1, disable: true },
+							{ label: 'option 2', value: 2 },
+						]}
+						onClick={() => ''}
+						label='dropdown'
+						className='m-11'
+					/>
+					<SDropdown
+						options={[
+							{ label: `<span style="color: red">option 1</span>`, value: 1 },
+							{ label: 'option 2', value: 2, display: false },
+						]}
+						onClick={() => ''}
+						label='dropdown'
+						className='m-11'
+					/>
+				</div>
 			</main>
 		</>
 	);
