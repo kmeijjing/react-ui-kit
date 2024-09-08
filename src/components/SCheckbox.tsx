@@ -116,8 +116,8 @@ const SCheckbox = ({
 			/>
 			<span
 				className={[
-					`relative mr-2.5 inline-flex h-5.5 w-5.5 items-center justify-center 
-     rounded-0.5 before:absolute before:left-0 before:top-0 before:h-full before:w-full before:rounded-0.5 before:border 
+					`rounded-2pxr before:left-0 before:top-0 before:rounded-2pxr relative mr-8pxr inline-flex 
+     h-16pxr w-16pxr items-center justify-center before:absolute before:h-full before:w-full before:border 
      aria-disabled:bg-Grey_Lighten-4 aria-disabled:before:border-Grey_Lighten-2`,
 					isCheckedInIcon
 						? 'bg-Blue_C_Default before:border-Blue_C_Default'
