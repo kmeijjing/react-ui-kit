@@ -2,9 +2,11 @@ import { createPortal } from 'react-dom';
 import { useId, useState } from 'react';
 import colors from '../css/colors.ts';
 import DropdownIcon from '../assets/DropdownIcon.tsx';
-import DropdownOptions, { type DropdownOptionProps } from './DropdownOptions.tsx';
+import DropdownOptions, {
+	type DropdownOptionProps,
+} from './DropdownOptions.tsx';
 
-export interface DropdownProps {
+export interface SDropdownProps {
 	/**
 	 * Dropdown size
 	 */
@@ -48,67 +50,63 @@ const SDropdown = ({
 	size = 'sm',
 	color = 'Blue_B_Default',
 	outline = false,
-	disabled,
-	className,
+	disabled = false,
+	className = '',
 	options,
 	onClick,
 	...props
-}: DropdownProps) => {
+}: SDropdownProps) => {
 	const argColor = colors[color] || color;
-	const propsColor = !outline
-		? `bg-[${argColor}] text-white`
-		: `text-[${argColor}] before:rounded-1.5 before:absolute before:top-0 before:left-0 before:w-full before:h-full relative before:border before:border-[${argColor}]`;
 
-	const propsLabelPadding = {
-		xs: 'py-0.5 pl-2.5 pr-2',
-		sm: 'py-1.5 pl-4 pr-3.5',
-		md: 'py-1.5 pl-6.5 pr-5.5',
+	const labelPadding = {
+		xs: 'h-24pxr py-2pxr pl-12pxr pr-8pxr',
+		sm: 'h-28pxr py-4pxr pl-12pxr pr-10pxr',
+		md: 'h-34pxr py-4pxr pl-20pxr pr-16pxr leading-26pxr font-medium text-16pxr',
 	};
 
-	const propsIconPadding = {
-		xs: 'p-2',
-		sm: 'p-2.5',
-		md: 'py-[0.917rem] px-4', // 11px 12px
+	const iconPadding = {
+		xs: 'p-6pxr',
+		sm: 'p-8pxr',
+		md: 'py-11pxr px-12pxr',
 	};
+
+	const colorClass = outline
+		? `text-[${argColor}] before:rounded-4pxr before:absolute before:top-0 before:left-0 before:w-full before:h-full before:border before:border-[${argColor}]`
+		: `bg-[${argColor}] text-white`;
 
 	const disableClass =
-		'disabled:relative disabled:bg-Grey_Lighten-3 disabled:before:rounded-1.5 disabled:before:absolute disabled:before:w-full disabled:before:h-full disabled:before:top-0 disabled:before:left-0 disabled:before:border disabled:before:border-Grey_Lighten-2 disabled:text-Grey_Default disabled:cursor-not-allowed';
+		'disabled:relative disabled:bg-Grey_Lighten-3 disabled:before:rounded-4pxr disabled:before:absolute disabled:before:w-full disabled:before:h-full disabled:before:top-0 disabled:before:left-0 disabled:before:border disabled:before:border-Grey_Lighten-2 disabled:text-Grey_Default disabled:cursor-not-allowed';
 
-	const hover =
-		'hover:overflow-hidden hover:relative hover:before:w-full hover:before:h-full hover:before:top-0 hover:before:left-0 hover:before:absolute';
-
-	const hoverClass = !outline
-		? 'hover:before:bg-black hover:before:opacity-10'
-		: `hover:before:bg-${color}/10 hover:before:border hover:before:border-[${argColor}]`;
+	const hoverClass = outline
+		? `hover:before:bg-${color}/10 hover:before:border-[${argColor}]`
+		: 'hover:before:bg-black hover:before:opacity-10';
 
 	const [isOpen, setIsOpen] = useState(false);
 	const id = useId();
 
 	const handleClick = (arg?: DropdownOptionProps) => {
 		setIsOpen((prev) => !prev);
-		if (arg) {
-			onClick(arg);
-		}
+		if (arg) onClick(arg);
 	};
 
 	return (
 		<>
 			<button
-				onClick={() => setIsOpen((prev) => !prev)}
 				id={`s-dropdown--${id}`}
+				disabled={disabled}
+				onClick={() => setIsOpen((prev) => !prev)}
 				className={[
-					'inline-flex items-center rounded-1.5',
-					propsColor,
-					disabled ? disableClass : `${hoverClass} ${hover}`,
+					's-dropdown rounded-4pxr relative inline-flex items-center',
+					colorClass,
+					disabled ? disableClass : `${hoverClass}`,
 					className,
 				].join(' ')}
-				disabled={disabled}
 				{...props}
 			>
-				<span className={[propsLabelPadding[size]].join(' ')}>{label}</span>
-				<span
+				<div className={`flex items-center ${labelPadding[size]}`}>{label}</div>
+				<div
 					className={[
-						propsIconPadding[size],
+						iconPadding[size],
 						'border-l',
 						disabled
 							? 'border-Grey_Lighten-2'
@@ -118,9 +116,15 @@ const SDropdown = ({
 					].join(' ')}
 				>
 					<DropdownIcon
-						className={disabled ? 'text-Grey_Default' : outline ? `text-[${argColor}]` : 'text-white'}
+						className={
+							disabled
+								? 'text-Grey_Default'
+								: outline
+									? `text-[${argColor}]`
+									: 'text-white'
+						}
 					/>
-				</span>
+				</div>
 			</button>
 			{isOpen &&
 				createPortal(
