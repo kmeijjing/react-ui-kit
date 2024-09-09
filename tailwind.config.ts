@@ -1,6 +1,5 @@
 import type { Config } from 'tailwindcss';
 import colors from './src/css/colors.ts';
-// import sizes from './src/css/sizes.ts';
 
 const pxToRem = (px: number, base = 12) => `${px / base}rem`;
 const range = (start: number, end: number): number[] => {
@@ -39,13 +38,8 @@ const config: Config = {
 				pretendard: ['Pretendard'],
 			},
 			borderWidth: sizes,
-			// width: sizes,
-			// height: sizes,
-			// minWidth: sizes,
-			// minHeight: sizes,
-			// spacing: sizes,
-			// fontSize: sizes,
-			// lineHeight: sizes,
+			fontSize: sizes,
+			lineHeight: sizes,
 			borderRadius: sizes,
 			borderColor: {
 				dropdownInner: 'color-mix(in srgb, white 30%, transparent)',
@@ -54,12 +48,7 @@ const config: Config = {
 				dropdownOptions: '2px 2px 12px 2px #0000001A;',
 			},
 			colors: colors,
-			spacing: {
-				...range(1, 2000).reduce<Record<string, string>>((acc, px) => {
-					acc[`${px}pxr`] = pxToRem(px);
-					return acc;
-				}, {}),
-			},
+			spacing: sizes,
 		},
 	},
 	plugins: [],
