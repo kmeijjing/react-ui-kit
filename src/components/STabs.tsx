@@ -69,7 +69,7 @@ const STabs = ({
 								className={[
 									'badge rounded-4pxr text-10pxr ml-4pxr flex h-20pxr items-center px-5pxr py-1pxr',
 									model === tab.value
-										? `text-${tab.badgeTextColor || 'white'} bg-${tab.badgeColor || 'positive'}`
+										? `text-[${tab.badgeTextColor}] bg-[${tab.badgeColor}]`
 										: 'bg-Grey_Lighten-4 text-Grey_Darken-1',
 								].join(' ')}
 							>

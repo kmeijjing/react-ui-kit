@@ -47,9 +47,9 @@ const config: Config = {
 			// fontSize: sizes,
 			// lineHeight: sizes,
 			borderRadius: sizes,
-			// borderColor: {
-			// 	dropdownInner: 'color-mix(in srgb, white 30%, transparent)',
-			// },
+			borderColor: {
+				dropdownInner: 'color-mix(in srgb, white 30%, transparent)',
+			},
 			boxShadow: {
 				dropdownOptions: '2px 2px 12px 2px #0000001A;',
 			},
