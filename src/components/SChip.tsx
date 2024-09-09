@@ -43,8 +43,6 @@ const SChip = ({
 	};
 
 	const handleInputKeyDown = (e: React.KeyboardEvent<HTMLSpanElement>) => {
-		console.log('key down event');
-
 		if (useInput && e.key === 'Enter') {
 			e.preventDefault();
 			chipRef.current?.blur();
