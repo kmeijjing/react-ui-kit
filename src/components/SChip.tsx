@@ -27,7 +27,6 @@ const SChip = ({
 	className = '',
 }: SChipProps) => {
 	const [isVisible, setIsVisible] = useState(value);
-	const [content, setContent] = useState(inputValue);
 	const chipRef = useRef<HTMLSpanElement | null>(null);
 
 	const handleRemove = () => {
@@ -75,7 +74,7 @@ const SChip = ({
 		<>
 			{isVisible && (
 				<div
-					className={`s-chip flex h-24 w-fit items-center border  border-Grey_Default bg-white px-8 text-Grey_Darken-4 hover:bg-Grey_Lighten-5 ${rounded ? 'rounded-14' : 'rounded-4'} ${useInput ? 'cursor-text' : clickable ? 'cursor-pointer' : 'cursor-default'} ${className}`}
+					className={`s-chip h-24 px-8 flex w-fit items-center  border border-Grey_Default bg-white text-Grey_Darken-4 hover:bg-Grey_Lighten-5 ${rounded ? 'rounded-14' : 'rounded-4'} ${useInput ? 'cursor-text' : clickable ? 'cursor-pointer' : 'cursor-default'} ${className}`}
 				>
 					{useInput ? (
 						<span
@@ -87,7 +86,7 @@ const SChip = ({
 							onInput={handleInput}
 							onKeyDown={handleInputKeyDown}
 						>
-							{content}
+							{inputValue}
 						</span>
 					) : (
 						children
