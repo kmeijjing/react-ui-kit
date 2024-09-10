@@ -41,11 +41,11 @@ const STag = ({
  className,
 }: TagProps) => {
  const tagSize = {
-  sm: 'py-[1px] px-2 text-[11px] leading-6 font-normal',
-  md: 'py-0.5 px-2.5 font-bold text-base leading-6.5',
+  sm: 'py-1pxr px-2 text-11pxr leading-6 font-normal',
+  md: 'py-2pxr px-8pxr font-bold text-base leading-20pxr',
  };
 
- const rounded = round ? 'rounded-6.5' : 'rounded-1.5';
+ const rounded = round ? 'rounded-20pxr' : 'rounded-4pxr';
 
  const fixColors = {
   grey: 'bg-Grey_Lighten-4 text-Grey_Darken-1',
@@ -68,7 +68,7 @@ const STag = ({
    className={[
     tagSize[size],
     rounded,
-    'inline-flex gap-2.5',
+    'inline-flex gap-8pxr w-fit',
     color ? fixColors[color] : `${textColors} ${bgColors}`,
     className,
    ].join(' ')}
