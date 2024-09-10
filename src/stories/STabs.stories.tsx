@@ -62,3 +62,27 @@ export const TabsWithLinks: Story = {
 		],
 	},
 };
+
+export const SizeSm: Story = {
+	args: {
+		model: 'tab1',
+  size: 'sm',
+		tabs: [
+			{ label: 'Tab 1', value: 'tab1', link: '/tab1' },
+			{ label: 'Tab 2', value: 'tab2', link: '/tab2' },
+			{ label: 'Tab 3', value: 'tab3', link: '/tab3' },
+		],
+	},
+};
+
+export const SizeLg: Story = {
+	args: {
+		model: 'tab1',
+  size: 'lg',
+		tabs: [
+			{ label: 'Tab 1', value: 'tab1', link: '/tab1' },
+			{ label: 'Tab 2', value: 'tab2', link: '/tab2' },
+			{ label: 'Tab 3', value: 'tab3', link: '/tab3' },
+		],
+	},
+};

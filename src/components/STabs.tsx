@@ -1,4 +1,6 @@
-import React from 'react';
+import type { ReactElement } from 'react';
+
+type Child = ReactElement;
 
 export interface Tab {
 	label: string;
@@ -16,7 +18,11 @@ export interface STabsProps {
 	model: string;
 	onChange: (value: string) => void;
 	className?: string;
-	children?: React.ReactNode;
+	children?: Child[];
+	/**
+	 * Tabs size
+	 */
+	size?: 'sm' | 'lg';
 }
 
 const STabs = ({
@@ -24,45 +30,59 @@ const STabs = ({
 	model,
 	onChange,
 	className = '',
+	size = 'lg',
 	children,
 }: STabsProps) => {
+	const tabSize = {
+		sm: 'h-36pxr py-8pxr px-20pxr',
+		lg: 'h-44pxr py-12pxr px-32pxr ',
+	};
+
 	return (
-		<>
-			<ul
-				className={`tabs flex flex-nowrap border-b border-positive text-center ${className}`}
+		<section className='flex flex-col'>
+			<div
+				className={[
+					'flex w-full flex-nowrap items-center justify-start gap-4pxr border-b border-b-positive',
+					className,
+				].join(' ')}
 			>
 				{tabs.map((tab) => (
-					<li
+					<a
 						key={tab.value}
-						className='cursor-pointer'
+						href={tab.link || '#'}
+						aria-current={model === tab.value ? 'page' : undefined}
+						onClick={(e) => {
+							e.preventDefault();
+							if (!tab.disabled && !!tab.value) onChange(tab.value);
+						}}
+						className={[
+							'tab rounded-t-4pxr inline-flex cursor-pointer flex-nowrap items-center border-x border-t ',
+							tabSize[size],
+							model === tab.value
+								? 'border-Blue_C_Default bg-white font-bold text-Blue_C_Default hover:bg-[#ecf1fc]'
+								: 'border-Grey_Lighten-2 bg-Grey_Lighten-5 text-Grey_Default hover:bg-Grey_Lighten-4',
+						].join(' ')}
 					>
-						<a
-							href={tab.link || '#'}
-							aria-current={model === tab.value ? 'page' : undefined}
-							onClick={(e) => {
-								e.preventDefault();
-								if (!tab.disabled && !!tab.value) onChange(tab.value);
-							}}
-							className={`tab mr-4 flex flex-nowrap items-center rounded-t-lg border border-b-0 border-Grey_Lighten-2 bg-Grey_Lighten-5 px-32 py-12 text-Grey_Default hover:bg-Grey_Lighten-4 ${model === tab.value && 'border-positive !bg-[white] font-bold text-positive hover:bg-[#ECF1FC]'}`}
-						>
-							<span>{tab.label}</span>
-							{tab.badge && (
-								<span
-									className={`badge text-10 rounded-5 ml-4 flex h-20 items-center px-6 text-${tab.badgeTextColor || 'white'} bg-${tab.badgeColor || 'positive'}`}
-								>
-									{tab.badge}
-								</span>
-							)}
-						</a>
-					</li>
+						<span>{tab.label}</span>
+						{tab.badge && (
+							<span
+								className={[
+									'badge rounded-4pxr text-10pxr ml-4pxr flex h-20pxr items-center px-5pxr py-1pxr',
+									model === tab.value
+										? `text-[${tab.badgeTextColor}] bg-[${tab.badgeColor}]`
+										: 'bg-Grey_Lighten-4 text-Grey_Darken-1',
+								].join(' ')}
+							>
+								{tab.badge}
+							</span>
+						)}
+					</a>
 				))}
-			</ul>
-			<div className='mt-4'>
-				{React.Children.map(children, (child) =>
-					React.isValidElement(child) && child.props.value === model ? child : null
-				)}
 			</div>
-		</>
+			<div>
+				{children?.map((child) => (child.props.value === model ? child : null))}
+			</div>
+		</section>
 	);
 };
 

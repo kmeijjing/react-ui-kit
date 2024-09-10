@@ -1,123 +1,129 @@
-import React from 'react';
 import colors from '../css/colors.ts';
 import Svg from './Svg.tsx';
-export interface ButtonProps {
-	/**
-	 * Button size
-	 */
-	size?: 'xs' | 'sm' | 'md' | 'lg';
-	/**
-	 * Button color
-	 * @description Changing background color without outline or text color with outline
-	 */
-	color?: keyof typeof colors;
-	/**
-	 * Use button hover
-	 */
-	noHover?: boolean;
-	/**
-	 * Button text
-	 */
-	label?: string;
-	/**
-	 * Click handler
-	 */
-	onClick?: () => void;
-	/**
-	 * Button className
-	 */
-	className?: string;
-	/**
-	 * Button type
-	 */
-	type?: HTMLButtonElement['type'];
-	/**
-	 * Button outline
-	 * @description Outline 'true' means changing the color of the text to the color you specified.
-	 */
-	outline?: boolean;
-	/**
-	 * Button icon
-	 * @description Icon type should be just string or svg file path.
-	 * @example 'M1.xxx xxxx.xxx@@fill:none&&M1.xxx xxxx.xxx@@stroke:currentColor' // Icon type string is such as
-	 * @example './assets/icons/icon.svg' // and other type is such as
-	 */
-	icon?: string;
-	/**
-	 * Button disable
-	 */
-	disabled?: boolean;
+export interface SButtonProps {
+ /**
+  * Button size
+  */
+ size?: 'xs' | 'sm' | 'md' | 'lg';
+ /**
+  * Button color
+  * @description Changing background color without outline or text color with outline
+  */
+ color?: keyof typeof colors;
+ /**
+  * Use button hover
+  */
+ noHover?: boolean;
+ /**
+  * Button text
+  */
+ label?: string;
+ /**
+  * Click handler
+  */
+ onClick?: () => void;
+ /**
+  * Button className
+  */
+ className?: string;
+ /**
+  * Button type
+  */
+ type?: HTMLButtonElement['type'];
+ /**
+  * Button outline
+  * @description Outline 'true' means changing the color of the text to the color you specified.
+  */
+ outline?: boolean;
+ /**
+  * Button icon
+  * @description Icon type should be just svg file path.
+  * @example "<svg width='24' height='24'..." // Icon type string is such as
+  * @example './assets/icons/icon.svg' // and other type is such as
+  */
+ icon?: string | JSX.Element;
+ /**
+  * Button disable
+  */
+ disabled?: boolean;
 }
 
 const SButton = ({
-	label,
-	size = 'sm',
-	color = 'Blue_B_Default',
-	outline = false,
-	icon,
-	disabled,
-	noHover,
-	className,
-	...props
-}: ButtonProps) => {
-	const argColor = colors[color] || color;
-	const propsColor = !outline
-		? `bg-[${argColor}] text-white`
-		: `text-[${argColor}] before:rounded-1.5 before:absolute before:top-0 before:left-0 before:w-full before:h-full relative before:border before:border-[${argColor}]`;
+ label,
+ size = 'sm',
+ color = 'Blue_B_Default',
+ outline = false,
+ icon: Icon,
+ disabled = false,
+ noHover = false,
+ className = '',
+ ...props
+}: SButtonProps) => {
+ const argColor = colors[color] || color;
 
-	const propsSize = {
-		xs: !icon ? 'px-2.5 py-0.5 text-base leading-6.5' : 'p-1.5',
-		sm: !icon ? 'py-1.5 px-4 text-base leading-6.5' : 'p-2',
-		md: !icon ? 'py-1.5 px-6.5 text-16 leading-8.5' : 'p-[0.751rem]',
-		lg: !icon ? 'py-5.5 px-9.5 text-2xl leading-10' : 'p-[1.917rem]',
-	};
+ const colorClass = outline
+  ? `text-[${argColor}] before:rounded-4pxr before:absolute before:top-0 before:left-0 before:w-full before:h-full relative before:border before:border-[${argColor}]`
+  : `bg-[${argColor}] text-white`;
 
-	const disableClass =
-		'disabled:relative disabled:bg-Grey_Lighten-3 disabled:before:rounded-4 disabled:before:absolute disabled:before:w-full disabled:before:h-full disabled:before:top-0 disabled:before:left-0 disabled:before:border disabled:before:border-Grey_Lighten-2 disabled:text-Grey_Default disabled:cursor-not-allowed';
+ const sizeClasses = {
+  xs: 'h-24pxr py-2pxr px-8pxr text-base leading-20pxr',
+  sm: 'h-28pxr py-4pxr px-12pxr text-base leading-20pxr',
+  md: 'h-34pxr py-4pxr px-20pxr text-16pxr leading-26pxr',
+  lg: 'h-62pxr py-16pxr px-28pxr text-18pxr leading-30pxr',
+ };
 
-	const iconMargin = {
-		xs: 'mr-1.5',
-		sm: 'mr-1.5',
-		md: 'mr-2.5',
-		lg: 'mr-4',
-	};
+ const disabledClass =
+  'disabled:before:top-0 disabled:before:left-0 disabled:before:rounded-4pxr disabled:relative disabled:cursor-not-allowed disabled:bg-Grey_Lighten-3 disabled:text-Grey_Default disabled:before:absolute disabled:before:h-full disabled:before:w-full disabled:before:border disabled:before:border-Grey_Lighten-2';
 
-	const iconClass = label ? iconMargin[size] : '';
+ const iconMargin = {
+  xs: 'mr-4pxr w-12pxr h-12pxr',
+  sm: 'mr-4pxr w-16pxr h-16pxr',
+  md: 'mr-8pxr w-20pxr h-20pxr',
+  lg: 'mr-12pxr w-24pxr h-24pxr',
+ };
 
-	const hover =
-		'hover:overflow-hidden hover:relative hover:before:w-full hover:before:h-full hover:before:top-0 hover:before:left-0 hover:before:absolute';
+ const iconClass = label ? iconMargin[size] : '';
 
-	const hoverClass = !outline
-		? 'hover:before:bg-black hover:before:opacity-10'
-		: `hover:before:bg-${color}/10 hover:before:border hover:before:border-[${argColor}]`;
+ const hoverEffect = !noHover
+  ? outline
+   ? `hover:before:bg-${color}/10 hover:before:border-[${argColor}]`
+   : 'hover:before:bg-black hover:before:opacity-10'
+  : '';
 
-	return (
-		<button
-			className={[
-				's-button inline-flex items-center rounded-1.5',
-				propsColor,
-				propsSize[size],
-				disabled ? disableClass : !noHover ? `${hoverClass} ${hover}` : '',
-				className,
-			].join(' ')}
-			disabled={disabled}
-			{...props}
-		>
-			{icon &&
-				(!icon.includes('.svg') ? (
-					<Svg
-						svgString={icon}
-						className={iconClass}
-					/>
-				) : (
-					<img
-						className={iconClass}
-						src={icon}
-					></img>
-				))}
-			{label}
-		</button>
-	);
+ const finalClassName = [
+  's-button rounded-4pxr inline-flex min-w-24pxr items-center relative',
+  sizeClasses[size],
+  colorClass,
+  disabled ? disabledClass : hoverEffect,
+  className,
+ ]
+  .filter(Boolean)
+  .join(' ');
+
+ return (
+  <button
+   className={finalClassName}
+   disabled={disabled}
+   {...props}
+  >
+   {Icon && (
+    typeof Icon === 'string' ?
+     (!Icon.includes('.svg') ? (
+      <Svg
+       svgString={Icon}
+       className={iconClass}
+      />
+     ) : (
+      <img
+       className={iconClass}
+       src={Icon}
+      />
+     ))
+     : <Icon.type className={`icon ${iconClass}`} />
+   )}
+   {label}
+  </button>
+ );
 };
 
 export default SButton;
