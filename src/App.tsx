@@ -6,6 +6,7 @@ import SButton from './components/SButton';
 import SRadio from './components/SRadio';
 import STabs from './components/STabs';
 import STabPanel from './components/STabPanel';
+import SChip from './components/SChip';
 import STag from './components/STag';
 import { Setting24 } from './assets/SettingIcon';
 
@@ -31,6 +32,20 @@ function App() {
 	function handleTabChange(val: string) {
 		console.log(val);
 		setTabValue(val);
+	}
+
+
+ const chipItems = [
+		{ label: 'item1', value: true },
+		{ label: 'item2', value: true },
+		{ label: 'item3', value: true },
+		{ label: 'item4', value: true },
+	];
+
+	const [inputValue, setInputValue] = useState<string>('aaa');
+	function handleInput(val: string) {
+		console.log('onInput : ', val);
+		setInputValue(val);
 	}
 
 	return (
@@ -89,6 +104,38 @@ function App() {
 								<p>Tab 4 Content</p>
 							</STabPanel>
 						</STabs>
+					</div>
+				</div>
+    
+    <div className='p-12'>
+					<div className='font-bold'>chip</div>
+					<SChip value={true}>chip</SChip>
+					<SChip
+						value={true}
+						rounded
+					>
+						rounded chip
+					</SChip>
+
+					{inputValue}
+					<SChip
+						value={true}
+						removable
+						useInput
+						inputValue={inputValue}
+						onInput={handleInput}
+					/>
+
+					<div className='flex flex-nowrap'>
+						{chipItems.map((item) => (
+							<SChip
+								key={item.label}
+								value={item.value}
+								removable
+							>
+								{item.label}
+							</SChip>
+						))}
 					</div>
 				</div>
 
