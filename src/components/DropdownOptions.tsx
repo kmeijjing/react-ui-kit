@@ -1,4 +1,3 @@
-import React from 'react';
 import { useEffect, useState } from 'react';
 
 const initParentDOMRect = {
@@ -24,8 +23,13 @@ interface DropdownOptionsProps {
 	onClick: (arg: DropdownOptionProps) => void;
 }
 
-const DropdownOptions = ({ parentId = '', options = [], onClick }: DropdownOptionsProps) => {
-	const [position, setPosition] = useState<Omit<DOMRect, 'toJSON' | 'right'>>(initParentDOMRect);
+const DropdownOptions = ({
+	parentId = '',
+	options = [],
+	onClick,
+}: DropdownOptionsProps) => {
+	const [position, setPosition] =
+		useState<Omit<DOMRect, 'toJSON' | 'right'>>(initParentDOMRect);
 
 	useEffect(() => {
 		const parent = document.getElementById(`s-dropdown--${parentId}`) || null;
@@ -38,10 +42,10 @@ const DropdownOptions = ({ parentId = '', options = [], onClick }: DropdownOptio
 	return (
 		<ul
 			id={`s-dropdown__options--${parentId}`}
-			className='round-2 py-1.5 shadow-dropdownOptions'
+			className='s-dropdown__options rounded-2pxr shadow-dropdownOptions bg-white'
 			style={{
 				position: 'absolute',
-				top: position.top + position.height + 5,
+				top: position.top + position.height + 4,
 				left: position.left,
 				width: position.width,
 			}}
@@ -52,7 +56,7 @@ const DropdownOptions = ({ parentId = '', options = [], onClick }: DropdownOptio
 						<li
 							key={`s-dropdown__option--${idx}`}
 							className={[
-								'px-4 py-1.5 text-Grey_Darken-4 hover:bg-Blue_C_Default hover:text-white aria-disabled:bg-white aria-disabled:text-Grey_Lighten-1',
+								'px-12pxr py-4pxr text-Grey_Darken-4 hover:bg-Blue_C_Default hover:text-white aria-disabled:bg-white aria-disabled:text-Grey_Lighten-1',
 								opt?.disable ? 'cursor-not-allowed' : 'cursor-pointer',
 							].join(' ')}
 							aria-disabled={opt.disable}
