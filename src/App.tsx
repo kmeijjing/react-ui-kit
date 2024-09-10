@@ -6,6 +6,7 @@ import SButton from './components/SButton';
 import SRadio from './components/SRadio';
 import STabs from './components/STabs';
 import STabPanel from './components/STabPanel';
+import STag from './components/STag';
 import { Setting24 } from './assets/SettingIcon';
 
 function App() {
@@ -246,7 +247,7 @@ function App() {
 						/>
 						<SButton
 							outline
-							icon={Setting24}
+							icon={<Setting24 />}
 							label='md button'
 						/>
 						<SButton
@@ -273,6 +274,7 @@ function App() {
 							label='lg button'
 						/>
 					</div>
+    <STag label='tag' color="grey" />
 				</div>
 			</main>
 		</>

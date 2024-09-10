@@ -1,6 +1,6 @@
 interface SvgProps {
  svgString: string;
- className: string;
+ className?: string;
 }
 
 const Svg = ({ svgString, ...props }: SvgProps) => {
