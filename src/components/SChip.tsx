@@ -27,6 +27,7 @@ const SChip = ({
 	className = '',
 }: SChipProps) => {
 	const [isVisible, setIsVisible] = useState(value);
+	const [content, _] = useState(inputValue);
 	const chipRef = useRef<HTMLSpanElement | null>(null);
 
 	const handleRemove = () => {
@@ -43,7 +44,7 @@ const SChip = ({
 	};
 
 	const handleInputKeyDown = (e: React.KeyboardEvent<HTMLSpanElement>) => {
-		if (useInput && e.key === 'Enter') {
+		if ((useInput && e.key === 'Enter') || e.key === 'Escape') {
 			e.preventDefault();
 			chipRef.current?.blur();
 		}
@@ -68,11 +69,18 @@ const SChip = ({
 		}
 	}, [inputValue, useInput]);
 
+	if (!isVisible) return null;
+
 	return (
 		<>
 			{isVisible && (
 				<div
-					className={`s-chip h-24 px-8 flex w-fit items-center  border border-Grey_Default bg-white text-Grey_Darken-4 hover:bg-Grey_Lighten-5 ${rounded ? 'rounded-14' : 'rounded-4'} ${useInput ? 'cursor-text' : clickable ? 'cursor-pointer' : 'cursor-default'} ${className}`}
+					className={[
+						's-chip flex h-24pxr w-fit items-center border  border-Grey_Default bg-white px-8pxr text-Grey_Darken-4 hover:bg-Grey_Lighten-5',
+						`${rounded ? 'rounded-14pxr' : 'rounded-4pxr'}`,
+						`${useInput ? 'cursor-text' : clickable ? 'cursor-pointer' : 'cursor-default'}`,
+						className,
+					].join(' ')}
 				>
 					{useInput ? (
 						<span
@@ -84,7 +92,7 @@ const SChip = ({
 							onInput={handleInput}
 							onKeyDown={handleInputKeyDown}
 						>
-							{inputValue}
+							{content}
 						</span>
 					) : (
 						children
@@ -92,7 +100,7 @@ const SChip = ({
 
 					{removable && (
 						<Close12
-							className='close-btn ml-4 cursor-pointer text-Grey_Default'
+							className='close-btn ml-4pxr cursor-pointer text-Grey_Default'
 							data-testid='close-btn'
 							onClick={handleRemove}
 						/>

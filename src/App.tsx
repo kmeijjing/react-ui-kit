@@ -34,8 +34,7 @@ function App() {
 		setTabValue(val);
 	}
 
-
- const chipItems = [
+	const chipItems = [
 		{ label: 'item1', value: true },
 		{ label: 'item2', value: true },
 		{ label: 'item3', value: true },
@@ -106,27 +105,29 @@ function App() {
 						</STabs>
 					</div>
 				</div>
-    
-    <div className='p-12'>
+
+				<div className='flex flex-col gap-12pxr p-16pxr'>
 					<div className='font-bold'>chip</div>
-					<SChip value={true}>chip</SChip>
-					<SChip
-						value={true}
-						rounded
-					>
-						rounded chip
-					</SChip>
 
-					{inputValue}
-					<SChip
-						value={true}
-						removable
-						useInput
-						inputValue={inputValue}
-						onInput={handleInput}
-					/>
+					<div className='flex flex-nowrap gap-8pxr'>
+						<SChip value={true}>chip</SChip>
+						<SChip
+							value={true}
+							rounded
+						>
+							rounded chip
+						</SChip>
 
-					<div className='flex flex-nowrap'>
+						<SChip
+							value={true}
+							removable
+							useInput
+							inputValue={inputValue}
+							onInput={handleInput}
+						/>
+					</div>
+
+					<div className='flex flex-nowrap gap-8pxr'>
 						{chipItems.map((item) => (
 							<SChip
 								key={item.label}
@@ -321,7 +322,52 @@ function App() {
 							label='lg button'
 						/>
 					</div>
-    <STag label='tag' color="grey" />
+				</div>
+
+				<div className='flex flex-col gap-12pxr p-16pxr'>
+					<div>
+						<b>Tag</b>
+					</div>
+
+					<div className='inline-flex items-center gap-8pxr'>
+						<STag
+							label='grey'
+							color='grey'
+						/>
+						<STag
+							label='red'
+							color='red'
+						/>
+						<STag
+							label='orange'
+							color='orange'
+						/>
+						<STag
+							label='yellow'
+							color='yellow'
+						/>
+						<STag
+							label='green'
+							color='green'
+							size='sm'
+						/>
+						<STag
+							label='blue'
+							color='blue'
+							size='sm'
+						/>
+						<STag
+							label='darkblue'
+							color='darkblue'
+							size='sm'
+						/>
+						<STag
+							label='indigo'
+							color='indigo'
+							size='sm'
+							textClass='font-bold'
+						/>
+					</div>
 				</div>
 			</main>
 		</>
