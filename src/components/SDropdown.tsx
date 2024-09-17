@@ -1,5 +1,5 @@
 import { createPortal } from 'react-dom';
-import { useId, useState } from 'react';
+import { useId, useState, useEffect, useRef, useCallback } from 'react';
 import colors from '../css/colors.ts';
 import DropdownIcon from '../assets/DropdownIcon.tsx';
 import DropdownOptions, {
@@ -79,10 +79,29 @@ const SDropdown = ({
 
 	const hoverClass = outline
 		? `hover:before:bg-${color}/10 hover:before:border-[${argColor}]`
-		: 'hover:before:bg-black hover:before:opacity-10';
+		: 'hover:before:bg-black hover:before:opacity-10';	
 
 	const [isOpen, setIsOpen] = useState(false);
 	const id = useId();
+	const dropdownRef = useRef<HTMLButtonElement>(null);
+
+	const handleClickOutSide = useCallback((e: MouseEvent) => {
+		if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+			setIsOpen(false); 
+		}
+	}, []);
+
+	useEffect(() => {
+		if (isOpen) {
+			document.addEventListener('mousedown', handleClickOutSide);
+		} else {
+			document.removeEventListener('mousedown', handleClickOutSide);
+		}
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutSide);
+		};
+	}, [isOpen, handleClickOutSide]);
+
 
 	const handleClick = (arg?: DropdownOptionProps) => {
 		setIsOpen((prev) => !prev);
@@ -93,6 +112,7 @@ const SDropdown = ({
 		<>
 			<button
 				id={`s-dropdown--${id}`}
+				ref={dropdownRef}
 				disabled={disabled}
 				onClick={() => setIsOpen((prev) => !prev)}
 				className={[
