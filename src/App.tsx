@@ -13,14 +13,14 @@ import { Setting24 } from './assets/SettingIcon';
 
 function App() {
 	const [checked, setChecked] = useState(false);
- const [toggle, setToggle] = useState(false)
- const [selectedValue, setSelectedValue] = useState<string | number>('item3');
+	const [toggle, setToggle] = useState(false);
+	const [selectedValue, setSelectedValue] = useState<string | number>('item3');
 	const [tabValue, setTabValue] = useState('tab1');
 	const [inputValue, setInputValue] = useState('aaa');
 
 	const handleClick = () => {
 		setChecked(!checked);
-	}
+	};
 
 	const items = [
 		{ label: 'item1', value: 'item1', disabled: false },
@@ -28,17 +28,16 @@ function App() {
 		{ label: 'item3', value: 'item3', disabled: false },
 	];
 
-
 	const handleRadioChange = (model: string | number) => {
 		setSelectedValue(model);
 	};
 
-	const handleTabChange =(val: string) => {
+	const handleTabChange = (val: string) => {
 		console.log(val);
 		setTabValue(val);
-	}
+	};
 
- const chipItems = [
+	const chipItems = [
 		{ label: 'item1', value: true },
 		{ label: 'item2', value: true },
 		{ label: 'item3', value: true },
@@ -47,7 +46,7 @@ function App() {
 
 	const handleInput = (val: string) => {
 		setInputValue(val);
-	}
+	};
 
 	return (
 		<>
@@ -64,7 +63,7 @@ function App() {
 								{ label: 'tab3', value: 'tab3' },
 								{ label: 'tab4', value: 'tab4' },
 							]}
-							model={tabValue}
+							value={tabValue}
 							onChange={handleTabChange}
 						>
 							<STabPanel value='tab1'>
@@ -89,7 +88,7 @@ function App() {
 								{ label: 'tab4', value: 'tab4' },
 							]}
 							size='sm'
-							model={tabValue}
+							value={tabValue}
 							onChange={handleTabChange}
 						>
 							<STabPanel value='tab1'>
@@ -107,8 +106,8 @@ function App() {
 						</STabs>
 					</div>
 				</div>
-    
-    <div className='p-12'>
+
+				<div className='p-12'>
 					<div className='font-bold'>chip</div>
 					<SChip value={true}>chip</SChip>
 					<SChip
@@ -322,11 +321,23 @@ function App() {
 							label='lg button'
 						/>
 					</div>
-    <STag label='tag' color="grey" />
+					<STag
+						label='tag'
+						color='grey'
+					/>
 				</div>
-    <div className='inline-flex items-center gap-8pxr'>
-     <SToggle value={toggle} onChange={setToggle} />
-    </div>
+				<div className='inline-flex items-center gap-8pxr'>
+					<SToggle
+						value={toggle}
+						onChange={setToggle}
+					/>
+					<SToggle
+						type='button'
+						buttonLabel='toggle'
+						value={toggle}
+						onChange={setToggle}
+					/>
+				</div>
 			</main>
 		</>
 	);
