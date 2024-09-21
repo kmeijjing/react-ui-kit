@@ -8,11 +8,17 @@ import STabs from './components/STabs';
 import STabPanel from './components/STabPanel';
 import SChip from './components/SChip';
 import STag from './components/STag';
+import SToggle from './components/SToggle';
 import { Setting24 } from './assets/SettingIcon';
 
 function App() {
-	const [checked, setChecked] = useState<boolean>(false);
-	function handleClick() {
+	const [checked, setChecked] = useState(false);
+ const [toggle, setToggle] = useState(false)
+ const [selectedValue, setSelectedValue] = useState<string | number>('item3');
+	const [tabValue, setTabValue] = useState('tab1');
+	const [inputValue, setInputValue] = useState('aaa');
+
+	const handleClick = () => {
 		setChecked(!checked);
 	}
 
@@ -21,29 +27,25 @@ function App() {
 		{ label: 'item2', value: 'item2', disabled: false },
 		{ label: 'item3', value: 'item3', disabled: false },
 	];
-	const [selectedValue, setSelectedValue] = useState<string | number>('item3');
+
 
 	const handleRadioChange = (model: string | number) => {
 		setSelectedValue(model);
 	};
 
-	const [tabValue, setTabValue] = useState<string>('tab1');
-
-	function handleTabChange(val: string) {
+	const handleTabChange =(val: string) => {
 		console.log(val);
 		setTabValue(val);
 	}
 
-	const chipItems = [
+ const chipItems = [
 		{ label: 'item1', value: true },
 		{ label: 'item2', value: true },
 		{ label: 'item3', value: true },
 		{ label: 'item4', value: true },
 	];
 
-	const [inputValue, setInputValue] = useState<string>('aaa');
-	function handleInput(val: string) {
-		console.log('onInput : ', val);
+	const handleInput = (val: string) => {
 		setInputValue(val);
 	}
 
@@ -105,29 +107,27 @@ function App() {
 						</STabs>
 					</div>
 				</div>
-
-				<div className='flex flex-col gap-12pxr p-16pxr'>
+    
+    <div className='p-12'>
 					<div className='font-bold'>chip</div>
+					<SChip value={true}>chip</SChip>
+					<SChip
+						value={true}
+						rounded
+					>
+						rounded chip
+					</SChip>
 
-					<div className='flex flex-nowrap gap-8pxr'>
-						<SChip value={true}>chip</SChip>
-						<SChip
-							value={true}
-							rounded
-						>
-							rounded chip
-						</SChip>
+					{inputValue}
+					<SChip
+						value={true}
+						removable
+						useInput
+						inputValue={inputValue}
+						onInput={handleInput}
+					/>
 
-						<SChip
-							value={true}
-							removable
-							useInput
-							inputValue={inputValue}
-							onInput={handleInput}
-						/>
-					</div>
-
-					<div className='flex flex-nowrap gap-8pxr'>
+					<div className='flex flex-nowrap gap-12pxr'>
 						{chipItems.map((item) => (
 							<SChip
 								key={item.label}
@@ -153,7 +153,7 @@ function App() {
 								label={item.label}
 								value={item.value}
 								disabled={item.disabled}
-								model={selectedValue}
+								checked={selectedValue}
 								className='mx-2 my-1'
 								onChange={handleRadioChange}
 							/>
@@ -322,53 +322,11 @@ function App() {
 							label='lg button'
 						/>
 					</div>
+    <STag label='tag' color="grey" />
 				</div>
-
-				<div className='flex flex-col gap-12pxr p-16pxr'>
-					<div>
-						<b>Tag</b>
-					</div>
-
-					<div className='inline-flex items-center gap-8pxr'>
-						<STag
-							label='grey'
-							color='grey'
-						/>
-						<STag
-							label='red'
-							color='red'
-						/>
-						<STag
-							label='orange'
-							color='orange'
-						/>
-						<STag
-							label='yellow'
-							color='yellow'
-						/>
-						<STag
-							label='green'
-							color='green'
-							size='sm'
-						/>
-						<STag
-							label='blue'
-							color='blue'
-							size='sm'
-						/>
-						<STag
-							label='darkblue'
-							color='darkblue'
-							size='sm'
-						/>
-						<STag
-							label='indigo'
-							color='indigo'
-							size='sm'
-							textClass='font-bold'
-						/>
-					</div>
-				</div>
+    <div className='inline-flex items-center gap-8pxr'>
+     <SToggle value={toggle} onChange={setToggle} />
+    </div>
 			</main>
 		</>
 	);
