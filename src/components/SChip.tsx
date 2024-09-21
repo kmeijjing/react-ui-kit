@@ -27,7 +27,7 @@ const SChip = ({
 	className = '',
 }: SChipProps) => {
 	const [isVisible, setIsVisible] = useState(value);
-	const [content, _] = useState(inputValue);
+	const [content] = useState(inputValue);
 	const chipRef = useRef<HTMLSpanElement | null>(null);
 
 	const handleRemove = () => {

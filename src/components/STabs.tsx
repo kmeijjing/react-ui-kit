@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react';
+import colors from '../css/colors.ts';
 
 type Child = ReactElement;
 
@@ -6,8 +7,8 @@ export interface Tab {
 	label: string;
 	value: string;
 	badge?: string;
-	badgeColor?: string;
-	badgeTextColor?: string;
+	badgeColor?: keyof typeof colors;
+	badgeTextColor?: keyof typeof colors;
 	link?: string;
 	disabled?: boolean;
 	tabClassName?: string;
@@ -59,7 +60,7 @@ const STabs = ({
 							'tab rounded-t-4pxr inline-flex cursor-pointer flex-nowrap items-center border-x border-t ',
 							tabSize[size],
 							model === tab.value
-								? 'border-Blue_C_Default bg-white font-bold text-Blue_C_Default hover:bg-[#ecf1fc]'
+								? 'border-Blue_C_Default bg-white font-bold text-Blue_C_Default hover:bg-Blue_C_Default/[0.08]'
 								: 'border-Grey_Lighten-2 bg-Grey_Lighten-5 text-Grey_Default hover:bg-Grey_Lighten-4',
 						].join(' ')}
 					>
@@ -69,7 +70,7 @@ const STabs = ({
 								className={[
 									'badge rounded-4pxr text-10pxr ml-4pxr flex h-20pxr items-center px-5pxr py-1pxr',
 									model === tab.value
-										? `text-[${tab.badgeTextColor}] bg-[${tab.badgeColor}]`
+										? `text-[${tab.badgeTextColor ? colors[tab.badgeTextColor] : colors.white}] bg-[${tab.badgeColor ? colors[tab.badgeColor] : colors.Blue_C_Default}]`
 										: 'bg-Grey_Lighten-4 text-Grey_Darken-1',
 								].join(' ')}
 							>
