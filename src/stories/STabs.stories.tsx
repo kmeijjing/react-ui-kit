@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import { useState } from '@storybook/preview-api';
+import { useState } from 'storybook/internal/preview-api';
 import STabs, { type STabsProps } from '../components/STabs';
 import STabPanel from '../components/STabPanel';
 
