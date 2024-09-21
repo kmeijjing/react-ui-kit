@@ -20,7 +20,7 @@ type Story = StoryObj<STabsProps>;
 
 export const Default: Story = {
 	args: {
-		model: 'tab1',
+		value: 'tab1',
 		tabs: [
 			{ label: 'Tab 1', value: 'tab1', badge: 'tab1' },
 			{ label: 'Tab 2', value: 'tab2', badge: 'tab2' },
@@ -31,7 +31,7 @@ export const Default: Story = {
 		},
 	},
 	render: (args: STabsProps) => {
-		const [selectedTab, setSelectedTab] = useState(args.model);
+		const [selectedTab, setSelectedTab] = useState(args.value);
 
 		const handleChange = (value: string) => {
 			setSelectedTab(value);
@@ -41,7 +41,7 @@ export const Default: Story = {
 		return (
 			<STabs
 				{...args}
-				model={selectedTab}
+				value={selectedTab}
 				onChange={handleChange}
 			>
 				<STabPanel value='tab1'>This is Tab 1 content</STabPanel>
@@ -54,7 +54,7 @@ export const Default: Story = {
 
 export const TabsWithLinks: Story = {
 	args: {
-		model: 'tab1',
+		value: 'tab1',
 		tabs: [
 			{ label: 'Tab 1', value: 'tab1', link: '/tab1' },
 			{ label: 'Tab 2', value: 'tab2', link: '/tab2' },
@@ -65,7 +65,7 @@ export const TabsWithLinks: Story = {
 
 export const SizeSm: Story = {
 	args: {
-		model: 'tab1',
+		value: 'tab1',
   size: 'sm',
 		tabs: [
 			{ label: 'Tab 1', value: 'tab1', link: '/tab1' },
@@ -77,7 +77,7 @@ export const SizeSm: Story = {
 
 export const SizeLg: Story = {
 	args: {
-		model: 'tab1',
+		value: 'tab1',
   size: 'lg',
 		tabs: [
 			{ label: 'Tab 1', value: 'tab1', link: '/tab1' },
