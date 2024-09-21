@@ -330,12 +330,14 @@ function App() {
 					<SToggle
 						value={toggle}
 						onChange={setToggle}
+      disable
 					/>
 					<SToggle
 						type='button'
 						buttonLabel='toggle'
 						value={toggle}
 						onChange={setToggle}
+      disable
 					/>
 				</div>
 			</main>

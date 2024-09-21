@@ -2,81 +2,92 @@ import { useEffect, useState } from 'react';
 type Value = boolean;
 
 interface BaseToggleProps {
- label?: string;
- labelClass?: string;
- value: Value;
- onChange: (arg: Value) => void;
+	label?: string;
+	labelClass?: string;
+	value: Value;
+	onChange: (arg: Value) => void;
+	className?: string;
+	disable?: boolean;
 }
 
 interface SwitchToggleProps extends BaseToggleProps {
- type?: 'switch';
+	type?: 'switch';
 }
 
 interface ButtonToggleProps extends BaseToggleProps {
- /**
-  * @description If you use the button type, you must need buttonLabel.
-  */
- type: 'button';
- buttonLabel: string;
+	/**
+	 * @description If you use the button type, you must need buttonLabel.
+	 */
+	type: 'button';
+	buttonLabel: string;
 }
 
-type ToggleProps = SwitchToggleProps | ButtonToggleProps;
+export type ToggleProps = SwitchToggleProps | ButtonToggleProps;
 
 const SToggle = ({
- label,
- onChange,
- value,
- type = 'switch',
- ...props
+	label,
+	onChange,
+	value,
+	className,
+	type = 'switch',
+	disable = false,
+	...props
 }: ToggleProps) => {
- const [isToggled, setIsToggled] = useState<Value>(false);
+	const [isToggled, setIsToggled] = useState<Value>(value);
 
- useEffect(() => {
-  setIsToggled(value);
- }, [value]);
+	useEffect(() => {
+		if (disable) return;
+		setIsToggled(value);
+	}, [value, disable]);
 
- const handleToggle = () => {
-  onChange(!isToggled);
- };
+	const handleToggle = () => {
+		if (disable) return;
+		onChange(!isToggled);
+	};
 
- return (
-  <div className='flex items-center'>
-   {label && <span className='mr-16pxr'>{label}</span>}
-   {type === 'switch' ? (
-    <div
-     className={[
-      'relative flex h-20pxr w-36pxr cursor-pointer items-center rounded-full p-2pxr transition-colors duration-300 ease-in-out',
-      isToggled ? 'bg-Blue_C_Default' : 'bg-Grey_Lighten-2',
-     ].join(' ')}
-     onClick={handleToggle}
-    >
-     <span
-      className={[
-       'h-16pxr w-16pxr transform rounded-full bg-white shadow-md duration-300 ease-in-out',
-       isToggled ? 'translate-x-16pxr' : 'translate-x-0',
-      ].join(' ')}
-     ></span>
-    </div>
-   ) : (
-    (() => {
-     const buttonProps = props as ButtonToggleProps;
-     return (
-      <button
-       onClick={handleToggle}
-       className={[
-        'relative rounded-14pxr px-12pxr py-4pxr leading-20pxr before:absolute before:w-full before:h-full before:left-0 before:top-0 before:rounded-14pxr before:border',
-        isToggled
-         ? 'text-Blue_C_Default before:border-Blue_C_Default'
-         : 'text-Grey_Darken-1 before:border-Grey_Darken-1',
-       ].join(' ')}
-      >
-       {buttonProps.buttonLabel}
-      </button>
-     );
-    })()
-   )}
-  </div>
- );
+	return (
+		<div className={['flex items-center', className].join(' ')}>
+			{label && <span className='mr-16pxr'>{label}</span>}
+			{type === 'switch' ? (
+				<div
+					className={[
+						'relative flex h-20pxr w-36pxr cursor-pointer items-center rounded-full p-2pxr transition-colors duration-300 ease-in-out',
+						isToggled ? 'bg-Blue_C_Default' : 'bg-Grey_Lighten-2',
+						disable &&
+							`${isToggled ? 'bg-Blue_C_Lighten-4' : 'bg-Grey_Lighten-4'} cursor-not-allowed`,
+					].join(' ')}
+					onClick={handleToggle}
+				>
+					<span
+						className={[
+							'h-16pxr w-16pxr transform rounded-full bg-white shadow-[0px_2px_4px_0px_#00000029] duration-300 ease-in-out',
+							isToggled ? 'translate-x-16pxr' : 'translate-x-0',
+							disable ? 'bg-white' : 'bg-Grey_Lighten-5',
+						].join(' ')}
+					></span>
+				</div>
+			) : (
+				(() => {
+					const buttonProps = props as ButtonToggleProps;
+					return (
+						<button
+							onClick={handleToggle}
+							className={[
+								'relative rounded-14pxr px-12pxr py-4pxr leading-20pxr before:absolute before:left-0 before:top-0 before:h-full before:w-full before:rounded-14pxr before:border',
+								isToggled
+									? 'text-Blue_C_Default before:border-Blue_C_Default'
+									: 'text-Grey_Darken-1 before:border-Grey_Darken-1',
+								disable &&
+									'cursor-not-allowed bg-Grey_Lighten-4 text-Grey_Default before:border-Grey_Lighten-2',
+							].join(' ')}
+						>
+							{buttonProps.buttonLabel}
+						</button>
+					);
+				})()
+			)}
+		</div>
+	);
 };
 
 export default SToggle;
