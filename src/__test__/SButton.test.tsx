@@ -11,7 +11,7 @@ describe('SButton Component', () => {
 
   it('applies the correct classes based on size prop', () => {
     const { container } = render(<SButton label="Button" size="lg" />);
-    expect(container.firstChild).toHaveClass('py-5.5 px-9.5 text-2xl leading-10');
+    expect(container.firstChild).toHaveClass('h-62pxr py-16pxr px-28pxr text-18pxr leading-30pxr');
   });
 
   it('applies the correct background color based on color prop', () => {

@@ -1,4 +1,4 @@
-import React, { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import SCheckbox from '../components/SCheckbox';
@@ -40,7 +40,7 @@ describe('SCheckbox', () => {
 			<SCheckbox
 				label='Test Checkbox'
 				checked={['item1']}
-				val='item2'
+				value='item2'
 				onChange={handleChange}
 			/>
 		);
@@ -80,7 +80,7 @@ describe('SCheckbox', () => {
 			<SCheckbox
 				label='Test Checkbox'
 				checked={false}
-				val='item1'
+				value='item1'
 			/>
 		);
 		const checkbox = getByRole('checkbox');
@@ -93,7 +93,7 @@ describe('SCheckbox', () => {
 			<SCheckbox
 				label='Test Checkbox'
 				checked={['item1']}
-				val='item1'
+				value='item1'
 			/>
 		);
 		expect(checkbox).toBeChecked();
