@@ -10,17 +10,18 @@ import SChip from './components/SChip';
 import STag from './components/STag';
 import SToggle from './components/SToggle';
 import { Setting24 } from './assets/SettingIcon';
+import SCaution from './components/SCaution';
 
 function App() {
 	const [checked, setChecked] = useState(false);
- const [toggle, setToggle] = useState(false)
- const [selectedValue, setSelectedValue] = useState<string | number>('item3');
+	const [toggle, setToggle] = useState(false);
+	const [selectedValue, setSelectedValue] = useState<string | number>('item3');
 	const [tabValue, setTabValue] = useState('tab1');
 	const [inputValue, setInputValue] = useState('aaa');
 
 	const handleClick = () => {
 		setChecked(!checked);
-	}
+	};
 
 	const items = [
 		{ label: 'item1', value: 'item1', disabled: false },
@@ -28,17 +29,16 @@ function App() {
 		{ label: 'item3', value: 'item3', disabled: false },
 	];
 
-
 	const handleRadioChange = (model: string | number) => {
 		setSelectedValue(model);
 	};
 
-	const handleTabChange =(val: string) => {
+	const handleTabChange = (val: string) => {
 		console.log(val);
 		setTabValue(val);
-	}
+	};
 
- const chipItems = [
+	const chipItems = [
 		{ label: 'item1', value: true },
 		{ label: 'item2', value: true },
 		{ label: 'item3', value: true },
@@ -47,7 +47,7 @@ function App() {
 
 	const handleInput = (val: string) => {
 		setInputValue(val);
-	}
+	};
 
 	return (
 		<>
@@ -64,7 +64,7 @@ function App() {
 								{ label: 'tab3', value: 'tab3' },
 								{ label: 'tab4', value: 'tab4' },
 							]}
-							model={tabValue}
+							value={tabValue}
 							onChange={handleTabChange}
 						>
 							<STabPanel value='tab1'>
@@ -89,7 +89,7 @@ function App() {
 								{ label: 'tab4', value: 'tab4' },
 							]}
 							size='sm'
-							model={tabValue}
+							value={tabValue}
 							onChange={handleTabChange}
 						>
 							<STabPanel value='tab1'>
@@ -107,8 +107,8 @@ function App() {
 						</STabs>
 					</div>
 				</div>
-    
-    <div className='p-12'>
+
+				<div className='p-12'>
 					<div className='font-bold'>chip</div>
 					<SChip value={true}>chip</SChip>
 					<SChip
@@ -322,11 +322,90 @@ function App() {
 							label='lg button'
 						/>
 					</div>
-    <STag label='tag' color="grey" />
 				</div>
-    <div className='inline-flex items-center gap-8pxr'>
-     <SToggle value={toggle} onChange={setToggle} />
-    </div>
+				<div className='flex flex-col gap-12pxr p-16pxr'>
+					<div>
+						<b>Tag</b>
+					</div>
+
+					<div className='inline-flex items-center gap-8pxr'>
+						<STag
+							label='grey'
+							color='grey'
+						/>
+						<STag
+							label='red'
+							color='red'
+						/>
+						<STag
+							label='orange'
+							color='orange'
+						/>
+						<STag
+							label='yellow'
+							color='yellow'
+						/>
+						<STag
+							label='green'
+							color='green'
+							size='sm'
+						/>
+						<STag
+							label='blue'
+							color='blue'
+							size='sm'
+						/>
+						<STag
+							label='darkblue'
+							color='darkblue'
+							size='sm'
+						/>
+						<STag
+							label='indigo'
+							color='indigo'
+							size='sm'
+							textClass='font-bold'
+						/>
+					</div>
+				</div>
+				<div className='flex flex-col gap-12pxr p-16pxr'>
+					<div>
+						<b>Toggle</b>
+					</div>
+					<div className='inline-flex items-center gap-8pxr'>
+						<SToggle
+							value={toggle}
+							onChange={setToggle}
+							disable
+						/>
+						<SToggle
+							type='button'
+							buttonLabel='toggle'
+							value={toggle}
+							onChange={setToggle}
+							disable
+						/>
+					</div>
+				</div>
+				<div className='flex flex-col gap-12pxr p-16pxr'>
+					<div>
+						<b>Caution</b>
+					</div>
+					<div className='inline-flex items-center gap-8pxr'>
+						<SCaution
+							messages={[
+								'Pizza ipsum dolor meat lovers buffalo.',
+								'Platter pork NY pizza pizza steak beef dolor sautéed fresh.',
+								'Extra Philly green platter red pork ipsum broccoli bbq Chicago.',
+								'Party ham and string pepperoni pineapple broccoli extra.',
+								'Pork tomato chicken bacon ham anchovies.',
+								'Bacon mouth personal pineapple pork extra.',
+								'Pineapple fresh pie bbq fresh pizza pizza meat.',
+								'Style Hawaiian ricotta spinach burnt ham wing green mayo.',
+							]}
+						/>
+					</div>
+				</div>
 			</main>
 		</>
 	);
