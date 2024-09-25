@@ -99,7 +99,7 @@ describe('SChip', () => {
 			</SChip>
 		);
 		const chipElement = screen.getByText('Rounded Chip');
-		expect(chipElement).toHaveClass('rounded-14');
+		expect(chipElement).toHaveClass('rounded-14pxr');
 	});
 
 	it('applies correct class for clickable prop', () => {
