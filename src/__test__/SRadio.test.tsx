@@ -1,7 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import SRadio, { RadioProps } from '../components/SRadio';
-import { useState } from 'react';
 import '@testing-library/jest-dom';
 
 describe('SRadio', () => {
