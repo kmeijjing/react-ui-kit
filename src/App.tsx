@@ -8,6 +8,7 @@ import STabs from './components/STabs';
 import STabPanel from './components/STabPanel';
 import SChip from './components/SChip';
 import STag from './components/STag';
+import STooltip from './components/STooltip';
 import { Setting24 } from './assets/SettingIcon';
 
 function App() {
@@ -50,6 +51,68 @@ function App() {
 	return (
 		<>
 			<main>
+				<div className='flex flex-col gap-12pxr p-16pxr'>
+					<div className='h-100pxr'></div>
+					<div>
+						<b>Tooltip</b>
+					</div>
+					<div className='flex items-center justify-center gap-8pxr'>
+						<STooltip
+							placement='top'
+							icon='HelpOutline_24'
+							className='text-primary'
+						>
+							<div>이것은 위쪽 툴팁입니다.</div>
+							<div>이것은 위쪽 툴팁입니다.</div>
+							<div>이것은 위쪽 툴팁입니다.</div>
+							<div>이것은 위쪽 툴팁입니다.</div>
+						</STooltip>
+						<STooltip
+							placement='top'
+							label='top Tooltip'
+						>
+							<div>이것은 위쪽 툴팁입니다.</div>
+						</STooltip>
+						<STooltip
+							label='bottom Tooltip'
+							color='info'
+							outline
+						>
+							<div>bottom</div>
+						</STooltip>
+						<STooltip
+							placement='right'
+							label='right Tooltip'
+						>
+							<div>이것은 오른쪽 툴팁입니다.</div>
+							<div>이것은 오른쪽 툴팁입니다.</div>
+							<div>이것은 오른쪽 툴팁입니다.</div>
+							<div>이것은 오른쪽 툴팁입니다.</div>
+							<div>이것은 오른쪽 툴팁입니다.</div>
+						</STooltip>
+						<STooltip
+							placement='left'
+							label='left Tooltip'
+						>
+							<div>left</div>
+						</STooltip>
+
+						<STooltip
+							placement='left'
+							icon='HelpOutline_24'
+							label='left Tooltip'
+							color='warning'
+							outline
+						>
+							<div>이것은 왼쪽 툴팁입니다.</div>
+							<div>이것은 왼쪽 툴팁입니다.</div>
+							<div>이것은 왼쪽 툴팁입니다.</div>
+							<div>이것은 왼쪽 툴팁입니다.</div>
+							<div>이것은 왼쪽 툴팁입니다.</div>
+						</STooltip>
+					</div>
+				</div>
+
 				<div className='flex flex-col gap-12pxr p-16pxr'>
 					<div>
 						<b>Tabs</b>
@@ -301,6 +364,7 @@ function App() {
 						<SButton
 							outline
 							disabled
+							icon='HelpOutline_16'
 							label='lg button'
 						/>
 					</div>

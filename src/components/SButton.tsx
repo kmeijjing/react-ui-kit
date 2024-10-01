@@ -1,5 +1,5 @@
 import colors from '../css/colors.ts';
-import Svg from './Svg.tsx';
+import Icon from './Icon.tsx';
 export interface SButtonProps {
 	/**
 	 * Button size
@@ -53,7 +53,7 @@ const SButton = ({
 	size = 'sm',
 	color = 'Blue_B_Default',
 	outline = false,
-	icon: Icon,
+	icon,
 	disabled = false,
 	noHover = false,
 	className = '',
@@ -106,23 +106,18 @@ const SButton = ({
 			disabled={disabled}
 			{...props}
 		>
-			{Icon &&
-				(typeof Icon === 'string' ? (
-					!Icon.includes('.svg') ? (
-						<Svg
-							svgString={Icon}
-							className={iconClass}
+			<div className='inline-flex items-center'>
+				{icon &&
+					(typeof icon === 'string' ? (
+						<Icon
+							name={icon}
+							className={`icon ${iconClass}`}
 						/>
 					) : (
-						<img
-							className={iconClass}
-							src={Icon}
-						/>
-					)
-				) : (
-					<Icon.type className={`icon ${iconClass}`} />
-				))}
-			{label}
+						<icon.type className={`icon ${iconClass}`} />
+					))}
+				{label}
+			</div>
 		</button>
 	);
 };
