@@ -7,7 +7,7 @@ import {
 	useCallback,
 } from 'react';
 import { Check12 } from '../assets/CheckIcon';
-import { MinusIcon12 } from '../assets/MinusIcon';
+import { Minus12 } from '../assets/MinusIcon';
 
 type Checked = null | boolean | (string | number)[];
 export interface CheckboxProps {
@@ -116,8 +116,8 @@ const SCheckbox = ({
 			/>
 			<span
 				className={[
-					`rounded-2pxr before:left-0 before:top-0 before:rounded-2pxr relative mr-8pxr inline-flex 
-     h-16pxr w-16pxr items-center justify-center before:absolute before:h-full before:w-full before:border 
+					`relative mr-8pxr inline-flex h-16pxr w-16pxr items-center justify-center 
+     rounded-2pxr before:absolute before:left-0 before:top-0 before:h-full before:w-full before:rounded-2pxr before:border 
      aria-disabled:bg-Grey_Lighten-4 aria-disabled:before:border-Grey_Lighten-2`,
 					isCheckedInIcon
 						? 'bg-Blue_C_Default before:border-Blue_C_Default'
@@ -126,7 +126,7 @@ const SCheckbox = ({
 				aria-disabled={disabled}
 			>
 				{internalChecked === null ? (
-					<MinusIcon12 className={iconClass} />
+					<Minus12 className={iconClass} />
 				) : (
 					<Check12 className={iconClass} />
 				)}

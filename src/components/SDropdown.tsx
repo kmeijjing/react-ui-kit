@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom';
 import { useId, useState, useEffect, useRef, useCallback } from 'react';
 import colors from '../css/colors.ts';
-import DropdownIcon from '../assets/DropdownIcon.tsx';
+import { Dropdown12 } from '../assets/DropdownIcon.tsx';
 import DropdownOptions, {
 	type DropdownOptionProps,
 } from './DropdownOptions.tsx';
@@ -79,7 +79,7 @@ const SDropdown = ({
 
 	const hoverClass = outline
 		? `hover:before:bg-${color}/10 hover:before:border-[${argColor}]`
-		: 'hover:before:bg-black hover:before:opacity-10';	
+		: 'hover:before:bg-black hover:before:opacity-10';
 
 	const [isOpen, setIsOpen] = useState(false);
 	const id = useId();
@@ -87,7 +87,7 @@ const SDropdown = ({
 
 	const handleClickOutSide = useCallback((e: MouseEvent) => {
 		if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-			setIsOpen(false); 
+			setIsOpen(false);
 		}
 	}, []);
 
@@ -102,7 +102,6 @@ const SDropdown = ({
 		};
 	}, [isOpen, handleClickOutSide]);
 
-
 	const handleClick = (arg?: DropdownOptionProps) => {
 		setIsOpen((prev) => !prev);
 		if (arg) onClick(arg);
@@ -116,7 +115,7 @@ const SDropdown = ({
 				disabled={disabled}
 				onClick={() => setIsOpen((prev) => !prev)}
 				className={[
-					's-dropdown rounded-4pxr relative inline-flex items-center',
+					's-dropdown relative inline-flex items-center rounded-4pxr',
 					colorClass,
 					disabled ? disableClass : `${hoverClass}`,
 					className,
@@ -135,7 +134,7 @@ const SDropdown = ({
 								: 'border-dropdownInner',
 					].join(' ')}
 				>
-					<DropdownIcon
+					<Dropdown12
 						className={
 							disabled
 								? 'text-Grey_Default'

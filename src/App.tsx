@@ -90,6 +90,7 @@ function App() {
 							<div>이것은 오른쪽 툴팁입니다.</div>
 							<div>이것은 오른쪽 툴팁입니다.</div>
 						</STooltip>
+
 						<STooltip
 							placement='left'
 							label='left Tooltip'
@@ -109,6 +110,60 @@ function App() {
 							<div>이것은 왼쪽 툴팁입니다.</div>
 							<div>이것은 왼쪽 툴팁입니다.</div>
 							<div>이것은 왼쪽 툴팁입니다.</div>
+						</STooltip>
+					</div>
+
+					<div className='flex items-center justify-center gap-8pxr'>
+						<STooltip
+							usePopover
+							label='usePopover'
+							title='title'
+							footer={
+								<div className='flex items-center justify-between'>
+									<SButton
+										color='Blue_B_Darken-2'
+										label='button'
+										className='!px-0'
+									/>{' '}
+									<SButton
+										color='positive'
+										label='Main Button'
+									/>
+								</div>
+							}
+							tooltipClassName='max-w-230pxr'
+						>
+							<div>
+								Popovers allow you to provide users with more information in a composite
+								way.
+							</div>
+						</STooltip>
+
+						<STooltip
+							usePopover
+							icon='HelpOutline_24'
+							label='click trigger'
+							title='title'
+							trigger='click'
+							footer={
+								<div className='flex items-center justify-between'>
+									<SButton
+										color='Blue_B_Darken-2'
+										label='button'
+										className='!px-0'
+									/>{' '}
+									<SButton
+										color='positive'
+										label='Main Button'
+									/>
+								</div>
+							}
+							tooltipClassName='max-w-230pxr'
+						>
+							<div>
+								Popovers allow you to provide users with more information in a composite
+								way.
+							</div>
 						</STooltip>
 					</div>
 				</div>

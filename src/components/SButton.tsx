@@ -39,7 +39,7 @@ export interface SButtonProps {
 	 * Button icon
 	 * @description Icon type should be just svg file path.
 	 * @example "<svg width='24' height='24'..." // Icon type string is such as
-	 * @example './assets/icons/icon.svg' // and other type is such as
+	 * @example 'Setting_24' // and other type is such as
 	 */
 	icon?: string | JSX.Element;
 	/**
@@ -91,7 +91,7 @@ const SButton = ({
 		: '';
 
 	const finalClassName = [
-		's-button rounded-4pxr inline-flex flex-nowrap min-w-24pxr items-center relative whitespace-nowrap',
+		's-button rounded-4pxr inline-flex flex-nowrap min-w-24pxr items-center justify-center whitespace-nowrap',
 		sizeClasses[size],
 		colorClass,
 		disabled ? disabledClass : hoverEffect,

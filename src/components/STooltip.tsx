@@ -6,6 +6,7 @@ import colors from '../css/colors.ts';
 import Tooltip_Arrow from '../assets/Tooltip_Arrow.svg';
 
 export interface STooltipProps {
+	usePopover?: boolean;
 	children: ReactNode;
 	icon?: string;
 	label?: string;
@@ -16,11 +17,14 @@ export interface STooltipProps {
 	placement?: 'top' | 'bottom' | 'left' | 'right';
 	trigger?: 'click' | 'hover';
 	delay?: number;
-	maxWidth?: number;
+	tooltipClassName?: string;
 	offset?: [number, number];
+	title?: string;
+	footer?: ReactNode;
 }
 
 const STooltip = ({
+	usePopover = false,
 	children,
 	icon,
 	label,
@@ -31,8 +35,10 @@ const STooltip = ({
 	placement = 'bottom',
 	trigger = 'hover',
 	delay = 0,
-	maxWidth = 300,
+	tooltipClassName,
 	offset = [0, 0],
+	title,
+	footer,
 	...props
 }: STooltipProps) => {
 	const [showTooltip, setShowTooltip] = useState(false);
@@ -44,9 +50,7 @@ const STooltip = ({
 	const setTooltipPosition = () => {
 		if (buttonElement.current && tooltipElement.current) {
 			const tooltipRect = tooltipElement.current.getBoundingClientRect();
-			console.log('tooltipRect : ', tooltipRect);
 			const referenceRect = buttonElement.current.getBoundingClientRect();
-			console.log('referenceRect : ', referenceRect);
 
 			let top = 0,
 				left = 0;
@@ -86,10 +90,9 @@ const STooltip = ({
 					break;
 			}
 
-			setTooltipClass(`max-w-${maxWidth}pxr translate-y-0 transition-transform`);
+			setTooltipClass(`translate-y-0`);
 
 			setTooltipStyles({
-				zIndex: 9999,
 				top: `${(top + window.scrollY) / 12}rem`,
 				left: `${(left + window.scrollX) / 12}rem`,
 			});
@@ -103,7 +106,7 @@ const STooltip = ({
 	};
 
 	const handleMouseLeave = () => {
-		if (trigger === 'hover') {
+		if (trigger === 'hover' && !usePopover) {
 			setShowTooltip(false);
 		}
 	};
@@ -164,17 +167,32 @@ const STooltip = ({
 					<div
 						ref={tooltipElement}
 						className={[
-							's-tooltip__content pointer-events-none absolute z-20 box-border rounded-4pxr bg-Blue_B_Darken-2 px-20pxr py-8pxr text-white',
+							's-tooltip__content pointer-events-none absolute z-50 box-border rounded-4pxr bg-Blue_B_Darken-2 leading-20pxr text-white transition-transform',
+							!usePopover && 'px-20pxr py-8pxr',
+							usePopover && 'px-16pxr py-10pxr',
 							tooltipClass,
+							tooltipClassName,
 						].join(' ')}
 						style={tooltipStyles}
 					>
-						{children}
+						{usePopover && (
+							<SButton
+								icon='Close_12'
+								color='Blue_B_Darken-2'
+								className='pointer-events-auto absolute right-6pxr top-8pxr p-0'
+								onClick={() => setShowTooltip(false)}
+							/>
+						)}
+						{title && <div className='mb-3pxr font-bold'>{title}</div>}
+
+						<div className='font-medium'>{children}</div>
+
+						{footer && <div className='pointer-events-auto mt-9pxr'>{footer}</div>}
 
 						<img
 							src={Tooltip_Arrow}
 							className={[
-								's-tooltip__arrow absolute z-10',
+								's-tooltip__arrow absolute z-40',
 								arrowClass[placement],
 							].join(' ')}
 						/>
