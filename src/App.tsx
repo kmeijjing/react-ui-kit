@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Setting24 } from './assets/SettingIcon';
 import './css/App.css';
 import SDropdown from './components/SDropdown';
 import SCheckbox from './components/SCheckbox';
@@ -9,7 +10,6 @@ import STabPanel from './components/STabPanel';
 import SChip from './components/SChip';
 import STag from './components/STag';
 import SToggle from './components/SToggle';
-import { Setting24 } from './assets/SettingIcon';
 import SCaution from './components/SCaution';
 
 function App() {
@@ -44,7 +44,7 @@ function App() {
 		{ label: 'item3', value: true },
 		{ label: 'item4', value: true },
 	];
-  
+
 	const handleInput = (val: string) => {
 		setInputValue(val);
 	};
@@ -52,41 +52,6 @@ function App() {
 	return (
 		<>
 			<main>
-				<div className='flex flex-col gap-12pxr p-16pxr'>
-					<div>
-						<b>Toggle</b>
-					</div>
-					<div className='flex flex-col gap-8pxr'>
-						<SToggle
-							value={checked}
-							onChange={(val) => setChecked(val)}
-						/>
-						<SToggle
-							value={checked}
-							disabled
-						/>
-						<SToggle
-							value={checked}
-							label='label'
-							onChange={(val) => setChecked(val)}
-						/>
-						<SToggle
-							type='button'
-							value={checked}
-						>
-							사용중
-						</SToggle>
-						<SToggle
-							type='button'
-							label='disabled'
-							value={checked}
-							disabled
-						>
-							사용중
-						</SToggle>
-					</div>
-				</div>
-
 				<div className='flex flex-col gap-12pxr p-16pxr'>
 					<div>
 						<b>Tabs</b>
