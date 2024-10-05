@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
-import { useEffect, useState } from 'storybook/internal/preview-api';
 
 import SToggle, { type ToggleProps } from '../components/SToggle';
 
@@ -24,7 +23,7 @@ export const Default: Story = {
   label: '메시지 자동 전송',
   value: false,
   type: 'switch',
-  disable: false,
+  disabled: false,
   onChange: (arg) => {
    console.log('storybook', arg)
   },
@@ -73,21 +72,21 @@ export const Button: Story = {
 export const DisableSwitchTrue: Story = {
  args: {
   value: false,
-  disable: true,
+  disabled: true,
  },
 };
 
 export const DisableSwitchFalse: Story = {
  args: {
   value: true,
-  disable: true,
+  disabled: true,
  },
 };
 
 export const DisableButtonTrue: Story = {
  args: {
   value: true,
-  disable: true,
+  disabled: true,
   type: 'button',
   buttonLabel: 'Toggle'
  },
@@ -96,7 +95,7 @@ export const DisableButtonTrue: Story = {
 export const DisableButtonFalse: Story = {
  args: {
   value: false,
-  disable: true,
+  disabled: true,
   type: 'button',
   buttonLabel: 'Toggle'
  },
