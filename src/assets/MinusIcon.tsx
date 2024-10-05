@@ -12,7 +12,7 @@ export const MinusIcon8 = (props: SVGProps<SVGSVGElement>) => (
 		<path
 			d='M0.93335 4H7.06668'
 			stroke='currentColor'
-			stroke-width='0.6'
+			strokeWidth='0.6'
 			strokeLinecap='round'
 		/>
 	</svg>
