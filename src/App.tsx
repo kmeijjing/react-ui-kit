@@ -10,30 +10,33 @@ import SChip from './components/SChip';
 import STag from './components/STag';
 import SToggle from './components/SToggle';
 import { Setting24 } from './assets/SettingIcon';
+import SCaution from './components/SCaution';
 
 function App() {
-	const [checked, setChecked] = useState<boolean>(false);
-	function handleClick() {
+	const [checked, setChecked] = useState(false);
+	const [toggle, setToggle] = useState(false);
+	const [selectedValue, setSelectedValue] = useState<string | number>('item3');
+	const [tabValue, setTabValue] = useState('tab1');
+	const [inputValue, setInputValue] = useState('aaa');
+
+	const handleClick = () => {
 		setChecked(!checked);
-	}
+	};
 
 	const items = [
 		{ label: 'item1', value: 'item1', disabled: false },
 		{ label: 'item2', value: 'item2', disabled: false },
 		{ label: 'item3', value: 'item3', disabled: false },
 	];
-	const [selectedValue, setSelectedValue] = useState<string | number>('item3');
 
 	const handleRadioChange = (model: string | number) => {
 		setSelectedValue(model);
 	};
 
-	const [tabValue, setTabValue] = useState<string>('tab1');
-
-	function handleTabChange(val: string) {
+	const handleTabChange = (val: string) => {
 		console.log(val);
 		setTabValue(val);
-	}
+	};
 
 	const chipItems = [
 		{ label: 'item1', value: true },
@@ -41,11 +44,10 @@ function App() {
 		{ label: 'item3', value: true },
 		{ label: 'item4', value: true },
 	];
-
-	const [inputValue, setInputValue] = useState<string>('aaa');
-	function handleInput(val: string) {
+  
+	const handleInput = (val: string) => {
 		setInputValue(val);
-	}
+	};
 
 	return (
 		<>
@@ -97,7 +99,7 @@ function App() {
 								{ label: 'tab3', value: 'tab3' },
 								{ label: 'tab4', value: 'tab4' },
 							]}
-							model={tabValue}
+							value={tabValue}
 							onChange={handleTabChange}
 						>
 							<STabPanel value='tab1'>
@@ -122,7 +124,7 @@ function App() {
 								{ label: 'tab4', value: 'tab4' },
 							]}
 							size='sm'
-							model={tabValue}
+							value={tabValue}
 							onChange={handleTabChange}
 						>
 							<STabPanel value='tab1'>
@@ -141,28 +143,26 @@ function App() {
 					</div>
 				</div>
 
-				<div className='flex flex-col gap-12pxr p-16pxr'>
+				<div className='p-12'>
 					<div className='font-bold'>chip</div>
+					<SChip value={true}>chip</SChip>
+					<SChip
+						value={true}
+						rounded
+					>
+						rounded chip
+					</SChip>
 
-					<div className='flex flex-nowrap gap-8pxr'>
-						<SChip value={true}>chip</SChip>
-						<SChip
-							value={true}
-							rounded
-						>
-							rounded chip
-						</SChip>
+					{inputValue}
+					<SChip
+						value={true}
+						removable
+						useInput
+						inputValue={inputValue}
+						onInput={handleInput}
+					/>
 
-						<SChip
-							value={true}
-							removable
-							useInput
-							inputValue={inputValue}
-							onInput={handleInput}
-						/>
-					</div>
-
-					<div className='flex flex-nowrap gap-8pxr'>
+					<div className='flex flex-nowrap gap-12pxr'>
 						{chipItems.map((item) => (
 							<SChip
 								key={item.label}
@@ -188,7 +188,7 @@ function App() {
 								label={item.label}
 								value={item.value}
 								disabled={item.disabled}
-								model={selectedValue}
+								checked={selectedValue}
 								className='mx-2 my-1'
 								onChange={handleRadioChange}
 							/>
@@ -358,7 +358,6 @@ function App() {
 						/>
 					</div>
 				</div>
-
 				<div className='flex flex-col gap-12pxr p-16pxr'>
 					<div>
 						<b>Tag</b>
@@ -401,6 +400,44 @@ function App() {
 							color='indigo'
 							size='sm'
 							textClass='font-bold'
+						/>
+					</div>
+				</div>
+				<div className='flex flex-col gap-12pxr p-16pxr'>
+					<div>
+						<b>Toggle</b>
+					</div>
+					<div className='inline-flex items-center gap-8pxr'>
+						<SToggle
+							value={toggle}
+							onChange={setToggle}
+							disable
+						/>
+						<SToggle
+							type='button'
+							buttonLabel='toggle'
+							value={toggle}
+							onChange={setToggle}
+							disable
+						/>
+					</div>
+				</div>
+				<div className='flex flex-col gap-12pxr p-16pxr'>
+					<div>
+						<b>Caution</b>
+					</div>
+					<div className='inline-flex items-center gap-8pxr'>
+						<SCaution
+							messages={[
+								'Pizza ipsum dolor meat lovers buffalo.',
+								'Platter pork NY pizza pizza steak beef dolor sautéed fresh.',
+								'Extra Philly green platter red pork ipsum broccoli bbq Chicago.',
+								'Party ham and string pepperoni pineapple broccoli extra.',
+								'Pork tomato chicken bacon ham anchovies.',
+								'Bacon mouth personal pineapple pork extra.',
+								'Pineapple fresh pie bbq fresh pizza pizza meat.',
+								'Style Hawaiian ricotta spinach burnt ham wing green mayo.',
+							]}
 						/>
 					</div>
 				</div>

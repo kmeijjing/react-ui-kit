@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react';
+import colors from '../css/colors.ts';
 
 type Child = ReactElement;
 
@@ -6,8 +7,8 @@ export interface Tab {
 	label: string;
 	value: string;
 	badge?: string;
-	badgeColor?: string;
-	badgeTextColor?: string;
+	badgeColor?: keyof typeof colors;
+	badgeTextColor?: keyof typeof colors;
 	link?: string;
 	disabled?: boolean;
 	tabClassName?: string;
@@ -15,7 +16,7 @@ export interface Tab {
 
 export interface STabsProps {
 	tabs: Tab[];
-	model: string;
+	value: string;
 	onChange: (value: string) => void;
 	className?: string;
 	children?: Child[];
@@ -27,7 +28,7 @@ export interface STabsProps {
 
 const STabs = ({
 	tabs,
-	model,
+	value,
 	onChange,
 	className = '',
 	size = 'lg',
@@ -50,7 +51,7 @@ const STabs = ({
 					<a
 						key={tab.value}
 						href={tab.link || '#'}
-						aria-current={model === tab.value ? 'page' : undefined}
+						aria-current={value === tab.value ? 'page' : undefined}
 						onClick={(e) => {
 							e.preventDefault();
 							if (!tab.disabled && !!tab.value) onChange(tab.value);
@@ -58,8 +59,8 @@ const STabs = ({
 						className={[
 							'tab rounded-t-4pxr inline-flex cursor-pointer flex-nowrap items-center border-x border-t ',
 							tabSize[size],
-							model === tab.value
-								? 'border-Blue_C_Default bg-white font-bold text-Blue_C_Default hover:bg-[#ecf1fc]'
+							value === tab.value
+								? 'border-Blue_C_Default bg-white font-bold text-Blue_C_Default hover:bg-Blue_C_Default/[0.08]'
 								: 'border-Grey_Lighten-2 bg-Grey_Lighten-5 text-Grey_Default hover:bg-Grey_Lighten-4',
 						].join(' ')}
 					>
@@ -68,8 +69,8 @@ const STabs = ({
 							<span
 								className={[
 									'badge rounded-4pxr text-10pxr ml-4pxr flex h-20pxr items-center px-5pxr py-1pxr',
-									model === tab.value
-										? `text-[${tab.badgeTextColor}] bg-[${tab.badgeColor}]`
+									value === tab.value
+										? `text-[${tab.badgeTextColor ? colors[tab.badgeTextColor] : colors.white}] bg-[${tab.badgeColor ? colors[tab.badgeColor] : colors.Blue_C_Default}]`
 										: 'bg-Grey_Lighten-4 text-Grey_Darken-1',
 								].join(' ')}
 							>
@@ -80,7 +81,7 @@ const STabs = ({
 				))}
 			</div>
 			<div>
-				{children?.map((child) => (child.props.value === model ? child : null))}
+				{children?.map((child) => (child.props.value === value ? child : null))}
 			</div>
 		</section>
 	);

@@ -4,26 +4,26 @@ export interface RadioProps {
 	label: string;
 	name: string;
 	disabled?: boolean;
-	model: string | number;
+	checked: string | number;
 	value: string | number;
 	className?: string;
-	onChange?: (model: string | number) => void;
+	onChange?: (arg: string | number) => void;
 }
 
 const SRadio = ({
 	label,
 	name,
 	disabled = false,
-	model,
+	checked,
 	value,
 	className = '',
 	onChange,
 }: RadioProps) => {
-	const [internalChecked, setInternalChecked] = useState<string | number>(model);
+	const [internalChecked, setInternalChecked] = useState<string | number>(checked);
 
 	useEffect(() => {
-		setInternalChecked(model);
-	}, [model]);
+		setInternalChecked(checked);
+	}, [checked]);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (disabled) return;
