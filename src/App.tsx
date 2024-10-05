@@ -377,6 +377,7 @@ function App() {
 							value={toggle}
 							onChange={setToggle}
 							disabled
+       label='label'
 						/>
 						<SToggle
 							type='button'
@@ -384,7 +385,8 @@ function App() {
 							value={toggle}
 							onChange={setToggle}
 							disabled
-						/>
+       label='label'
+       />
 					</div>
 				</div>
 				<div className='flex flex-col gap-12pxr p-16pxr'>

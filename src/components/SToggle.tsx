@@ -46,7 +46,7 @@ const SToggle = ({
 	};
 
 	return (
-		<div className={['flex items-center', className].join(' ')}>
+		<div className={['flex items-center justify-between', className].join(' ')}>
 			{label && <span className='mr-16pxr'>{label}</span>}
    <input
 				id='s-toggle-switch'
