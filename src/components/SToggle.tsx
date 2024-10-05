@@ -48,6 +48,14 @@ const SToggle = ({
 	return (
 		<div className={['flex items-center', className].join(' ')}>
 			{label && <span className='mr-16pxr'>{label}</span>}
+   <input
+				id='s-toggle-switch'
+				type='checkbox'
+				checked={isToggled}
+				onChange={handleToggle}
+				disabled={disable}
+				className='sr-only' // 화면에 보이지 않지만 스크린 리더가 접근할 수 있게 숨김
+			/>
 			{type === 'switch' ? (
 				<div
 					className={[

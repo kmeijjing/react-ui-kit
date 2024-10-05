@@ -44,7 +44,7 @@ function App() {
 		{ label: 'item3', value: true },
 		{ label: 'item4', value: true },
 	];
-
+  
 	const handleInput = (val: string) => {
 		setInputValue(val);
 	};
@@ -52,6 +52,41 @@ function App() {
 	return (
 		<>
 			<main>
+				<div className='flex flex-col gap-12pxr p-16pxr'>
+					<div>
+						<b>Toggle</b>
+					</div>
+					<div className='flex flex-col gap-8pxr'>
+						<SToggle
+							value={checked}
+							onChange={(val) => setChecked(val)}
+						/>
+						<SToggle
+							value={checked}
+							disabled
+						/>
+						<SToggle
+							value={checked}
+							label='label'
+							onChange={(val) => setChecked(val)}
+						/>
+						<SToggle
+							type='button'
+							value={checked}
+						>
+							사용중
+						</SToggle>
+						<SToggle
+							type='button'
+							label='disabled'
+							value={checked}
+							disabled
+						>
+							사용중
+						</SToggle>
+					</div>
+				</div>
+
 				<div className='flex flex-col gap-12pxr p-16pxr'>
 					<div>
 						<b>Tabs</b>
