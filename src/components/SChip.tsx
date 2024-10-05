@@ -84,7 +84,7 @@ const SChip = ({
 				>
 					{useInput ? (
 						<span
-							className='chip-input outline-none'
+							className='outline-none chip-input'
 							ref={chipRef}
 							role='textbox'
 							contentEditable
@@ -100,7 +100,7 @@ const SChip = ({
 
 					{removable && (
 						<Close12
-							className='close-btn ml-4pxr cursor-pointer text-Grey_Default'
+							className='cursor-pointer close-btn ml-4pxr text-Grey_Default'
 							data-testid='close-btn'
 							onClick={handleRemove}
 						/>
