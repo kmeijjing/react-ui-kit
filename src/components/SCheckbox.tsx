@@ -74,7 +74,6 @@ const SCheckbox = ({
 				newChecked = targetChecked
 					? [...new Set([...checked, value])]
 					: checked.filter((item) => item !== value);
-				console.log('newChecked : ', newChecked);
 			} else {
 				newChecked = targetChecked ? [value] : [];
 			}

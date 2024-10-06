@@ -42,11 +42,11 @@ const DropdownOptions = ({
 	return (
 		<ul
 			id={`s-dropdown__options--${parentId}`}
-			className='s-dropdown__options rounded-2pxr shadow-dropdownOptions bg-white'
+			className='bg-white s-dropdown__options rounded-2pxr shadow-dropdownOptions'
 			style={{
 				position: 'absolute',
-				top: position.top + position.height + 4,
-				left: position.left,
+				top: position.top + position.height + 4 + window.scrollY,
+				left: position.left + window.scrollX,
 				width: position.width,
 			}}
 		>

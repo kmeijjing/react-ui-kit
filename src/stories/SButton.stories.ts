@@ -40,7 +40,7 @@ export const Outline: Story = {
  },
 };
 
-const icon = 'M1.86664 8H14.1333@@stroke: currentColor; stroke-linecap: round;&&M8 1.8667L8 14.1334@@stroke: currentColor; stroke-linecap: round;|0 0 16 16'
+const icon = 'M1.86664 8H14.1333@@stroke: currentColor; strokeLinecap: round;&&M8 1.8667L8 14.1334@@stroke: currentColor; strokeLinecap: round;|0 0 16 16'
 
 export const Icon: Story = {
  args: {
