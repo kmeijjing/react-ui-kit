@@ -48,6 +48,8 @@ function App() {
 		setInputValue(val);
 	}
 
+	const [showTooltip, setShowTooltip] = useState<boolean>(false);
+
 	return (
 		<>
 			<main>
@@ -76,7 +78,7 @@ function App() {
 						<STooltip
 							label='bottom Tooltip'
 							color='info'
-							outline
+							buttonOptions={{ outline: true }}
 						>
 							<div>bottom</div>
 						</STooltip>
@@ -103,7 +105,7 @@ function App() {
 							icon='HelpOutline_24'
 							label='left Tooltip'
 							color='warning'
-							outline
+							buttonOptions={{ outline: true }}
 						>
 							<div>이것은 왼쪽 툴팁입니다.</div>
 							<div>이것은 왼쪽 툴팁입니다.</div>
@@ -117,54 +119,68 @@ function App() {
 						<STooltip
 							usePopover
 							label='usePopover'
-							title='title'
-							footer={
-								<div className='flex items-center justify-between'>
-									<SButton
-										color='Blue_B_Darken-2'
-										label='button'
-										className='!px-0'
-									/>{' '}
-									<SButton
-										color='positive'
-										label='Main Button'
-									/>
-								</div>
-							}
 							tooltipClassName='max-w-230pxr'
 						>
-							<div>
+							<STooltip.Body>
 								Popovers allow you to provide users with more information in a composite
 								way.
-							</div>
+							</STooltip.Body>
+							<STooltip.Footer className='flex items-center justify-between'>
+								<SButton
+									color='Blue_B_Darken-2'
+									label='button'
+									className='!px-0'
+								/>{' '}
+								<SButton
+									color='positive'
+									label='Main Button'
+								/>
+							</STooltip.Footer>
 						</STooltip>
 
 						<STooltip
 							usePopover
 							icon='HelpOutline_24'
-							label='click trigger'
-							title='title'
-							trigger='click'
-							footer={
-								<div className='flex items-center justify-between'>
-									<SButton
-										color='Blue_B_Darken-2'
-										label='button'
-										className='!px-0'
-									/>{' '}
-									<SButton
-										color='positive'
-										label='Main Button'
-									/>
-								</div>
-							}
+							label='click trigger@@'
+							placement='right'
 							tooltipClassName='max-w-230pxr'
 						>
-							<div>
+							<STooltip.Title>sss</STooltip.Title>
+							<STooltip.Body>
 								Popovers allow you to provide users with more information in a composite
 								way.
-							</div>
+							</STooltip.Body>
+							<STooltip.Footer className='flex items-center justify-between'>
+								<SButton
+									color='Blue_B_Darken-2'
+									label='button'
+									className='!px-0'
+								/>{' '}
+								<SButton
+									color='positive'
+									label='Main Button'
+								/>
+							</STooltip.Footer>
 						</STooltip>
+
+						<div className='inline-flex items-center'>
+							<SButton
+								label='show hide tooltip'
+								onClick={() => setShowTooltip(!showTooltip)}
+							/>
+
+							<STooltip
+								usePopover
+								label='tooltip'
+								placement='right'
+								value={showTooltip}
+							>
+								<div>
+									이것은 아래쪽 툴팁입니다. 이것은 아래쪽 툴팁입니다. 이것은 아래쪽
+									툴팁입니다.이것은 아래쪽 툴팁입니다.
+								</div>
+							</STooltip>
+						</div>
 					</div>
 				</div>
 
@@ -271,7 +287,7 @@ function App() {
 								label={item.label}
 								value={item.value}
 								disabled={item.disabled}
-								model={selectedValue}
+								checked={selectedValue}
 								className='mx-2 my-1'
 								onChange={handleRadioChange}
 							/>

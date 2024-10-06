@@ -1,7 +1,7 @@
 import { icons } from '../assets/icons';
 import colors from '../css/colors';
 
-interface IconProps {
+export interface IconProps {
 	name: string; // 'HelpOutline_16'과 같은 형식
 	color?: keyof typeof colors;
 	className?: string;

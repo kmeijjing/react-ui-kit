@@ -6,40 +6,33 @@ import colors from '../css/colors.ts';
 import Tooltip_Arrow from '../assets/Tooltip_Arrow.svg';
 
 export interface STooltipProps {
+	value?: boolean;
 	usePopover?: boolean;
 	children: ReactNode;
 	icon?: string;
 	label?: string;
 	color?: keyof typeof colors;
-	outline?: boolean;
 	buttonOptions?: SButtonProps;
 	className?: string;
 	placement?: 'top' | 'bottom' | 'left' | 'right';
-	trigger?: 'click' | 'hover';
 	delay?: number;
 	tooltipClassName?: string;
 	offset?: [number, number];
-	title?: string;
-	footer?: ReactNode;
 }
 
 const STooltip = ({
+	value,
 	usePopover = false,
 	children,
 	icon,
 	label,
 	color,
 	buttonOptions,
-	outline = false,
 	className = '',
 	placement = 'bottom',
-	trigger = 'hover',
 	delay = 0,
 	tooltipClassName,
 	offset = [0, 0],
-	title,
-	footer,
-	...props
 }: STooltipProps) => {
 	const [showTooltip, setShowTooltip] = useState(false);
 	const [tooltipClass, setTooltipClass] = useState('');
@@ -48,74 +41,59 @@ const STooltip = ({
 	const buttonElement = useRef<HTMLDivElement | null>(null);
 	// 툴팁 위치 설정
 	const setTooltipPosition = () => {
-		if (buttonElement.current && tooltipElement.current) {
-			const tooltipRect = tooltipElement.current.getBoundingClientRect();
-			const referenceRect = buttonElement.current.getBoundingClientRect();
+		if (!buttonElement.current || !tooltipElement.current) return;
 
-			let top = 0,
-				left = 0;
+		const tooltipRect = tooltipElement.current.getBoundingClientRect();
+		const referenceRect = buttonElement.current.getBoundingClientRect();
 
-			switch (placement) {
-				case 'top':
-					top = referenceRect.top - tooltipRect.height - 16 + offset[1];
-					left =
-						referenceRect.left +
-						referenceRect.width / 2 -
-						tooltipRect.width / 2 +
-						offset[0];
-					break;
-				case 'bottom':
-					top = referenceRect.bottom + 16 + offset[1];
-					left =
-						referenceRect.left +
-						referenceRect.width / 2 -
-						tooltipRect.width / 2 +
-						offset[0];
-					break;
-				case 'left':
-					top =
-						referenceRect.top +
-						referenceRect.height / 2 -
-						tooltipRect.height / 2 +
-						offset[1];
-					left = referenceRect.left - tooltipRect.width - 14 + offset[0];
-					break;
-				case 'right':
-					top =
-						referenceRect.top +
-						referenceRect.height / 2 -
-						tooltipRect.height / 2 +
-						offset[1];
-					left = referenceRect.right + 14 + offset[0];
-					break;
-			}
+		const positions = {
+			top: {
+				top: referenceRect.top - tooltipRect.height - 16 + offset[1],
+				left:
+					referenceRect.left +
+					referenceRect.width / 2 -
+					tooltipRect.width / 2 +
+					offset[0],
+			},
+			bottom: {
+				top: referenceRect.bottom + 16 + offset[1],
+				left:
+					referenceRect.left +
+					referenceRect.width / 2 -
+					tooltipRect.width / 2 +
+					offset[0],
+			},
+			left: {
+				top:
+					referenceRect.top +
+					referenceRect.height / 2 -
+					tooltipRect.height / 2 +
+					offset[1],
+				left: referenceRect.left - tooltipRect.width - 14 + offset[0],
+			},
+			right: {
+				top:
+					referenceRect.top +
+					referenceRect.height / 2 -
+					tooltipRect.height / 2 +
+					offset[1],
+				left: referenceRect.right + 14 + offset[0],
+			},
+		};
 
-			setTooltipClass(`translate-y-0`);
+		const { top, left } = positions[placement];
 
-			setTooltipStyles({
-				top: `${(top + window.scrollY) / 12}rem`,
-				left: `${(left + window.scrollX) / 12}rem`,
-			});
-		}
+		setTooltipStyles({
+			top: `${(top + window.scrollY) / 12}rem`,
+			left: `${(left + window.scrollX) / 12}rem`,
+		});
+		setTooltipClass(`translate-y-0`);
 	};
 
-	const handleMouseEnter = () => {
-		if (trigger === 'hover') {
-			setTimeout(() => setShowTooltip(true), delay);
-		}
-	};
-
-	const handleMouseLeave = () => {
-		if (trigger === 'hover' && !usePopover) {
-			setShowTooltip(false);
-		}
-	};
-
-	const handleClick = () => {
-		if (trigger === 'click') {
-			setShowTooltip(!showTooltip);
-		}
-	};
+	const handleMouseEnter = () =>
+		!usePopover && setTimeout(() => setShowTooltip(true), delay);
+	const handleMouseLeave = () => !usePopover && setShowTooltip(false);
+	const handleClick = () => usePopover && setShowTooltip(!showTooltip);
 
 	const arrowClass = {
 		top: ' left-1/2 -translate-x-1/2 -bottom-12pxr',
@@ -132,6 +110,16 @@ const STooltip = ({
 		}
 	}, [showTooltip]);
 
+	useEffect(() => {
+		if (value) {
+			setShowTooltip(true);
+			setTimeout(() => setTooltipPosition(), 0);
+		}
+		if (!value) {
+			setShowTooltip(false);
+		}
+	}, [value]);
+
 	return (
 		<div
 			className={[
@@ -146,7 +134,7 @@ const STooltip = ({
 				onMouseLeave={handleMouseLeave}
 				onClick={handleClick}
 			>
-				{!label && icon ? (
+				{icon && !label ? (
 					<Icon
 						name={icon}
 						color={color}
@@ -156,7 +144,6 @@ const STooltip = ({
 						icon={icon}
 						label={label}
 						color={color}
-						outline={outline}
 						{...buttonOptions}
 					></SButton>
 				)}
@@ -167,7 +154,7 @@ const STooltip = ({
 					<div
 						ref={tooltipElement}
 						className={[
-							's-tooltip__content pointer-events-none absolute z-50 box-border rounded-4pxr bg-Blue_B_Darken-2 leading-20pxr text-white transition-transform',
+							's-tooltip__content pointer-events-none absolute z-50 box-border rounded-4pxr bg-Blue_B_Darken-2 leading-20pxr text-white shadow-tooltip transition-transform',
 							!usePopover && 'px-20pxr py-8pxr',
 							usePopover && 'px-16pxr py-10pxr',
 							tooltipClass,
@@ -178,16 +165,12 @@ const STooltip = ({
 						{usePopover && (
 							<SButton
 								icon='Close_12'
+								data-testid='close-btn'
 								color='Blue_B_Darken-2'
-								className='pointer-events-auto absolute right-6pxr top-8pxr p-0'
+								className='close-btn pointer-events-auto absolute right-0 top-4pxr'
 								onClick={() => setShowTooltip(false)}
 							/>
 						)}
-						{title && <div className='mb-3pxr font-bold'>{title}</div>}
-
-						<div className='font-medium'>{children}</div>
-
-						{footer && <div className='pointer-events-auto mt-9pxr'>{footer}</div>}
 
 						<img
 							src={Tooltip_Arrow}
@@ -196,6 +179,8 @@ const STooltip = ({
 								arrowClass[placement],
 							].join(' ')}
 						/>
+
+						{children}
 					</div>
 				),
 				document.body
@@ -203,5 +188,24 @@ const STooltip = ({
 		</div>
 	);
 };
+
+interface TooltipSectionProps {
+	children: ReactNode;
+	className?: string;
+}
+
+STooltip.Title = ({ children, className }: TooltipSectionProps) => (
+	<div className={['mb-3pxr font-bold', className].join(' ')}>{children}</div>
+);
+
+STooltip.Body = ({ children, className }: TooltipSectionProps) => (
+	<div className={['font-medium', className].join(' ')}>{children}</div>
+);
+
+STooltip.Footer = ({ children, className }: TooltipSectionProps) => (
+	<div className={['pointer-events-auto mt-9pxr', className].join(' ')}>
+		{children}
+	</div>
+);
 
 export default STooltip;

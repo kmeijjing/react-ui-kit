@@ -4,6 +4,7 @@ import { Check12 } from './CheckIcon';
 import { Close12 } from './CloseIcon';
 import { HelpOutline16, HelpOutline24 } from './HelpOutlineIcon';
 import { Minus8, Minus12 } from './MinusIcon';
+import { NotificationOutline24 } from './NotificationOulineIcon';
 import { Setting24 } from './SettingIcon';
 
 export const icons: Record<
@@ -26,6 +27,9 @@ export const icons: Record<
 	Minus: {
 		8: Minus8,
 		12: Minus12,
+	},
+	NotificationOutline: {
+		24: NotificationOutline24,
 	},
 	Setting: {
 		24: Setting24,
