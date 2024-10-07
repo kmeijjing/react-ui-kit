@@ -1,5 +1,5 @@
 import colors from '../css/colors.ts';
-import Svg from './Svg.tsx';
+import Icon from './Icon.tsx';
 export interface SButtonProps {
 	/**
 	 * Button size
@@ -39,7 +39,7 @@ export interface SButtonProps {
 	 * Button icon
 	 * @description Icon type should be just svg file path.
 	 * @example "<svg width='24' height='24'..." // Icon type string is such as
-	 * @example './assets/icons/icon.svg' // and other type is such as
+	 * @example 'Setting_24' // and other type is such as
 	 */
 	icon?: string | JSX.Element;
 	/**
@@ -53,7 +53,7 @@ const SButton = ({
 	size = 'sm',
 	color = 'Blue_B_Default',
 	outline = false,
-	icon: Icon,
+	icon,
 	disabled = false,
 	noHover = false,
 	className = '',
@@ -91,7 +91,7 @@ const SButton = ({
 		: '';
 
 	const finalClassName = [
-		's-button rounded-4pxr inline-flex flex-nowrap min-w-24pxr items-center relative whitespace-nowrap',
+		's-button rounded-4pxr inline-flex flex-nowrap min-w-24pxr items-center justify-center whitespace-nowrap',
 		sizeClasses[size],
 		colorClass,
 		disabled ? disabledClass : hoverEffect,
@@ -106,23 +106,18 @@ const SButton = ({
 			disabled={disabled}
 			{...props}
 		>
-			{Icon &&
-				(typeof Icon === 'string' ? (
-					!Icon.includes('.svg') ? (
-						<Svg
-							svgString={Icon}
-							className={iconClass}
+			<div className='inline-flex items-center'>
+				{icon &&
+					(typeof icon === 'string' ? (
+						<Icon
+							name={icon}
+							className={`icon ${iconClass}`}
 						/>
 					) : (
-						<img
-							className={iconClass}
-							src={Icon}
-						/>
-					)
-				) : (
-					<Icon.type className={`icon ${iconClass}`} />
-				))}
-			{label}
+						<icon.type className={`icon ${iconClass}`} />
+					))}
+				{label}
+			</div>
 		</button>
 	);
 };

@@ -46,6 +46,7 @@ const config: Config = {
 			},
 			boxShadow: {
 				dropdownOptions: '2px 2px 12px 2px #0000001A;',
+				tooltip: '2px 2px 8px 2px #00000033;',
 			},
 			colors: colors,
 			spacing: sizes,
