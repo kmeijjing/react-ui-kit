@@ -5,6 +5,7 @@ export interface IconProps {
 	name: string; // 'HelpOutline_16'과 같은 형식
 	color?: keyof typeof colors;
 	className?: string;
+	onClick?: () => void;
 }
 
 const Icon = ({ name, color, className }: IconProps) => {

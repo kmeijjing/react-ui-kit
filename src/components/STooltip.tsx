@@ -1,4 +1,11 @@
-import { useState, useRef, useEffect, ReactNode } from 'react';
+import {
+	useState,
+	useRef,
+	useEffect,
+	ReactNode,
+	Children,
+	isValidElement,
+} from 'react';
 import { createPortal } from 'react-dom';
 import SButton, { type SButtonProps } from './SButton';
 import Icon from './Icon';
@@ -6,8 +13,10 @@ import colors from '../css/colors.ts';
 import Tooltip_Arrow from '../assets/Tooltip_Arrow.svg';
 
 export interface STooltipProps {
+	trigger?: 'hover' | 'click';
 	value?: boolean;
 	usePopover?: boolean;
+	useClose?: boolean;
 	children: ReactNode;
 	icon?: string;
 	label?: string;
@@ -15,14 +24,15 @@ export interface STooltipProps {
 	buttonOptions?: SButtonProps;
 	className?: string;
 	placement?: 'top' | 'bottom' | 'left' | 'right';
-	delay?: number;
 	tooltipClassName?: string;
 	offset?: [number, number];
 }
 
 const STooltip = ({
+	trigger = 'hover',
 	value,
 	usePopover = false,
+	useClose = false,
 	children,
 	icon,
 	label,
@@ -30,8 +40,7 @@ const STooltip = ({
 	buttonOptions,
 	className = '',
 	placement = 'bottom',
-	delay = 0,
-	tooltipClassName,
+	tooltipClassName = '',
 	offset = [0, 0],
 }: STooltipProps) => {
 	const [showTooltip, setShowTooltip] = useState(false);
@@ -39,6 +48,7 @@ const STooltip = ({
 	const [tooltipStyles, setTooltipStyles] = useState({});
 	const tooltipElement = useRef<HTMLDivElement | null>(null);
 	const buttonElement = useRef<HTMLDivElement | null>(null);
+
 	// 툴팁 위치 설정
 	const setTooltipPosition = () => {
 		if (!buttonElement.current || !tooltipElement.current) return;
@@ -83,24 +93,16 @@ const STooltip = ({
 
 		const { top, left } = positions[placement];
 
+		setTooltipClass(`translate-y-0`);
 		setTooltipStyles({
 			top: `${(top + window.scrollY) / 12}rem`,
 			left: `${(left + window.scrollX) / 12}rem`,
 		});
-		setTooltipClass(`translate-y-0`);
 	};
 
-	const handleMouseEnter = () =>
-		!usePopover && setTimeout(() => setShowTooltip(true), delay);
-	const handleMouseLeave = () => !usePopover && setShowTooltip(false);
-	const handleClick = () => usePopover && setShowTooltip(!showTooltip);
-
-	const arrowClass = {
-		top: ' left-1/2 -translate-x-1/2 -bottom-12pxr',
-		bottom: 'rotate-180 left-1/2 -translate-x-1/2 -top-12pxr',
-		left: '-rotate-90 top-1/2 -translate-y-1/2 -right-12pxr',
-		right: 'rotate-90 top-1/2 -translate-y-1/2 -left-12pxr',
-	};
+	const handleMouseEnter = () => trigger === 'hover' && setShowTooltip(true);
+	const handleMouseLeave = () => trigger === 'hover' && setShowTooltip(false);
+	const handleClick = () => trigger === 'click' && setShowTooltip(!showTooltip);
 
 	useEffect(() => {
 		if (showTooltip) {
@@ -117,8 +119,40 @@ const STooltip = ({
 		}
 		if (!value) {
 			setShowTooltip(false);
+			setTooltipClass('-translate-y-10pxr');
 		}
 	}, [value]);
+
+	const ARROW_CLASS = {
+		top: ' left-1/2 -translate-x-1/2 -bottom-12pxr',
+		bottom: 'rotate-180 left-1/2 -translate-x-1/2 -top-12pxr',
+		left: '-rotate-90 top-1/2 -translate-y-1/2 -right-12pxr',
+		right: 'rotate-90 top-1/2 -translate-y-1/2 -left-12pxr',
+	};
+
+	const sections = {
+		Title: null as ReactNode,
+		Body: null as ReactNode,
+		Footer: null as ReactNode,
+	};
+
+	Children.forEach(children, (child) => {
+		if (isValidElement(child)) {
+			switch (child.type) {
+				case STooltip.Title:
+					sections.Title = child;
+					break;
+				case STooltip.Body:
+					sections.Body = child;
+					break;
+				case STooltip.Footer:
+					sections.Footer = child;
+					break;
+				default:
+					break;
+			}
+		}
+	});
 
 	return (
 		<div
@@ -145,7 +179,7 @@ const STooltip = ({
 						label={label}
 						color={color}
 						{...buttonOptions}
-					></SButton>
+					/>
 				)}
 			</div>
 
@@ -154,33 +188,41 @@ const STooltip = ({
 					<div
 						ref={tooltipElement}
 						className={[
-							's-tooltip__content pointer-events-none absolute z-50 box-border rounded-4pxr bg-Blue_B_Darken-2 leading-20pxr text-white shadow-tooltip transition-transform',
-							!usePopover && 'px-20pxr py-8pxr',
-							usePopover && 'px-16pxr py-10pxr',
+							's-tooltip__content absolute z-50 box-border rounded-4pxr bg-Blue_B_Darken-2 leading-20pxr text-white shadow-tooltip transition-transform',
+							!usePopover ? 'px-20pxr py-8pxr' : 'px-16pxr py-10pxr',
+							!usePopover && useClose ? 'pr-36pxr' : '',
 							tooltipClass,
 							tooltipClassName,
 						].join(' ')}
 						style={tooltipStyles}
 					>
-						{usePopover && (
-							<SButton
-								icon='Close_12'
-								data-testid='close-btn'
-								color='Blue_B_Darken-2'
-								className='close-btn pointer-events-auto absolute right-0 top-4pxr'
-								onClick={() => setShowTooltip(false)}
-							/>
-						)}
-
 						<img
 							src={Tooltip_Arrow}
 							className={[
 								's-tooltip__arrow absolute z-40',
-								arrowClass[placement],
+								ARROW_CLASS[placement],
 							].join(' ')}
 						/>
 
-						{children}
+						{useClose && (
+							<div
+								data-testid='close-btn'
+								className={[
+									'bsolute absolute right-0 top-0 cursor-pointer p-12pxr',
+								].join(' ')}
+								onClick={() => setShowTooltip(false)}
+							>
+								<Icon
+									name='Close_12'
+									color='Blue_B_Darken-2'
+								/>
+							</div>
+						)}
+
+						{/* Render Title, Body, Footer in correct order */}
+						{sections.Title}
+						{sections.Body}
+						{sections.Footer}
 					</div>
 				),
 				document.body
@@ -203,9 +245,7 @@ STooltip.Body = ({ children, className }: TooltipSectionProps) => (
 );
 
 STooltip.Footer = ({ children, className }: TooltipSectionProps) => (
-	<div className={['pointer-events-auto mt-9pxr', className].join(' ')}>
-		{children}
-	</div>
+	<div className={['mt-9pxr', className].join(' ')}>{children}</div>
 );
 
 export default STooltip;

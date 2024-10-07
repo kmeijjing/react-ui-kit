@@ -10,9 +10,6 @@ const meta = {
 		layout: 'centered',
 	},
 	tags: ['autodocs'],
-	args: {
-		children: 'tooltip content',
-	},
 } satisfies Meta<typeof STooltip>;
 
 export default meta;
@@ -25,9 +22,11 @@ export const BottomTooltip: Story = {
 	},
 	render: (args) => (
 		<STooltip {...args}>
-			<div>이것은 아래 툴팁입니다.</div>
-			<div>이것은 아래 툴팁입니다.</div>
-			<div>이것은 아래 툴팁입니다.</div>
+			<STooltip.Body>
+				<div>이것은 아래 툴팁입니다.</div>
+				<div>이것은 아래 툴팁입니다.</div>
+				<div>이것은 아래 툴팁입니다.</div>
+			</STooltip.Body>
 		</STooltip>
 	),
 };
@@ -40,9 +39,11 @@ export const TopTooltip: Story = {
 	},
 	render: (args) => (
 		<STooltip {...args}>
-			<div>이것은 위쪽 툴팁입니다.</div>
-			<div>이것은 위쪽 툴팁입니다.</div>
-			<div>이것은 위쪽 툴팁입니다.</div>
+			<STooltip.Body>
+				<div>이것은 위쪽 툴팁입니다.</div>
+				<div>이것은 위쪽 툴팁입니다.</div>
+				<div>이것은 위쪽 툴팁입니다.</div>
+			</STooltip.Body>
 		</STooltip>
 	),
 };
@@ -58,9 +59,11 @@ export const LeftTooltip: Story = {
 	},
 	render: (args) => (
 		<STooltip {...args}>
-			<div>이것은 왼쪽 툴팁입니다.</div>
-			<div>이것은 왼쪽 툴팁입니다.</div>
-			<div>이것은 왼쪽 툴팁입니다.</div>
+			<STooltip.Body>
+				<div>이것은 왼쪽 툴팁입니다.</div>
+				<div>이것은 왼쪽 툴팁입니다.</div>
+				<div>이것은 왼쪽 툴팁입니다.</div>
+			</STooltip.Body>
 		</STooltip>
 	),
 };
@@ -73,25 +76,27 @@ export const RightTooltip: Story = {
 	},
 	render: (args) => (
 		<STooltip {...args}>
-			<div>이것은 오른쪽 툴팁입니다.</div>
-			<div>이것은 오른쪽 툴팁입니다.</div>
-			<div>이것은 오른쪽 툴팁입니다.</div>
+			<STooltip.Body>
+				<div>이것은 오른쪽 툴팁입니다.</div>
+				<div>이것은 오른쪽 툴팁입니다.</div>
+				<div>이것은 오른쪽 툴팁입니다.</div>
+			</STooltip.Body>
 		</STooltip>
 	),
 };
 
-export const PopoverTooltip: Story = {
+export const useCloseTooltip: Story = {
 	args: {
+		trigger: 'click',
 		label: 'Click me!',
 		buttonOptions: {
 			outline: true,
 		},
 		color: 'secondary',
-		usePopover: true,
+		useClose: true,
 	},
 	render: (args) => (
 		<STooltip {...args}>
-			<STooltip.Title>title</STooltip.Title>
 			<STooltip.Body>
 				<div>이것은 아래쪽 툴팁입니다.</div>
 				<div>이것은 아래쪽 툴팁입니다.</div>
@@ -101,8 +106,9 @@ export const PopoverTooltip: Story = {
 	),
 };
 
-export const PopoverButtonTooltip: Story = {
+export const ClickPopover: Story = {
 	args: {
+		trigger: 'click',
 		label: 'Click me!',
 		buttonOptions: {
 			outline: true,
@@ -110,11 +116,12 @@ export const PopoverButtonTooltip: Story = {
 		color: 'secondary',
 		placement: 'right',
 		usePopover: true,
+		useClose: true,
+		tooltipClassName: 'max-w-200pxr',
 	},
 	render: (args) => (
 		<STooltip {...args}>
 			<STooltip.Title>title</STooltip.Title>
-
 			<STooltip.Body>
 				이것은 아래쪽 툴팁입니다. 이것은 아래쪽 툴팁입니다. 이것은 아래쪽
 				툴팁입니다.이것은 아래쪽 툴팁입니다.
@@ -136,6 +143,8 @@ export const ValueTooltip: Story = {
 		placement: 'right',
 		usePopover: true,
 		value: false,
+		useClose: true,
+		tooltipClassName: 'max-w-200pxr',
 	},
 	render: (args: STooltipProps) => {
 		const [showTooltip, setShowTooltip] = useState(args.value);

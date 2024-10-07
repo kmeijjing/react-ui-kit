@@ -64,61 +64,74 @@ function App() {
 						<STooltip
 							placement='top'
 							icon='HelpOutline_24'
-							className='text-primary'
+							className='text-info'
 						>
-							<div>이것은 위쪽 툴팁입니다.</div>
-							<div>이것은 위쪽 툴팁입니다.</div>
-							<div>이것은 위쪽 툴팁입니다.</div>
-							<div>이것은 위쪽 툴팁입니다.</div>
+							<STooltip.Body>
+								<div>이것은 위쪽 툴팁입니다.</div>
+								<div>이것은 위쪽 툴팁입니다.</div>
+								<div>이것은 위쪽 툴팁입니다.</div>
+								<div>이것은 위쪽 툴팁입니다.</div>
+							</STooltip.Body>
 						</STooltip>
 						<STooltip
 							placement='top'
 							label='top Tooltip'
 						>
-							<div>이것은 위쪽 툴팁입니다.</div>
+							<STooltip.Body>
+								<div>이것은 위쪽 툴팁입니다.</div>
+							</STooltip.Body>
 						</STooltip>
 						<STooltip
 							label='bottom Tooltip'
 							color='info'
 							buttonOptions={{ outline: true }}
 						>
-							<div>bottom</div>
+							<STooltip.Body>bottom</STooltip.Body>
 						</STooltip>
 						<STooltip
 							placement='right'
 							label='right Tooltip'
 						>
-							<div>이것은 오른쪽 툴팁입니다.</div>
-							<div>이것은 오른쪽 툴팁입니다.</div>
-							<div>이것은 오른쪽 툴팁입니다.</div>
-							<div>이것은 오른쪽 툴팁입니다.</div>
-							<div>이것은 오른쪽 툴팁입니다.</div>
+							<STooltip.Body>
+								<div>이것은 오른쪽 툴팁입니다.</div>
+								<div>이것은 오른쪽 툴팁입니다.</div>
+								<div>이것은 오른쪽 툴팁입니다.</div>
+								<div>이것은 오른쪽 툴팁입니다.</div>
+								<div>이것은 오른쪽 툴팁입니다.</div>
+							</STooltip.Body>
 						</STooltip>
 
 						<STooltip
 							placement='left'
 							label='left Tooltip'
 						>
-							<div>left</div>
+							<STooltip.Body>
+								<div>left</div>
+							</STooltip.Body>
 						</STooltip>
 
 						<STooltip
+							trigger='click'
 							placement='left'
 							icon='HelpOutline_24'
-							label='left Tooltip'
+							label='click left Tooltip'
 							color='warning'
+							useClose
 							buttonOptions={{ outline: true }}
 						>
-							<div>이것은 왼쪽 툴팁입니다.</div>
-							<div>이것은 왼쪽 툴팁입니다.</div>
-							<div>이것은 왼쪽 툴팁입니다.</div>
-							<div>이것은 왼쪽 툴팁입니다.</div>
-							<div>이것은 왼쪽 툴팁입니다.</div>
+							<STooltip.Body>
+								<div>이것은 왼쪽 툴팁입니다.</div>
+								<div>이것은 왼쪽 툴팁입니다.</div>
+								<div>이것은 왼쪽 툴팁입니다.</div>
+								<div>이것은 왼쪽 툴팁입니다.</div>
+								<div>이것은 왼쪽 툴팁입니다.</div>
+							</STooltip.Body>
 						</STooltip>
 					</div>
 
 					<div className='flex items-center justify-center gap-8pxr'>
 						<STooltip
+							trigger='click'
 							usePopover
 							label='usePopover'
 							tooltipClassName='max-w-230pxr'
@@ -141,17 +154,19 @@ function App() {
 						</STooltip>
 
 						<STooltip
+							trigger='click'
 							usePopover
 							icon='HelpOutline_24'
 							label='click trigger@@'
 							placement='right'
+							useClose
 							tooltipClassName='max-w-230pxr'
 						>
-							<STooltip.Title>sss</STooltip.Title>
 							<STooltip.Body>
 								Popovers allow you to provide users with more information in a composite
 								way.
 							</STooltip.Body>
+							<STooltip.Title>sss</STooltip.Title>
 							<STooltip.Footer className='flex items-center justify-between'>
 								<SButton
 									color='Blue_B_Darken-2'
@@ -172,15 +187,16 @@ function App() {
 							/>
 
 							<STooltip
+								trigger='click'
 								usePopover
 								label='tooltip'
 								placement='right'
 								value={showTooltip}
 							>
-								<div>
+								<STooltip.Body>
 									이것은 아래쪽 툴팁입니다. 이것은 아래쪽 툴팁입니다. 이것은 아래쪽
 									툴팁입니다.이것은 아래쪽 툴팁입니다.
-								</div>
+								</STooltip.Body>
 							</STooltip>
 						</div>
 					</div>

@@ -1,6 +1,12 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import STooltip from '../components/STooltip'; // STooltip 컴포넌트의 경로
+
+// Mock for createPortal
+vi.mock('react-dom', () => ({
+	...vi.importActual('react-dom'),
+	createPortal: (node: React.ReactNode) => node,
+}));
 
 describe('STooltip', () => {
 	it('renders the button and tooltip correctly', () => {
@@ -95,6 +101,8 @@ describe('STooltip', () => {
 				label='Tooltip Button'
 				icon='Info'
 				usePopover
+				useClose
+				trigger='click'
 			>
 				<STooltip.Body>Popover Content</STooltip.Body>
 			</STooltip>
@@ -111,9 +119,10 @@ describe('STooltip', () => {
 
 		// 툴팁 내부의 닫기 버튼 클릭
 		const closeButton = screen.getByTestId('close-btn');
-		fireEvent.click(closeButton);
+		expect(closeButton).toBeInTheDocument();
 
 		// 닫기 버튼을 클릭하면 툴팁이 사라지는지 확인
+		fireEvent.click(closeButton);
 		await waitFor(() => expect(tooltip).not.toBeInTheDocument());
 	});
 });
