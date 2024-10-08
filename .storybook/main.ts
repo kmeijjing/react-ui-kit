@@ -13,7 +13,7 @@ const config: StorybookConfig = {
  ],
 
  framework: {
-  name: "@storybook/react-vite",
+  name: '@storybook/react-vite',
   options: {},
  },
 
@@ -33,10 +33,6 @@ const config: StorybookConfig = {
   check: true,
  },
 
- core: {
-  builder: '@storybook/builder-vite',
- },
-
- staticDirs: [{ from: '../src/css/fonts.css', to: '/assets/fonts.css' }],
+ staticDirs: [{ from: '../src/css/fonts.css', to: '/assets/fonts.css' }]
 };
 export default config;

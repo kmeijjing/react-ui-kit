@@ -1,11 +1,16 @@
 import type { Config } from 'tailwindcss';
 import colors from './src/css/colors.ts';
-import sizes from './src/css/sizes.ts';
 
-// const px0_200 = Object.fromEntries(Array.from({ length: 201 }, (_, i) => [i.toString(), `${i}px`]));
-// const px0_2000 = Object.fromEntries(
-// 	Array.from({ length: 2001 }, (_, i) => [i.toString(), `${i}px`])
-// );
+const pxToRem = (px: number, base = 12) => `${px / base}rem`;
+const range = (start: number, end: number): number[] => {
+	return Array.from({ length: end - start + 1 }, (_, index) => start + index);
+};
+const sizes = {
+	...range(1, 2000).reduce<Record<string, string>>((acc, px) => {
+		acc[`${px}pxr`] = pxToRem(px);
+		return acc;
+	}, {}),
+};
 
 /** @type {import('tailwindcss').Config} */
 const config: Config = {
@@ -33,11 +38,6 @@ const config: Config = {
 				pretendard: ['Pretendard'],
 			},
 			borderWidth: sizes,
-			width: sizes,
-			height: sizes,
-			minWidth: sizes,
-			minHeight: sizes,
-			spacing: sizes,
 			fontSize: sizes,
 			lineHeight: sizes,
 			borderRadius: sizes,
@@ -46,8 +46,10 @@ const config: Config = {
 			},
 			boxShadow: {
 				dropdownOptions: '2px 2px 12px 2px #0000001A;',
+				tooltip: '2px 2px 8px 2px #00000033;',
 			},
 			colors: colors,
+			spacing: sizes,
 		},
 	},
 	plugins: [],
