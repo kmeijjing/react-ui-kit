@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import clsx from 'clsx';
-import { Check12 } from '@/assets/icons';
+import { Check12 } from '../assets/icons';
 
 export interface CheckboxProps {
 	label?: string;
@@ -48,18 +47,17 @@ const SCheckbox = ({
 		onChange?.(newChecked);
 	};
 
-	const checkboxClass = clsx(
+	const checkboxClass = [
 		's-checkbox flex items-center',
 		disabled ? '!cursor-not-allowed' : 'cursor-pointer',
-		className
-	);
-
-	const checkmarkClass = clsx(
+		className,
+	].join(' ');
+	const checkmarkClass = [
 		'w-16 h-16 bg-wthie border-1 bw-1 border-Grey_Default rounded-2 transition-all duration-200 mr-8 relative flex justify-center items-center',
 		internalChecked && !disabled && 'bg-positive border-positive text-white',
 		disabled && '!bg-Grey_Lighten-4 !border-Grey_Lighten-2 !text-Grey_Default',
-		!internalChecked && !disabled && 'hover:!bg-Blue_B_Lighten-5 hover:!border-positive'
-	);
+		!internalChecked && !disabled && 'hover:!bg-Blue_B_Lighten-5 hover:!border-positive',
+	].join(' ');
 
 	return (
 		<label className={checkboxClass}>
@@ -70,7 +68,7 @@ const SCheckbox = ({
 				className='hidden'
 				onChange={handleCheckboxChange}
 			/>
-			<span className={clsx(checkmarkClass)}>{internalChecked && <Check12 />}</span>
+			<span className={checkmarkClass}>{internalChecked && <Check12 />}</span>
 			<span className='leading-20'>{label}</span>
 		</label>
 	);
