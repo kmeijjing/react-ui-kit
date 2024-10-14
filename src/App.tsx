@@ -12,13 +12,14 @@ import STag from './components/STag';
 import STooltip from './components/STooltip';
 import SToggle from './components/SToggle';
 import SCaution from './components/SCaution';
+import SInput from './components/SInput';
 
 function App() {
 	const [checked, setChecked] = useState(false);
 	const [toggle, setToggle] = useState(false);
 	const [selectedValue, setSelectedValue] = useState<string | number>('item3');
 	const [tabValue, setTabValue] = useState('tab1');
-	const [inputValue, setInputValue] = useState('aaa');
+	const [inputValue, setInputValue] = useState('');
 
 	const handleClick = () => {
 		setChecked(!checked);
@@ -52,9 +53,47 @@ function App() {
 
 	const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
+
 	return (
 		<>
 			<main>
+			<div className='flex flex-col gap-12pxr p-16pxr'>
+				<div>
+					<b>Input</b>
+				</div>
+				<SInput
+					value={inputValue}
+					placeholder='키워드를 입력해주세요.'
+					onChange={(evt) => setInputValue(evt.target.value)}
+					label='label'
+				/>
+
+				<SInput
+					value={inputValue}
+					placeholder='키워드를 입력해주세요.'
+					onChange={(evt) => setInputValue(evt.target.value)}
+					useInsideLabel
+						label='label'
+			/>
+			
+				<SInput
+						value={inputValue}
+						placeholder='키워드를 입력해주세요.'
+						onChange={(evt) => setInputValue(evt.target.value)}
+						rules={[
+							{
+									message: "키워드를 입력해주세요.",
+									validate: (value) => !!value,
+							},
+							{
+									message: "Must be at least 5 characters",
+									validate: (value) => value.length >= 5,
+							},
+						]}
+						// errorMessage='키워드를 입력해주세요.'
+				/>
+			</div>
+
 				<div className='flex flex-col gap-12pxr p-16pxr'>
 					<div className='h-100pxr'></div>
 					<div>
@@ -268,14 +307,14 @@ function App() {
 						rounded chip
 					</SChip>
 
-					{inputValue}
+					{/* {inputValue}
 					<SChip
 						value={true}
 						removable
 						useInput
 						inputValue={inputValue}
 						onInput={handleInput}
-					/>
+					/> */}
 
 					<div className='flex flex-nowrap gap-12pxr'>
 						{chipItems.map((item) => (
