@@ -8,7 +8,7 @@ export interface IconProps {
 	onClick?: () => void;
 }
 
-const Icon = ({ name, color, className }: IconProps) => {
+const Icon = ({ name, color, className, onClick }: IconProps) => {
 	const [iconName, iconSizeStr] = name.split('_');
 	const iconSize = parseInt(iconSizeStr, 10);
 	const IconComponent = icons[iconName]?.[iconSize];
@@ -21,6 +21,7 @@ const Icon = ({ name, color, className }: IconProps) => {
 		<IconComponent
 			color={color}
 			className={className}
+			onClick={() => onClick?.()}
 		/>
 	);
 };

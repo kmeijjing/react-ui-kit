@@ -17,67 +17,93 @@ type Story = StoryObj<typeof SInput>;
 
 export const Default: Story = {
 	args: {
-		placeholder: '키워드를 입려해주세요.'
+		placeholder: '키워드를 입려해주세요.',
 	},
 };
 
 export const LabelInput: Story = {
 	args: {
 		placeholder: '키워드를 입려해주세요.',
-		label: 'label',
-	}
-}
+		label: 'keyword',
+	},
+};
 
 export const InsideLabelInput: Story = {
 	args: {
 		placeholder: '키워드를 입려해주세요.',
-		label: 'label',
+		label: 'inside label',
 		useInsideLabel: true,
-	}
-}
+	},
+};
 
-export const DisablelInput: Story = {
+export const DisableInput: Story = {
 	args: {
 		placeholder: '키워드를 입려해주세요.',
-		label: 'label',
+		label: 'disable',
 		useInsideLabel: true,
 		disable: true,
-	}
-}
+	},
+};
 
-export const RaadonlyInput: Story = {
+export const ReadonlyInput: Story = {
 	args: {
 		placeholder: '키워드를 입려해주세요.',
 		label: 'label',
 		useInsideLabel: true,
 		readonly: true,
-	}
-}
+	},
+};
 
-export const ValidateInput: Story = {
+export const PasswordInput: Story = {
+	args: {
+		placeholder: '비밀번호를 입력해주세요.',
+		type: 'password',
+	},
+};
+
+export const Validation: Story = {
 	args: {
 		placeholder: '키워드를 입려해주세요.',
 		rules: [
 			{
-					message: "키워드를 입력해주세요.",
-					validate: (value) => !!value,
+				message: '키워드를 입력해주세요.',
+				validate: (value) => !!value,
 			},
 			{
-					message: "Must be at least 5 characters",
-					validate: (value) => value.length >= 5,
+				message: '5글자 이상 입력해주세요.',
+				validate: (value) => value.length >= 5,
 			},
-		]
+		],
 	},
-	render: (args) => {
-		const [inputValue, setInputValue] = useState('');
-		
-		return (
+};
 
-			<SInput
-				{...args}
-				value={inputValue}
-				onChange={(evt) => setInputValue(evt.target.value)}
-			/>
-		)
-	}
-}
+export const WithRealTimeValidation: Story = {
+	args: {
+		placeholder: '키워드를 입려해주세요.',
+		useRealTimeRules: true,
+		rules: [
+			{
+				message: '키워드를 입력해주세요.',
+				validate: (value) => !!value,
+			},
+			{
+				message: '5글자 이상 입력해주세요.',
+				validate: (value) => value.length >= 5,
+			},
+		],
+	},
+};
+
+export const WithHint: Story = {
+	args: {
+		placeholder: '키워드를 입려해주세요.',
+		hint: '힌트가 위치합니다.',
+	},
+};
+
+export const WithErrorMessage: Story = {
+	args: {
+		placeholder: '키워드를 입려해주세요.',
+		errorMessage: 'error message',
+	},
+};
