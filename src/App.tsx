@@ -13,6 +13,7 @@ import STooltip from './components/STooltip';
 import SToggle from './components/SToggle';
 import SCaution from './components/SCaution';
 import SInput from './components/SInput';
+import STable, { TableColumn } from './components/STable';
 
 function App() {
 	const [checked, setChecked] = useState(false);
@@ -117,9 +118,93 @@ function App() {
 		setFormData(newFormData); // 상태 업데이트
 	};
 
+	const TABLE_COLUMNS: TableColumn[] = [
+		{
+			name: 'product_code',
+			label: '상품코드',
+			field: 'product_code',
+		},
+		{
+			name: 'product_name',
+			label: '상품명',
+			field: 'product_name',
+			sortable: true,
+		},
+		{
+			name: 'option_name',
+			label: '옵션명',
+			field: 'option_name',
+		},
+		{
+			name: 'option_code',
+			label: '옵션코드',
+			field: 'option_code',
+		},
+		{
+			name: 'status',
+			label: '상태',
+			field: 'status',
+			align: 'center',
+			sortable: true,
+		},
+	];
+
+	const tableRows = [
+		{
+			product_name: 'ㄱㄱㄱ상품1',
+			product_code: 'P001',
+			option_name: '옵션1',
+			option_code: 'O001',
+			status: '판매중',
+		},
+		{
+			product_name: 'ㄴㄴㄴ상품2',
+			product_code: 'P002',
+			option_name: '옵션2',
+			option_code: 'O002',
+			status: '판매중',
+		},
+		{
+			product_name: 'ㅎㅎㅎ상품2',
+			product_code: 'P002',
+			option_name: '옵션2',
+			option_code: 'O002',
+			status: '판매중',
+		},
+	];
+
 	return (
 		<>
 			<main>
+				<div className='flex flex-col gap-12pxr p-16pxr'>
+					<div>
+						<b>Table</b>
+						<STable
+							columns={TABLE_COLUMNS}
+							rows={tableRows}
+						/>
+
+						<STable
+							columns={TABLE_COLUMNS}
+							rows={tableRows}
+							resizable
+						/>
+
+						<STable
+							columns={TABLE_COLUMNS}
+							rows={tableRows}
+							useStickyHeader
+							height={100}
+							resizable
+						/>
+
+						<STable
+							columns={TABLE_COLUMNS}
+							rows={[]}
+						/>
+					</div>
+				</div>
+
 				<div className='flex flex-col gap-12pxr p-16pxr'>
 					<div>
 						<b>Input</b>
