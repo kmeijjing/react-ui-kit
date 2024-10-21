@@ -1,10 +1,4 @@
-import {
-	render,
-	screen,
-	fireEvent,
-	waitFor,
-	findBy,
-} from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import SInput, { SInputProps, Rule } from '../components/SInput';
 
@@ -84,11 +78,5 @@ describe('SInput', () => {
 		// 다시 클릭으로 비밀번호 숨김 상태로 복귀
 		fireEvent.click(toggleButton);
 		expect(input).toHaveAttribute('type', 'password');
-	});
-
-	it('displays error message when there is an errorMessage prop', () => {
-		setup({ errorMessage: 'This is an error' });
-
-		expect(screen.getByText('This is an error')).toBeInTheDocument();
 	});
 });

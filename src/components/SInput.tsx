@@ -35,7 +35,6 @@ const SInput = ({
 	useInsideLabel = false,
 	rules = [],
 	useRealTimeRules = false,
-	errorMessage,
 	hint,
 	disable = false,
 	readonly = false,
@@ -94,10 +93,6 @@ const SInput = ({
 	}, [type]);
 
 	useEffect(() => {
-		setInputStatus(!errorMessage ? null : 'error');
-	}, [errorMessage]);
-
-	useEffect(() => {
 		if (type === 'password') {
 			setInputType(showPassword ? 'text' : 'password');
 		}
@@ -144,10 +139,10 @@ const SInput = ({
 		() =>
 			[
 				'pt-8pxr',
-				errorMessage || internalError ? 'text-Red_Default' : '',
-				hint && !errorMessage && !internalError ? 'text-Grey_Darken-1' : '',
+				internalError ? 'text-Red_Default' : '',
+				hint && !internalError ? 'text-Grey_Darken-1' : '',
 			].join(' '),
-		[errorMessage, internalError, hint]
+		[internalError, hint]
 	);
 
 	return (
@@ -191,8 +186,8 @@ const SInput = ({
 				</div>
 			</div>
 
-			{(hint || errorMessage || internalError) && (
-				<p className={messageClass}>{errorMessage || internalError || hint}</p>
+			{(hint || internalError) && (
+				<p className={messageClass}>{internalError || hint}</p>
 			)}
 		</div>
 	);

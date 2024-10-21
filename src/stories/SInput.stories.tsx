@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 import SInput from '../components/SInput';
 
@@ -98,12 +97,5 @@ export const WithHint: Story = {
 	args: {
 		placeholder: '키워드를 입려해주세요.',
 		hint: '힌트가 위치합니다.',
-	},
-};
-
-export const WithErrorMessage: Story = {
-	args: {
-		placeholder: '키워드를 입려해주세요.',
-		errorMessage: 'error message',
 	},
 };
