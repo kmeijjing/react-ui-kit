@@ -6,6 +6,8 @@ import { HelpOutline16, HelpOutline24 } from './HelpOutlineIcon';
 import { Minus8, Minus12 } from './MinusIcon';
 import { NotificationOutline24 } from './NotificationOulineIcon';
 import { Setting24 } from './SettingIcon';
+import { VisibilityOff16 } from './VisibilityOffIcon';
+import { VisibilityOn16 } from './VisibilityOnIcon';
 
 export const icons: Record<
 	string,
@@ -34,4 +36,10 @@ export const icons: Record<
 	Setting: {
 		24: Setting24,
 	},
+	VisibilityOff: {
+		16: VisibilityOff16,
+	},
+	VisibilityOn: {
+		16: VisibilityOn16,
+	}
 };
