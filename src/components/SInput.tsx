@@ -96,7 +96,7 @@ const SInput = ({
 		if (type === 'password') {
 			setInputType(showPassword ? 'text' : 'password');
 		}
-	}, [showPassword]);
+	}, [showPassword, type]);
 
 	// Memoized class names
 	const labelClass = useMemo(
@@ -109,7 +109,7 @@ const SInput = ({
 					? 'before:border-Grey_Lighten-2 cursor-not-allowed'
 					: 'before:border-Grey_Lighten-1',
 			].join(' '),
-		[useInsideLabel]
+		[disable, useInsideLabel]
 	);
 
 	const inputWrapperClass = useMemo(
