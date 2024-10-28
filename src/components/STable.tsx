@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Icon from './Icon';
 
 export interface TableColumn {
@@ -36,27 +36,18 @@ const STable = ({
 	loading = false,
 	className = '',
 }: STableProps) => {
-	const [columnWidths, setColumnWidths] = useState<(number | undefined)[]>(
-		columns.map((col) => col.width)
-	);
-	const [columnSortable, setColumnSortable] = useState<(string | null)[]>(
-		columns.map((col) => (col.sortable ? 'asc' : null))
-	);
+	const [columnWidths, setColumnWidths] = useState<number[]>([]);
+	const [sortDirections, setSortDirections] = useState<string[]>([]);
 
-	const handleMouseDown = (index: number, event: React.MouseEvent) => {
+	const handleResize = (index: number, event: React.MouseEvent) => {
 		const startX = event.clientX;
-		const startWidth =
-			columnWidths[index] ||
-			(event.target as HTMLElement).offsetParent?.clientWidth ||
-			0;
+		const startWidth = columnWidths[index];
 
 		const handleMouseMove = (moveEvent: MouseEvent) => {
-			const newWidth = startWidth + moveEvent.clientX - startX;
+			const newWidth = Math.max(startWidth + moveEvent.clientX - startX, 50);
 			setColumnWidths(
 				(prevWidths) =>
-					prevWidths.map((width, idx) =>
-						idx === index ? Math.max(newWidth, 50) : width
-					) // 최소 너비 50px
+					prevWidths.map((width, idx) => (idx === index ? newWidth : width)) // 최소 너비 50px
 			);
 		};
 
@@ -70,24 +61,28 @@ const STable = ({
 	};
 
 	const handleSort = (index: number) => {
-		const newSort = columnSortable[index] === 'asc' ? 'desc' : 'asc';
-		setColumnSortable((prevSorts) =>
-			prevSorts.map((sort, idx) => (idx === index ? newSort : sort))
+		const newSort = sortDirections[index] === 'asc' ? 'desc' : 'asc';
+		setSortDirections((prevDir) =>
+			prevDir.map((dir, idx) => (idx === index ? newSort : dir))
 		);
 
-		rows.sort((a, b) => {
-			const valueA = columns[index].format
-				? columns[index].format(a[columns[index].field], a)
-				: a[columns[index].field];
-			const valueB = columns[index].format
-				? columns[index].format(b[columns[index].field], b)
-				: b[columns[index].field];
+		[...rows].sort((a, b) => {
+			const field = columns[index].field;
+			const column = columns[index] as TableColumn;
+
+			const valA = column.format ? column.format(a[field], a) : a[field];
+			const valB = column.format ? column.format(b[field], b) : b[field];
 
 			return newSort === 'asc'
-				? valueA.localeCompare(valueB)
-				: valueB.localeCompare(valueA);
+				? valA.localeCompare(valB)
+				: valB.localeCompare(valA);
 		});
 	};
+
+	useEffect(() => {
+		setColumnWidths(columns.map((col) => col.width || 100));
+		setSortDirections(columns.map((col) => (col.sortable ? 'asc' : '')));
+	}, [columns]);
 
 	const loadingStyle = {
 		'--_m':
@@ -185,7 +180,7 @@ const STable = ({
 							onClick={() => handleSort(colIdx)}
 						>
 							<Icon
-								name={columnSortable[colIdx] === 'asc' ? 'LineDown_12' : 'LineUp_12'}
+								name={sortDirections[colIdx] === 'asc' ? 'LineDown_12' : 'LineUp_12'}
 								color='Grey_Default'
 							/>
 						</button>
@@ -194,7 +189,7 @@ const STable = ({
 				{resizable && (
 					<div
 						className='absolute right-0 top-1/2 z-50 h-16pxr w-4pxr -translate-y-1/2 cursor-col-resize border-l border-r border-Grey_Lighten-2'
-						onMouseDown={(evt) => handleMouseDown(colIdx, evt)}
+						onMouseDown={(evt) => handleResize(colIdx, evt)}
 					/>
 				)}
 			</th>

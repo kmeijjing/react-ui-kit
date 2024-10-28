@@ -172,6 +172,36 @@ function App() {
 			status: '판매중',
 		},
 	];
+	const [rows, setRows] = useState<any[]>(tableRows);
+	const [columns, setColumns] = useState<any[]>(TABLE_COLUMNS);
+
+	const handleTable = () => {
+		const newRows = [
+			...rows,
+			{
+				product_name: '추가된 추가된',
+				product_code: 'P001',
+				option_name: '옵션1',
+				option_code: 'O001',
+				status: '판매중',
+			},
+		];
+		console.log(newRows);
+		setRows(newRows);
+		setColumns([
+			...columns,
+			{
+				name: 'price',
+				label: '가격',
+				field: 'price',
+			},
+			{
+				name: 'quantity',
+				label: '수량',
+				field: 'quantity',
+			},
+		]);
+	};
 
 	return (
 		<>
@@ -179,27 +209,32 @@ function App() {
 				<div className='flex flex-col gap-12pxr p-16pxr'>
 					<div>
 						<b>Table</b>
+						{rows.map((row) => row.product_name)}
+						<SButton
+							label='update'
+							onClick={() => handleTable()}
+						/>
 						<STable
-							columns={TABLE_COLUMNS}
-							rows={tableRows}
+							columns={columns}
+							rows={rows}
 						/>
 
 						<STable
-							columns={TABLE_COLUMNS}
-							rows={tableRows}
+							columns={columns}
+							rows={rows}
 							resizable
 						/>
 
 						<STable
-							columns={TABLE_COLUMNS}
-							rows={tableRows}
+							columns={columns}
+							rows={rows}
 							useStickyHeader
 							height={100}
 							resizable
 						/>
 
 						<STable
-							columns={TABLE_COLUMNS}
+							columns={columns}
 							rows={[]}
 						/>
 					</div>
