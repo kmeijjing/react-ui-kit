@@ -106,6 +106,6 @@ export const StickyHeader: Story = {
 		columns: TABLE_COLUMNS,
 		rows: tableRows,
 		useStickyHeader: true,
-		height: 100,
+		className: 'h-100pxr',
 	},
 };
