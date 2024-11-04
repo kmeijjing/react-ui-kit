@@ -14,6 +14,7 @@ import SToggle from './components/SToggle';
 import SCaution from './components/SCaution';
 import SInput from './components/SInput';
 import STable, { TableColumn, Row } from './components/STable';
+import SPagination from './components/SPagination';
 
 function App() {
 	const [checked, setChecked] = useState(false);
@@ -206,6 +207,23 @@ function App() {
 	return (
 		<>
 			<main>
+				<div className='flex flex-col gap-12pxr p-16pxr'>
+					<div>
+						<b>Pagination</b>
+
+						<SPagination
+							lastPage={1000}
+							currentPage={254}
+						/>
+
+						<SPagination
+							lastPage={1000}
+							currentPage={254}
+							perPage={1}
+						/>
+					</div>
+				</div>
+
 				<div className='flex flex-col gap-12pxr p-16pxr'>
 					<div>
 						<b>Table</b>
