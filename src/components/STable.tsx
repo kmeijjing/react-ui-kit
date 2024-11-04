@@ -1,13 +1,26 @@
-import { useState, useEffect, useCallback } from 'react';
+import {
+	useState,
+	useEffect,
+	ReactNode,
+	Children,
+	isValidElement,
+	cloneElement,
+	ReactElement,
+} from 'react';
 import Icon from './Icon';
+
+export interface Row {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	[key: string]: any;
+}
 
 export interface TableColumn {
 	name: string;
 	label: string;
-	field: string;
+	field?: ((row: Row) => string) | string;
 	align?: 'left' | 'right' | 'center';
 	sortable?: boolean;
-	format?: (val: any, row: any) => void;
+	format?: (val: string | number, row: Row) => string | number;
 	style?: string;
 	classes?: string | void;
 	headerClasses?: string;
@@ -17,14 +30,36 @@ export interface TableColumn {
 
 export interface STableProps {
 	columns: TableColumn[];
-	rows: any[];
+	rows: Row[];
 	noDataLabel?: string;
 	resizable?: boolean;
 	useStickyHeader?: boolean;
-	height?: number;
 	loading?: boolean;
 	className?: string;
+	children?: ReactNode;
 }
+
+const alignClass = {
+	left: 'text-left',
+	center: 'text-center',
+	right: 'text-right',
+};
+
+const alignFlexClass = {
+	left: 'justify-start',
+	center: 'justify-center',
+	right: 'justify-end',
+};
+
+const loadingStyle = {
+	'--_m': 'conic-gradient(#0000 10%,#000),linear-gradient(#000 0 0) content-box',
+	WebkitMask: 'var(--_m)',
+	mask: 'var(--_m)',
+	WebkitMaskComposite: 'source-out',
+	maskComposite: 'subtract',
+};
+
+let useSticky: boolean = false;
 
 const STable = ({
 	columns,
@@ -32,11 +67,12 @@ const STable = ({
 	noDataLabel = '데이터가 없습니다.',
 	resizable = false,
 	useStickyHeader = false,
-	height,
 	loading = false,
 	className = '',
+	children,
 }: STableProps) => {
 	const [columnWidths, setColumnWidths] = useState<number[]>([]);
+	const [innerRows, setinnerRows] = useState<Row[]>(rows);
 	const [sortDirections, setSortDirections] = useState<string[]>([]);
 
 	const handleResize = (index: number, event: React.MouseEvent) => {
@@ -60,23 +96,38 @@ const STable = ({
 		document.addEventListener('mouseup', handleMouseUp);
 	};
 
+	const compareValues = (
+		a: string | number,
+		b: string | number,
+		direction: 'asc' | 'desc',
+		format?: (val: string | number, row: Row) => string | number
+	) => {
+		const valueA = format ? format(a, {}) : a; // format 사용 시
+		const valueB = format ? format(b, {}) : b; // format 사용 시
+
+		if (valueA < valueB) return direction === 'asc' ? -1 : 1;
+		if (valueA > valueB) return direction === 'asc' ? 1 : -1;
+		return 0; // equal
+	};
+
 	const handleSort = (index: number) => {
 		const newSort = sortDirections[index] === 'asc' ? 'desc' : 'asc';
 		setSortDirections((prevDir) =>
 			prevDir.map((dir, idx) => (idx === index ? newSort : dir))
 		);
 
-		[...rows].sort((a, b) => {
+		const sortedArr = [...innerRows].sort((a, b) => {
 			const field = columns[index].field;
 			const column = columns[index] as TableColumn;
-
-			const valA = column.format ? column.format(a[field], a) : a[field];
-			const valB = column.format ? column.format(b[field], b) : b[field];
-
-			return newSort === 'asc'
-				? valA.localeCompare(valB)
-				: valB.localeCompare(valA);
+			return compareValues(
+				typeof field === 'string' ? a[field] : field?.(a),
+				typeof field === 'string' ? b[field] : field?.(b),
+				newSort,
+				column.format
+			);
 		});
+
+		setinnerRows(sortedArr);
 	};
 
 	useEffect(() => {
@@ -84,25 +135,26 @@ const STable = ({
 		setSortDirections(columns.map((col) => (col.sortable ? 'asc' : '')));
 	}, [columns]);
 
-	const loadingStyle = {
-		'--_m':
-			'conic-gradient(#0000 10%,#000),linear-gradient(#000 0 0) content-box',
-		WebkitMask: 'var(--_m)',
-		mask: 'var(--_m)',
-		WebkitMaskComposite: 'source-out',
-		maskComposite: 'subtract',
-	};
+	useEffect(() => {
+		setinnerRows(rows);
+	}, [rows]);
 
-	const alignClass = {
-		left: 'text-left',
-		center: 'text-center',
-		right: 'text-right',
-	};
+	useEffect(() => {
+		useSticky = useStickyHeader;
+	}, [useStickyHeader]);
 
-	const alignFlexClass = {
-		left: 'justify-start',
-		center: 'justify-center',
-		right: 'justify-end',
+	const getRowData = (column: TableColumn, row: Row) => {
+		const { field, format, name } = column;
+
+		// 기본 필드 선택
+		const value = field
+			? typeof field === 'string'
+				? row[field]
+				: field(row)
+			: row[name];
+
+		// 포맷 적용
+		return format ? format(value, row) : value;
 	};
 
 	const renderLoading = () => (
@@ -127,21 +179,30 @@ const STable = ({
 		</tr>
 	);
 
-	const renderCell = (row: any, column: TableColumn, rowIndex: number) => (
-		<td
-			key={column.name}
-			className={[
-				'h-48pxr bg-white px-16pxr py-0',
-				alignClass[column.align || 'left'],
-				rowIndex > 0 ? 'border-t border-t-Grey_Lighten-3' : '',
-			].join(' ')}
-		>
-			{column.format ? column.format(row[column.field], row) : row[column.field]}
-		</td>
-	);
+	const renderCell = (row: Row, column: TableColumn, rowIndex: number) => {
+		const cellContent = Children.toArray(children).find(
+			(child) =>
+				isValidElement(child) && child.props['body-cell-name'] === column.name
+		);
+
+		return cellContent ? (
+			cloneElement(cellContent as ReactElement, { row, column, rowIndex })
+		) : (
+			<td
+				key={column.name}
+				className={[
+					'h-48pxr bg-white px-16pxr py-0',
+					alignClass[column.align || 'left'],
+					rowIndex > 0 ? 'border-t border-t-Grey_Lighten-3' : '',
+				].join(' ')}
+			>
+				{getRowData(column, row)}
+			</td>
+		);
+	};
 
 	const renderRows = () =>
-		rows.map((row, rowIndex) => (
+		innerRows.map((row, rowIndex) => (
 			<tr
 				key={rowIndex}
 				className='hover:bg-Grey_Lighten-6'
@@ -150,12 +211,23 @@ const STable = ({
 			</tr>
 		));
 
-	const renderHeader = () =>
-		columns.map((column, colIdx) => (
+	const renderHeaderCell = (column: TableColumn, colIdx: number) => {
+		const headerContent = Children.toArray(children).find(
+			(child) =>
+				isValidElement(child) && child.props['header-cell-name'] === column.name
+		);
+
+		return headerContent ? (
+			cloneElement(headerContent as React.ReactElement, {
+				column,
+				width: columnWidths[colIdx],
+			})
+		) : (
 			<th
 				key={column.name}
 				className={[
 					'relative h-36pxr border-b border-b-Grey_Lighten-3 bg-Blue_C_Lighten-8 px-16pxr py-0 font-medium',
+					alignClass[column.align || 'left'],
 					useStickyHeader ? 'sticky top-0' : '',
 				].join(' ')}
 				style={{
@@ -166,14 +238,11 @@ const STable = ({
 			>
 				<div
 					className={[
-						'flex flex-nowrap items-center',
+						'flex items-center',
 						alignFlexClass[column.align || 'left'],
 					].join(' ')}
 				>
-					{/* 말줄임 처리 추가 */}
 					<span className='truncate'>{column.label}</span>
-
-					{/* 정렬 버튼 추가 */}
 					{column.sortable && (
 						<button
 							className='ml-4pxr'
@@ -186,37 +255,37 @@ const STable = ({
 						</button>
 					)}
 				</div>
-				{resizable && (
+				{resizable && colIdx !== columns.length - 1 && (
 					<div
 						className='absolute right-0 top-1/2 z-50 h-16pxr w-4pxr -translate-y-1/2 cursor-col-resize border-l border-r border-Grey_Lighten-2'
 						onMouseDown={(evt) => handleResize(colIdx, evt)}
 					/>
 				)}
 			</th>
-		));
-
+		);
+	};
 	return (
 		<div
 			className={[
-				's-table relative w-full overflow-hidden rounded-8pxr border border-Grey_Lighten-3',
-				`h-${height}pxr`,
+				's-table relative w-full rounded-8pxr border border-Grey_Lighten-3',
+				loading ? 'overflow-hidden' : 'overflow-auto',
 				className,
 			].join(' ')}
 		>
 			{loading && renderLoading()}
-			<div
-				className={['s-table__inner overflow-auto', `h-${height}pxr`].join(' ')}
-			>
+			<div className={['s-table__inner'].join(' ')}>
 				<table
 					className={[
 						's-table__containter min-w-full table-fixed border-separate border-spacing-0',
 					].join(' ')}
 				>
 					<thead>
-						<tr className='border-b border-b-Grey_Lighten-3'>{renderHeader()}</tr>
+						<tr className='border-b border-b-Grey_Lighten-3'>
+							{columns.map((column, colIdx) => renderHeaderCell(column, colIdx))}
+						</tr>
 					</thead>
 
-					<tbody>{rows.length === 0 ? renderNoData() : renderRows()}</tbody>
+					<tbody>{innerRows.length === 0 ? renderNoData() : renderRows()}</tbody>
 				</table>
 			</div>
 		</div>
@@ -224,3 +293,64 @@ const STable = ({
 };
 
 export default STable;
+
+interface TableTdProps {
+	children:
+		| ReactNode
+		| ((props: { row: Row; column: TableColumn; rowIndex: number }) => ReactNode);
+	row?: Row;
+	column?: TableColumn;
+	className?: string;
+	rowIndex?: number;
+}
+
+STable.Td = ({
+	children,
+	row = {},
+	column = {} as TableColumn,
+	rowIndex = 0 as number,
+	className = '',
+}: TableTdProps) => (
+	<td
+		className={[
+			'h-48pxr bg-white px-16pxr py-0',
+			alignClass[column?.align || 'left'],
+			rowIndex > 0 ? 'border-t border-t-Grey_Lighten-3' : '',
+			className,
+		].join(' ')}
+	>
+		{typeof children === 'function'
+			? children({ row, column, rowIndex })
+			: children}
+	</td>
+);
+
+interface TableThProps {
+	children: ReactNode | ((props: { column: TableColumn }) => ReactNode);
+	column?: TableColumn;
+	width?: number;
+	className?: string;
+}
+
+STable.Th = ({
+	children,
+	column = {} as TableColumn,
+	width,
+	className = '',
+}: TableThProps) => (
+	<th
+		className={[
+			'relative h-36pxr border-b border-b-Grey_Lighten-3 bg-Blue_C_Lighten-8 px-16pxr py-0 font-medium',
+			alignClass[column?.align || 'left'],
+			useSticky ? 'sticky top-0' : '',
+			className,
+		].join(' ')}
+		style={{
+			minWidth: `${(width as number) / 12}rem`,
+			maxWidth: `${(width as number) / 12}rem`,
+			width: `${(width as number) / 12}rem`,
+		}}
+	>
+		{typeof children === 'function' ? children({ column }) : children}
+	</th>
+);

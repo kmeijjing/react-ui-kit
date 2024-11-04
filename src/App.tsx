@@ -13,7 +13,7 @@ import STooltip from './components/STooltip';
 import SToggle from './components/SToggle';
 import SCaution from './components/SCaution';
 import SInput from './components/SInput';
-import STable, { TableColumn } from './components/STable';
+import STable, { TableColumn, Row } from './components/STable';
 
 function App() {
 	const [checked, setChecked] = useState(false);
@@ -172,8 +172,8 @@ function App() {
 			status: '판매중',
 		},
 	];
-	const [rows, setRows] = useState<any[]>(tableRows);
-	const [columns, setColumns] = useState<any[]>(TABLE_COLUMNS);
+	const [rows, setRows] = useState<Row[]>(tableRows);
+	const [columns, setColumns] = useState<TableColumn[]>(TABLE_COLUMNS);
 
 	const handleTable = () => {
 		const newRows = [
@@ -217,7 +217,25 @@ function App() {
 						<STable
 							columns={columns}
 							rows={rows}
-						/>
+						>
+							<STable.Td body-cell-name='product_code'>
+								{({ row, column }) => (
+									<div>
+										{row.product_code} - {column.label}
+									</div>
+								)}
+							</STable.Td>
+
+							<STable.Td body-cell-name='option_name'>
+								<div>custom cell</div>
+							</STable.Td>
+
+							<STable.Td body-cell-name='option_code'>code</STable.Td>
+
+							<STable.Th header-cell-name='product_code'>
+								{({ column }) => <div>{column.label} (커스텀)</div>}
+							</STable.Th>
+						</STable>
 
 						<STable
 							columns={columns}
@@ -229,8 +247,8 @@ function App() {
 							columns={columns}
 							rows={rows}
 							useStickyHeader
-							height={100}
 							resizable
+							className='h-100pxr'
 						/>
 
 						<STable
