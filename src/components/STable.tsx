@@ -87,19 +87,18 @@ const STable = ({
 
 	// setting pagination
 	const { rowsPerPage = rows.length, lastPage } = pagination || {};
-	
+
 	const paginatedRows = pagination
 		? innerRows.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
 		: innerRows;
 
-	const lastPageNumber = lastPage || pagination
-		? Math.ceil(rows.length / rowsPerPage)
-		: 1;
+	const lastPageNumber =
+		lastPage || pagination ? Math.ceil(rows.length / rowsPerPage) : 1;
 
 	const handleUpdatePagination = (page: number) => {
-		console.log(page)
+		console.log(page);
 		setCurrentPage(page);
-	}
+	};
 
 	useEffect(() => {
 		setInnerRows(rows);
@@ -242,7 +241,6 @@ const STable = ({
 			</tr>
 		));
 
-	
 	const renderHeaderCell = (column: TableColumn, colIdx: number) => {
 		const headerContent = Children.toArray(children).find(
 			(child) =>
@@ -299,7 +297,7 @@ const STable = ({
 
 	// const useTablePagination = () => {
 	// 	const { page, rowsPerPage } = pagination as Pagination;
-		
+
 	// 	const isServerSide = useMemo(() => {
 	// 		return pagination?.rowsPerPage as number === 0;
 	// 	}, [pagination])
@@ -321,7 +319,7 @@ const STable = ({
 	// 	const pagesNumber = useMemo(() => {
 	// 		const { rowsPerPage } = pagination as Pagination;
 
-	// 			return rowsPerPage === 0 
+	// 			return rowsPerPage === 0
 	// 				? 1
 	// 				: Math.max(
 	// 						1,
@@ -355,12 +353,12 @@ const STable = ({
 	// }
 
 	// const {
- //  firstRowIndex,
- //  lastRowIndex,
- //  isFirstPage,
- //  isLastPage,
- //  pagesNumber,
- // } = useTablePagination()
+	//  firstRowIndex,
+	//  lastRowIndex,
+	//  isFirstPage,
+	//  isLastPage,
+	//  pagesNumber,
+	// } = useTablePagination()
 
 	return (
 		<>
@@ -384,16 +382,16 @@ const STable = ({
 							</tr>
 						</thead>
 
-						<tbody>{paginatedRows.length > 0 ? renderRows() : renderNoData() }</tbody>
+						<tbody>{paginatedRows.length > 0 ? renderRows() : renderNoData()}</tbody>
 					</table>
 				</div>
 			</div>
 			{pagination && (
-				<div className='pagination__container h-58pxr flex items-center justify-center rounded-8pxr border border-t-0 border-Grey_Lighten-3 bg-Grey_Lighten-6'>
+				<div className='pagination__container flex h-58pxr items-center justify-center rounded-8pxr border border-t-0 border-Grey_Lighten-3 bg-Grey_Lighten-6'>
 					<SPagination
 						currentPage={currentPage}
 						lastPage={lastPageNumber}
-						onChange={(page: number)  => handleUpdatePagination(page)}
+						onChange={(page: number) => handleUpdatePagination(page)}
 					/>
 				</div>
 			)}

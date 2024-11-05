@@ -251,7 +251,7 @@ function App() {
 							rows={rows}
 							pagination={{
 								page: 1,
-						  rowsPerPage:2, // TODO: lastPage 있는 경우도 구현 해야 함
+								rowsPerPage: 2, // TODO: lastPage 있는 경우도 구현 해야 함
 							}}
 						>
 							<STable.Td body-cell-name='product_code'>
