@@ -8,6 +8,7 @@ import {
 	ReactElement,
 } from 'react';
 import Icon from './Icon';
+import SPagination from './SPagination';
 
 export interface Row {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -28,6 +29,12 @@ export interface TableColumn {
 	width?: number;
 }
 
+export interface Pagination {
+	page: number;
+	rowsPerPage: number;
+	lastPage?: number;
+}
+
 export interface STableProps {
 	columns: TableColumn[];
 	rows: Row[];
@@ -37,21 +44,22 @@ export interface STableProps {
 	loading?: boolean;
 	className?: string;
 	children?: ReactNode;
+	pagination?: Pagination;
 }
 
-const alignClass = {
+const ALIGN_CLASS = {
 	left: 'text-left',
 	center: 'text-center',
 	right: 'text-right',
 };
 
-const alignFlexClass = {
+const ALIGN_FLEX_CLASS = {
 	left: 'justify-start',
 	center: 'justify-center',
 	right: 'justify-end',
 };
 
-const loadingStyle = {
+const LOADING_STYLE = {
 	'--_m': 'conic-gradient(#0000 10%,#000),linear-gradient(#000 0 0) content-box',
 	WebkitMask: 'var(--_m)',
 	mask: 'var(--_m)',
@@ -70,10 +78,33 @@ const STable = ({
 	loading = false,
 	className = '',
 	children,
+	pagination,
 }: STableProps) => {
 	const [columnWidths, setColumnWidths] = useState<number[]>([]);
-	const [innerRows, setinnerRows] = useState<Row[]>(rows);
+	const [innerRows, setInnerRows] = useState<Row[]>(rows);
 	const [sortDirections, setSortDirections] = useState<string[]>([]);
+	const [currentPage, setCurrentPage] = useState(pagination?.page || 1);
+
+	// setting pagination
+	const { rowsPerPage = rows.length, lastPage } = pagination || {};
+	
+	const paginatedRows = pagination
+		? innerRows.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
+		: innerRows;
+
+	const lastPageNumber = lastPage || pagination
+		? Math.ceil(rows.length / rowsPerPage)
+		: 1;
+
+	const handleUpdatePagination = (page: number) => {
+		console.log(page)
+		setCurrentPage(page);
+	}
+
+	useEffect(() => {
+		setInnerRows(rows);
+		setCurrentPage(pagination?.page || 1); // 초기화 또는 새로고침 시 초기 페이지로 설정
+	}, [rows, pagination?.page]);
 
 	const handleResize = (index: number, event: React.MouseEvent) => {
 		const startX = event.clientX;
@@ -127,7 +158,7 @@ const STable = ({
 			);
 		});
 
-		setinnerRows(sortedArr);
+		setInnerRows(sortedArr);
 	};
 
 	useEffect(() => {
@@ -136,7 +167,7 @@ const STable = ({
 	}, [columns]);
 
 	useEffect(() => {
-		setinnerRows(rows);
+		setInnerRows(rows);
 	}, [rows]);
 
 	useEffect(() => {
@@ -161,7 +192,7 @@ const STable = ({
 		<div className='s-table__loading absolute inset-0 z-50 flex items-center justify-center bg-white bg-opacity-40'>
 			<div
 				className='loading aspect-square w-50pxr animate-spin rounded-full bg-positive p-8pxr transition-all'
-				style={loadingStyle}
+				style={LOADING_STYLE}
 			></div>
 		</div>
 	);
@@ -192,7 +223,7 @@ const STable = ({
 				key={column.name}
 				className={[
 					'h-48pxr bg-white px-16pxr py-0',
-					alignClass[column.align || 'left'],
+					ALIGN_CLASS[column.align || 'left'],
 					rowIndex > 0 ? 'border-t border-t-Grey_Lighten-3' : '',
 				].join(' ')}
 			>
@@ -202,7 +233,7 @@ const STable = ({
 	};
 
 	const renderRows = () =>
-		innerRows.map((row, rowIndex) => (
+		paginatedRows.map((row, rowIndex) => (
 			<tr
 				key={rowIndex}
 				className='hover:bg-Grey_Lighten-6'
@@ -211,6 +242,7 @@ const STable = ({
 			</tr>
 		));
 
+	
 	const renderHeaderCell = (column: TableColumn, colIdx: number) => {
 		const headerContent = Children.toArray(children).find(
 			(child) =>
@@ -227,7 +259,7 @@ const STable = ({
 				key={column.name}
 				className={[
 					'relative h-36pxr border-b border-b-Grey_Lighten-3 bg-Blue_C_Lighten-8 px-16pxr py-0 font-medium',
-					alignClass[column.align || 'left'],
+					ALIGN_CLASS[column.align || 'left'],
 					useStickyHeader ? 'sticky top-0' : '',
 				].join(' ')}
 				style={{
@@ -239,7 +271,7 @@ const STable = ({
 				<div
 					className={[
 						'flex items-center',
-						alignFlexClass[column.align || 'left'],
+						ALIGN_FLEX_CLASS[column.align || 'left'],
 					].join(' ')}
 				>
 					<span className='truncate'>{column.label}</span>
@@ -264,31 +296,108 @@ const STable = ({
 			</th>
 		);
 	};
-	return (
-		<div
-			className={[
-				's-table relative w-full rounded-8pxr border border-Grey_Lighten-3',
-				loading ? 'overflow-hidden' : 'overflow-auto',
-				className,
-			].join(' ')}
-		>
-			{loading && renderLoading()}
-			<div className={['s-table__inner'].join(' ')}>
-				<table
-					className={[
-						's-table__containter min-w-full table-fixed border-separate border-spacing-0',
-					].join(' ')}
-				>
-					<thead>
-						<tr className='border-b border-b-Grey_Lighten-3'>
-							{columns.map((column, colIdx) => renderHeaderCell(column, colIdx))}
-						</tr>
-					</thead>
 
-					<tbody>{innerRows.length === 0 ? renderNoData() : renderRows()}</tbody>
-				</table>
+	// const useTablePagination = () => {
+	// 	const { page, rowsPerPage } = pagination as Pagination;
+		
+	// 	const isServerSide = useMemo(() => {
+	// 		return pagination?.rowsPerPage as number === 0;
+	// 	}, [pagination])
+
+	// 	const firstRowIndex = useMemo(() => {
+	// 		return (page - 1) * rowsPerPage
+	// 	}, [pagination]);
+
+	// 	const lastRowIndex = useMemo(() => {
+	// 		const { page, rowsPerPage } = pagination as Pagination;
+	// 		return page * rowsPerPage
+	// 	}, [pagination]);
+
+	// 	const isFirstPage = useMemo(() => {
+	// 		const { page } = pagination as Pagination;
+	// 		return page === 1;
+	// 	}, [pagination]);
+
+	// 	const pagesNumber = useMemo(() => {
+	// 		const { rowsPerPage } = pagination as Pagination;
+
+	// 			return rowsPerPage === 0 
+	// 				? 1
+	// 				: Math.max(
+	// 						1,
+	// 						Math.ceil(rows.length / rowsPerPage)
+	// 				)
+
+	// 	}, [pagination]);
+
+	// 	const isLastPage = useMemo(() => {
+	// 		const { page } = pagination as Pagination;
+
+	// 		return lastRowIndex === 0
+	// 				? true
+	// 				: page >= pagesNumber
+	// 	}, [pagination]);
+
+	// 	console.log('firstRowIndex : ', firstRowIndex)
+	// 	console.log('lastRowIndex : ', lastRowIndex)
+	// 	console.log('isFirstPage : ', isFirstPage)
+	// 	console.log('pagesNumber : ', pagesNumber)
+	// 	console.log('isLastPage : ', isLastPage)
+
+	// 	return {
+	// 		isServerSide,
+	// 		firstRowIndex,
+	// 		lastRowIndex,
+	// 		isFirstPage,
+	// 		pagesNumber,
+	// 		isLastPage,
+	// 	}
+	// }
+
+	// const {
+ //  firstRowIndex,
+ //  lastRowIndex,
+ //  isFirstPage,
+ //  isLastPage,
+ //  pagesNumber,
+ // } = useTablePagination()
+
+	return (
+		<>
+			<div
+				className={[
+					's-table relative w-full rounded-8pxr border border-Grey_Lighten-3',
+					loading ? 'overflow-hidden' : 'overflow-auto',
+					className,
+				].join(' ')}
+			>
+				{loading && renderLoading()}
+				<div className={['s-table__inner'].join(' ')}>
+					<table
+						className={[
+							's-table__containter min-w-full table-fixed border-separate border-spacing-0',
+						].join(' ')}
+					>
+						<thead>
+							<tr className='border-b border-b-Grey_Lighten-3'>
+								{columns.map((column, colIdx) => renderHeaderCell(column, colIdx))}
+							</tr>
+						</thead>
+
+						<tbody>{paginatedRows.length > 0 ? renderRows() : renderNoData() }</tbody>
+					</table>
+				</div>
 			</div>
-		</div>
+			{pagination && (
+				<div className='pagination__container h-58pxr flex items-center justify-center rounded-8pxr border border-t-0 border-Grey_Lighten-3 bg-Grey_Lighten-6'>
+					<SPagination
+						currentPage={currentPage}
+						lastPage={lastPageNumber}
+						onChange={(page: number)  => handleUpdatePagination(page)}
+					/>
+				</div>
+			)}
+		</>
 	);
 };
 
@@ -314,7 +423,7 @@ STable.Td = ({
 	<td
 		className={[
 			'h-48pxr bg-white px-16pxr py-0',
-			alignClass[column?.align || 'left'],
+			ALIGN_CLASS[column?.align || 'left'],
 			rowIndex > 0 ? 'border-t border-t-Grey_Lighten-3' : '',
 			className,
 		].join(' ')}
@@ -341,7 +450,7 @@ STable.Th = ({
 	<th
 		className={[
 			'relative h-36pxr border-b border-b-Grey_Lighten-3 bg-Blue_C_Lighten-8 px-16pxr py-0 font-medium',
-			alignClass[column?.align || 'left'],
+			ALIGN_CLASS[column?.align || 'left'],
 			useSticky ? 'sticky top-0' : '',
 			className,
 		].join(' ')}

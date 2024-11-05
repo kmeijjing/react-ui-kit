@@ -172,6 +172,20 @@ function App() {
 			option_code: 'O002',
 			status: '판매중',
 		},
+		{
+			product_name: 'ddd상품2',
+			product_code: 'P002',
+			option_name: '옵션2',
+			option_code: 'O002',
+			status: '판매중',
+		},
+		{
+			product_name: 'aaa상품2',
+			product_code: 'P002',
+			option_name: '옵션2',
+			option_code: 'O002',
+			status: '판매중',
+		},
 	];
 	const [rows, setRows] = useState<Row[]>(tableRows);
 	const [columns, setColumns] = useState<TableColumn[]>(TABLE_COLUMNS);
@@ -235,6 +249,10 @@ function App() {
 						<STable
 							columns={columns}
 							rows={rows}
+							pagination={{
+								page: 1,
+						  rowsPerPage:2, // TODO: lastPage 있는 경우도 구현 해야 함
+							}}
 						>
 							<STable.Td body-cell-name='product_code'>
 								{({ row, column }) => (
