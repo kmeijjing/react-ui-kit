@@ -19,8 +19,7 @@ const Icon = ({ name, color, className, onClick }: IconProps) => {
 
 	return (
 		<IconComponent
-			color={color}
-			className={className}
+			className={[`text-${color}`, className].join(' ')}
 			onClick={() => onClick?.()}
 		/>
 	);
