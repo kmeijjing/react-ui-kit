@@ -10,7 +10,7 @@ import { createPortal } from 'react-dom';
 import SButton, { type SButtonProps } from './SButton.tsx';
 import Icon from './Icon.tsx';
 import colors from '../css/colors.ts';
-import Tooltip_Arrow from '../assets/Tooltip_Arrow.svg';
+import { TooltipArrow } from '../assets/TooltipArrowIcon.tsx';
 
 export interface STooltipProps {
 	trigger?: 'hover' | 'click';
@@ -196,8 +196,7 @@ const STooltip = ({
 						].join(' ')}
 						style={tooltipStyles}
 					>
-						<img
-							src={Tooltip_Arrow}
+						<TooltipArrow
 							className={[
 								's-tooltip__arrow absolute z-40',
 								ARROW_CLASS[placement],

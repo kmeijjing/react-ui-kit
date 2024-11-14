@@ -3,5 +3,31 @@
 	"references": [
 		{ "path": "./tsconfig.app.json" },
 		{ "path": "./tsconfig.node.json" }
-	]
+	],
+	"compilerOptions": {
+		"paths": {
+			"@/*": ["./src/*"]
+		},
+		"baseUrl": ".",
+		"target": "es5", // 컴파일된 JS 코드의 ECMAScript 버전
+		"lib": ["dom", "dom.iterable", "esnext"], // 포함할 라이브러리 목록
+		"allowJs": true, // JS 파일 컴파일 허용
+		"noEmit": false, // 컴파일러가 출력 파일 생성
+		"declaration": true, // .d.ts 선언 파일 생성
+		"outDir": "dist", // 컴파일된 파일 저장 디렉토리
+		"skipLibCheck": true, // 라이브러리 파일 타입 체크 스킵
+		"esModuleInterop": true, // CommonJS 모듈을 ES6처럼 사용
+		"allowSyntheticDefaultImports": true, // 디폴트 모듈 import 문법 사용 허용
+		"strict": true, // 엄격한 타입 체킹 활성화
+		"forceConsistentCasingInFileNames": true, // 파일 이름 대소문자 일관성 강제
+		"noFallthroughCasesInSwitch": true, // switch문의 case문 넘어감 방지
+		"module": "esnext", // 모듈 시스템 (최신 ECMAScript)
+		"moduleResolution": "node", // 모듈 해석 방식 (Node.js)
+		"resolveJsonModule": true, // JSON 모듈 가져오기 허용
+		"isolatedModules": true, // 파일을 독립적 모듈로 컴파일
+		"jsx": "react-jsx", // JSX 코드 처리 방식 (React JSX)
+
+		"types": ["vitest/globals"],
+		"declarationDir": "dist"
+	}
 }
