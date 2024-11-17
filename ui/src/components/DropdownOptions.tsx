@@ -24,30 +24,55 @@ interface DropdownOptionsProps {
 }
 
 const DropdownOptions = ({
-	parentId = '',
+	parentId,
 	options = [],
 	onClick,
 }: DropdownOptionsProps) => {
 	const [position, setPosition] =
 		useState<Omit<DOMRect, 'toJSON' | 'right'>>(initParentDOMRect);
 
-	useEffect(() => {
-		const parent = document.getElementById(`s-dropdown--${parentId}`) || null;
+	const handleOptionClick = (
+		e: React.MouseEvent,
+		option: DropdownOptionProps
+	) => {
+		e.stopPropagation(); // 이벤트 전파 중단
+		onClick(option);
+	};
 
-		if (parent) {
-			setPosition(parent.getBoundingClientRect());
-		}
+	useEffect(() => {
+		const parent = document.getElementById(parentId);
+
+		const updatePosition = () => {
+			if (parent) {
+				const parentRect = parent.getBoundingClientRect();
+				setPosition(parentRect);
+			}
+		};
+
+		// 초기 위치 설정
+		updatePosition();
+
+		// 스크롤 이벤트 리스너 추가
+		window.addEventListener('scroll', updatePosition, true);
+		window.addEventListener('resize', updatePosition);
+
+		return () => {
+			window.removeEventListener('scroll', updatePosition, true);
+			window.removeEventListener('resize', updatePosition);
+		};
 	}, [parentId]);
+
+	if (!position) return null;
 
 	return (
 		<ul
 			id={`s-dropdown__options--${parentId}`}
-			className='bg-white s-dropdown__options rounded-2pxr shadow-dropdownOptions'
+			className='s-dropdown__options z-[999] rounded-2pxr bg-white shadow-dropdownOptions'
 			style={{
-				position: 'absolute',
-				top: position.top + position.height + 4 + window.scrollY,
+				position: 'fixed',
+				top: position.bottom + 4 + window.scrollY,
 				left: position.left + window.scrollX,
-				width: position.width,
+				minWidth: position.width,
 			}}
 		>
 			{options.map(
@@ -60,12 +85,15 @@ const DropdownOptions = ({
 								opt?.disable ? 'cursor-not-allowed' : 'cursor-pointer',
 							].join(' ')}
 							aria-disabled={opt.disable}
-							onClick={() => onClick(opt)}
+							onClick={(e) => handleOptionClick(e, opt)}
 						>
 							{typeof opt === 'string' ? (
-								<div>{opt}</div>
+								<div className='whitespace-nowrap'>{opt}</div>
 							) : (
-								<div dangerouslySetInnerHTML={{ __html: opt.label }}></div>
+								<div
+									dangerouslySetInnerHTML={{ __html: opt.label }}
+									className='whitespace-nowrap'
+								></div>
 							)}
 						</li>
 					)

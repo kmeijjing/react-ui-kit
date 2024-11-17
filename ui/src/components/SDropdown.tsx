@@ -149,7 +149,7 @@ const SDropdown = ({
 				createPortal(
 					<DropdownOptions
 						onClick={handleClick}
-						parentId={id}
+						parentId={`s-dropdown--${id}`}
 						options={options}
 					/>,
 					document.body

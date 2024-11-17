@@ -1,5 +1,5 @@
 import { SVGProps } from 'react';
-import { ArrowDown24 } from './ArrowDownIcon';
+import { ArrowDown24, ArrowDown12 } from './ArrowDownIcon';
 import { ArrowLeftEnd12 } from './ArrowLeftEndIcon';
 import { ArrowLeft12 } from './ArrowLeftIcon';
 import { ArrowRightEnd12 } from './ArrowRightEndIcon';
@@ -21,6 +21,7 @@ export const icons: Record<
 > = {
 	ArrowDown: {
 		24: ArrowDown24,
+		12: ArrowDown12,
 	},
 	ArrowLeftEnd: {
 		12: ArrowLeftEnd12,

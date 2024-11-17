@@ -57,7 +57,7 @@ const STabs = ({
 							if (!tab.disabled && !!tab.value) onChange(tab.value);
 						}}
 						className={[
-							'tab rounded-t-4pxr inline-flex cursor-pointer flex-nowrap items-center border-x border-t ',
+							'tab inline-flex cursor-pointer flex-nowrap items-center rounded-t-4pxr border-x border-t ',
 							tabSize[size],
 							value === tab.value
 								? 'border-Blue_C_Default bg-white font-bold text-Blue_C_Default hover:bg-Blue_C_Default/[0.08]'
@@ -68,7 +68,7 @@ const STabs = ({
 						{tab.badge && (
 							<span
 								className={[
-									'badge rounded-4pxr text-10pxr ml-4pxr flex h-20pxr items-center px-5pxr py-1pxr',
+									'badge ml-4pxr flex h-20pxr items-center rounded-4pxr px-5pxr py-1pxr text-10pxr',
 									value === tab.value
 										? `text-[${tab.badgeTextColor ? colors[tab.badgeTextColor] : colors.white}] bg-[${tab.badgeColor ? colors[tab.badgeColor] : colors.Blue_C_Default}]`
 										: 'bg-Grey_Lighten-4 text-Grey_Darken-1',
