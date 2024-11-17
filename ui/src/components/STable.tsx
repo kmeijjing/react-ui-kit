@@ -96,7 +96,6 @@ const STable = ({
 		lastPage || pagination ? Math.ceil(rows.length / rowsPerPage) : 1;
 
 	const handleUpdatePagination = (page: number) => {
-		console.log(page);
 		setCurrentPage(page);
 	};
 

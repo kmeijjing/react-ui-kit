@@ -1,8 +1,8 @@
+import React from 'react';
 import { Setting24 } from '../assets/SettingIcon';
 import SButton from '../components/SButton';
 import { S } from '../index';
 
-console.log(S);
 const Button = () => {
 	return (
 		<div className='flex flex-col gap-12pxr p-16pxr'>

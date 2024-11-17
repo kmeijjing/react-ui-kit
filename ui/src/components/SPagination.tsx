@@ -1,11 +1,14 @@
 import { useState, useMemo, useEffect } from 'react';
 import Icon from './Icon';
+import SSelect, { type Option } from '@/components/SSelect';
 
 export interface SPaginationProps {
 	currentPage: number;
 	lastPage: number;
 	perPage?: 1 | 10;
 	className?: string;
+	usePerPageSelect?: boolean;
+	perPageOptions?: Option[];
 	onChange?: (page: number) => void;
 }
 
@@ -22,14 +25,20 @@ const SPagination = ({
 	lastPage = 1,
 	perPage = 10,
 	className = '',
+	usePerPageSelect = false,
+	perPageOptions = [
+		{ label: '20개씩 보기', value: 20 },
+		{ label: '50개씩 보기', value: 50 },
+		{ label: '100개씩 보기', value: 100 },
+	],
 	onChange,
 }: SPaginationProps) => {
 	const [paginationInfo, setPaginationInfo] = useState<Record<string, number>>({
 		lastPage: lastPage,
 		currentPage: currentPage,
 	});
-
 	const [buttonWidth, setButtonWidth] = useState<number>(BUTTON_WIDTH[1]);
+	const [perPageSelected, setPerPageSelected] = useState(perPageOptions[0]);
 
 	useEffect(() => {
 		setPaginationInfo({
@@ -91,14 +100,20 @@ const SPagination = ({
 		return startPageGroup + perPage - 1 >= lastPage; // 마지막 그룹 확인
 	};
 
+	const handleChangePerPage = (perPageOpt: Option) => {
+		setPerPageSelected(perPageOpt);
+		setPaginationInfo((prev) => ({ ...prev, currentPage: 1 }));
+		onChange?.(1);
+	};
+
 	return (
 		<div
 			className={[
-				's-pagination flex flex-nowrap items-center gap-x-8pxr text-Grey_Darken-2',
+				's-pagination full-width before:contents-[""] relative flex h-58pxr flex-nowrap items-center justify-center gap-x-8pxr rounded-8pxr text-Grey_Darken-2 before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:-z-10 before:rounded-8pxr before:border before:border-Grey_Lighten-3 before:bg-Grey_Lighten-6',
 				className,
 			].join(' ')}
 		>
-			<div className='prepend-btns flex w-60pxr flex-nowrap items-center gap-x-8pxr'>
+			<div className='prepend-btns flex w-60pxr flex-nowrap items-center gap-x-8pxr bg-Grey_Lighten-6'>
 				{!isFirstGroup() && (
 					<>
 						<button
@@ -167,6 +182,16 @@ const SPagination = ({
 					</>
 				)}
 			</div>
+
+			{usePerPageSelect && (
+				<div className='absolute right-16pxr top-1/2 w-120pxr -translate-y-1/2'>
+					<SSelect
+						options={perPageOptions}
+						value={perPageSelected}
+						onChange={handleChangePerPage}
+					/>
+				</div>
+			)}
 		</div>
 	);
 };

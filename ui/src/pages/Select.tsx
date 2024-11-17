@@ -14,35 +14,33 @@ const Select = () => {
 	const [selectedValue, setSelectedValue] = useState<Option>(options[0]);
 
 	return (
-		<div className='h-6000 flex flex-col gap-12pxr p-16pxr'>
+		<div className='flex w-300pxr flex-col gap-12pxr p-16pxr'>
 			<div>
 				<b>Select</b>
 			</div>
-			<div className='inline-flex w-500pxr items-center gap-8pxr'>
-				<SSelect
-					options={options}
-					value={selectedValue}
-					label='label'
-					onChange={(val) => setSelectedValue(val)}
-					className='w-200pxr'
-					disabled
-				/>
+			<SSelect
+				options={options}
+				value={selectedValue}
+				label='label'
+				onChange={(val) => setSelectedValue(val)}
+				className='w-200pxr'
+				disabled
+			/>
 
-				<SSelect
-					options={options}
-					value={selectedValue}
-					label='label'
-					onChange={(val) => setSelectedValue(val)}
-					className='w-200pxr'
-				/>
+			<SSelect
+				options={options}
+				value={selectedValue}
+				label='label'
+				onChange={(val) => setSelectedValue(val)}
+				className='w-200pxr'
+			/>
 
-				<SSelect
-					options={options}
-					value={selectedValue}
-					onChange={(val) => setSelectedValue(val)}
-					className='w-100pxr'
-				/>
-			</div>
+			<SSelect
+				options={options}
+				value={selectedValue}
+				onChange={(val) => setSelectedValue(val)}
+				className='w-100pxr'
+			/>
 		</div>
 	);
 };

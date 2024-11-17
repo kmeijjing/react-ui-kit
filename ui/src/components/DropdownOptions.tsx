@@ -1,14 +1,4 @@
-import { useEffect, useState } from 'react';
-
-const initParentDOMRect = {
-	height: 0,
-	width: 0,
-	x: 0,
-	y: 0,
-	bottom: 0,
-	left: 0,
-	top: 0,
-};
+import { useCallback, useEffect, useState } from 'react';
 
 export interface DropdownOptionProps {
 	label: string;
@@ -28,27 +18,41 @@ const DropdownOptions = ({
 	options = [],
 	onClick,
 }: DropdownOptionsProps) => {
-	const [position, setPosition] =
-		useState<Omit<DOMRect, 'toJSON' | 'right'>>(initParentDOMRect);
+	// const [position, setPosition] =
+	// useState<Omit<DOMRect, 'toJSON' | 'right'>>(initParentDOMRect);
+	const [position, setPosition] = useState<DOMRect | null>(null);
+	// const [position, setPosition] = useState<{
+	// 	top: number;
+	// 	left: number;
+	// 	width: number;
+	// }>({ top: 0, left: 0, width: 0 });
 
-	const handleOptionClick = (
-		e: React.MouseEvent,
-		option: DropdownOptionProps
-	) => {
-		e.stopPropagation(); // 이벤트 전파 중단
-		onClick(option);
-	};
+	const handleOptionClick = useCallback(
+		(e: React.MouseEvent, option: DropdownOptionProps) => {
+			e.stopPropagation(); // 이벤트 전파 중단
+
+			if (!option.disable) onClick?.(option);
+		},
+		[onClick]
+	);
+
+	const updatePosition = useCallback(() => {
+		const parent = document.getElementById(parentId);
+		if (!parent) return;
+
+		const parentRect = parent.getBoundingClientRect();
+		// const scrollY = window.scrollY || document.documentElement.scrollTop;
+		// const scrollX = window.scrollX || document.documentElement.scrollLeft;
+
+		setPosition(parentRect);
+		// setPosition({
+		// 	top: parentRect.bottom + scrollY + 4,
+		// 	left: parentRect.left + scrollX,
+		// 	width: parentRect.width,
+		// });
+	}, [parentId]);
 
 	useEffect(() => {
-		const parent = document.getElementById(parentId);
-
-		const updatePosition = () => {
-			if (parent) {
-				const parentRect = parent.getBoundingClientRect();
-				setPosition(parentRect);
-			}
-		};
-
 		// 초기 위치 설정
 		updatePosition();
 
@@ -60,18 +64,17 @@ const DropdownOptions = ({
 			window.removeEventListener('scroll', updatePosition, true);
 			window.removeEventListener('resize', updatePosition);
 		};
-	}, [parentId]);
+	}, [updatePosition]);
 
 	if (!position) return null;
 
 	return (
 		<ul
 			id={`s-dropdown__options--${parentId}`}
-			className='s-dropdown__options z-[999] rounded-2pxr bg-white shadow-dropdownOptions'
+			className='s-dropdown__options fixed z-[999] rounded-2pxr bg-white shadow-dropdownOptions'
 			style={{
-				position: 'fixed',
-				top: position.bottom + 4 + window.scrollY,
-				left: position.left + window.scrollX,
+				top: `${(position.bottom + 4 + window.scrollY) / 12}rem`,
+				left: `${(position.left + window.scrollY) / 12}rem`,
 				minWidth: position.width,
 			}}
 		>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import STabs from '../components/STabs';
 import STabPanel from '../components/STabPanel';
 
@@ -6,7 +6,6 @@ const Tab = () => {
 	const [tabValue, setTabValue] = useState('tab1');
 
 	const handleTabChange = (val: string) => {
-		console.log(val);
 		setTabValue(val);
 	};
 

@@ -36,7 +36,6 @@ const SSelect = ({
 	const sSelectRef = useRef<HTMLDivElement | null>(null);
 
 	const handleChange = (option: DropdownOptionProps) => {
-		console.log('handleChange! : ', option);
 		setSelectedValue(option);
 		setIsOpen((prev) => !prev);
 		onChange?.(option);
@@ -59,8 +58,6 @@ const SSelect = ({
 				dropdownElement &&
 				!dropdownElement.contains(e.target as Node)
 			) {
-				console.log('handleClickOutSide! : ');
-
 				setIsOpen(false);
 			}
 		},

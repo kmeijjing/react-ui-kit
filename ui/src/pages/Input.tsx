@@ -52,21 +52,16 @@ const Input = () => {
 
 	function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
 		evt.preventDefault();
-		console.log('handleSubmit');
 
 		formData.forEach((data) => {
-			data.rules.forEach(
-				(rule: { validate: (arg: any) => any; message: any }) => {
-					if (!rule.validate(data.value)) {
-						data.error = rule.message;
-					} else {
-						data.error = '';
-					}
+			data.rules.forEach((rule: { validate: (arg: any) => any; message: any }) => {
+				if (!rule.validate(data.value)) {
+					data.error = rule.message;
+				} else {
+					data.error = '';
 				}
-			);
+			});
 		});
-
-		console.log('Submitted Data:', formData);
 	}
 
 	return (
