@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export interface DropdownOptionProps {
 	label: string;
@@ -13,19 +13,69 @@ interface DropdownOptionsProps {
 	onClick: (arg: DropdownOptionProps) => void;
 }
 
+interface OptionStyle {
+	top: string;
+	left: string;
+	minWidth: string;
+	maxHeight?: string;
+}
+
+const INITIAL_STYLE: OptionStyle = {
+	top: '0rem',
+	left: '0rem',
+	minWidth: '0rem',
+};
+const MAX_HEIGHT = 300; // 최대 높이
+const SPACING = 4; // 옵션 간격
+const VIEWPORT_MARGIN = 12; // 화면 위아래 여백 추가
+
 const DropdownOptions = ({
 	parentId,
 	options = [],
 	onClick,
 }: DropdownOptionsProps) => {
-	// const [position, setPosition] =
-	// useState<Omit<DOMRect, 'toJSON' | 'right'>>(initParentDOMRect);
-	const [position, setPosition] = useState<DOMRect | null>(null);
-	// const [position, setPosition] = useState<{
-	// 	top: number;
-	// 	left: number;
-	// 	width: number;
-	// }>({ top: 0, left: 0, width: 0 });
+	const ulRef = useRef<HTMLUListElement>(null);
+	const [optionStyle, setOptionStyle] = useState<OptionStyle>(INITIAL_STYLE);
+
+	const getAvailableSpace = useCallback((parentRect: DOMRect) => {
+		const windowHeight = window.innerHeight;
+		return {
+			bottom: windowHeight - parentRect.bottom - VIEWPORT_MARGIN,
+			top: parentRect.top - VIEWPORT_MARGIN,
+		};
+	}, []);
+
+	const calculateDropdownHeight = useCallback((actualHeight: number) => {
+		return Math.min(actualHeight, MAX_HEIGHT);
+	}, []);
+
+	const calculatePosition = useCallback((): OptionStyle => {
+		const parent = document.getElementById(parentId);
+		if (!parent || !ulRef.current) return INITIAL_STYLE;
+
+		const parentRect = parent.getBoundingClientRect();
+		const { bottom: bottomSpace, top: topSpace } = getAvailableSpace(parentRect);
+		const dropdownHeight = calculateDropdownHeight(ulRef.current.scrollHeight);
+
+		const showAbove = bottomSpace < dropdownHeight && topSpace > bottomSpace;
+		const windowHeight = window.innerHeight;
+
+		return {
+			top: showAbove
+				? `${Math.max(VIEWPORT_MARGIN, parentRect.top - dropdownHeight - SPACING) / 12}rem`
+				: `${Math.min(windowHeight - VIEWPORT_MARGIN - dropdownHeight, parentRect.bottom + SPACING) / 12}rem`,
+			left: `${parentRect.left / 12}rem`,
+			minWidth: `${parentRect.width / 12}rem`,
+			maxHeight: `${dropdownHeight / 12}rem`,
+		};
+	}, [calculateDropdownHeight, getAvailableSpace, parentId]);
+
+	const updatePosition = useCallback(() => {
+		const newPosition = calculatePosition();
+		if (newPosition) {
+			setOptionStyle(newPosition);
+		}
+	}, [calculatePosition]);
 
 	const handleOptionClick = useCallback(
 		(e: React.MouseEvent, option: DropdownOptionProps) => {
@@ -36,27 +86,10 @@ const DropdownOptions = ({
 		[onClick]
 	);
 
-	const updatePosition = useCallback(() => {
-		const parent = document.getElementById(parentId);
-		if (!parent) return;
-
-		const parentRect = parent.getBoundingClientRect();
-		// const scrollY = window.scrollY || document.documentElement.scrollTop;
-		// const scrollX = window.scrollX || document.documentElement.scrollLeft;
-
-		setPosition(parentRect);
-		// setPosition({
-		// 	top: parentRect.bottom + scrollY + 4,
-		// 	left: parentRect.left + scrollX,
-		// 	width: parentRect.width,
-		// });
-	}, [parentId]);
-
 	useEffect(() => {
 		// 초기 위치 설정
-		updatePosition();
+		requestAnimationFrame(updatePosition);
 
-		// 스크롤 이벤트 리스너 추가
 		window.addEventListener('scroll', updatePosition, true);
 		window.addEventListener('resize', updatePosition);
 
@@ -66,21 +99,16 @@ const DropdownOptions = ({
 		};
 	}, [updatePosition]);
 
-	if (!position) return null;
-
 	return (
 		<ul
+			ref={ulRef}
 			id={`s-dropdown__options--${parentId}`}
-			className='s-dropdown__options fixed z-[999] rounded-2pxr bg-white shadow-dropdownOptions'
-			style={{
-				top: `${(position.bottom + 4 + window.scrollY) / 12}rem`,
-				left: `${(position.left + window.scrollY) / 12}rem`,
-				minWidth: position.width,
-			}}
+			className='s-dropdown__options fixed z-[999] overflow-y-auto rounded-2pxr bg-white shadow-dropdownOptions'
+			style={optionStyle}
 		>
 			{options.map(
 				(opt, idx) =>
-					(opt.display === undefined || opt.display) && (
+					opt.display !== false && (
 						<li
 							key={`s-dropdown__option--${idx}`}
 							className={[

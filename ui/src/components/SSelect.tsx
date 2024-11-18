@@ -83,7 +83,7 @@ const SSelect = ({
 		<div
 			id={`s-select--${id}`}
 			className={[
-				's-select relative flex h-28pxr w-full flex-nowrap items-center  before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:z-10 before:border before:border-Grey_Lighten-1 before:content-[""]',
+				's-select relative flex h-28pxr flex-nowrap items-center  before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:z-10 before:border before:border-Grey_Lighten-1 before:content-[""]',
 				disabled
 					? 'cursor-not-allowed bg-Grey_Lighten-4 before:border-Grey_Lighten-2'
 					: 'cursor-pointer bg-white before:border-Grey_Lighten-1',
@@ -103,8 +103,8 @@ const SSelect = ({
 					{label}
 				</label>
 			)}
-			<div className='s-select__content--container w-auto min-w-0 max-w-full flex-auto overflow-hidden text-ellipsis whitespace-nowrap'>
-				<div className='s-select__content pl-12pxr'>
+			<div className='s-select__content--container w-auto min-w-0 max-w-full flex-auto '>
+				<div className='s-select__content overflow-hidden text-ellipsis whitespace-nowrap pl-12pxr'>
 					{!selectedValue ? (
 						<span className='text-Grey_Lighten-1'>{placeholder}</span>
 					) : (

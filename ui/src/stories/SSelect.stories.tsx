@@ -26,6 +26,7 @@ export const Default: Story = {
 		value: null,
 		onChange: (option) => console.log('선택된 옵션:', option),
 		placeholder: '선택해주세요',
+		className: 'w-200pxr',
 	},
 };
 
@@ -55,6 +56,12 @@ export const ManyOptions: Story = {
 		...Default.args,
 		options: [
 			...options,
+			{ label: '옵션 5', value: '5', disable: true },
+			{ label: '옵션 6', value: '6' },
+			{ label: '옵션 7', value: '7' },
+			{ label: '옵션 8', value: '8' },
+			{ label: '옵션 9', value: '9' },
+			{ label: '옵션 10', value: '10' },
 			{ label: '옵션 5', value: '5' },
 			{ label: '옵션 6', value: '6' },
 			{ label: '옵션 7', value: '7' },
