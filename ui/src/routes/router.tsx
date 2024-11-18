@@ -1,3 +1,7 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import MainLayout from '../layouts/MainLayout';
@@ -15,17 +19,28 @@ export const routes = Object.keys(pages).map((filePath) => {
 	};
 });
 
-const Router = createBrowserRouter([
+const Router = createBrowserRouter(
+	[
+		{
+			path: '/',
+			element: <MainLayout />,
+			children: [
+				{
+					path: '/',
+					element: <App />,
+				},
+			].concat(routes),
+		},
+	],
 	{
-		path: '/',
-		element: <MainLayout />,
-		children: [
-			{
-				path: '/',
-				element: <App />,
-			},
-		].concat(routes),
-	},
-]);
+		future: {
+			v7_fetcherPersist: true,
+			v7_normalizeFormMethod: true,
+			v7_partialHydration: true,
+			v7_relativeSplatPath: true,
+			v7_skipActionErrorRevalidation: true,
+		},
+	}
+);
 
 export default Router;

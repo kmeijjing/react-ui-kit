@@ -6,6 +6,11 @@ import './css/index.css';
 
 createRoot(document.getElementById('root')!).render(
 	<StrictMode>
-		<RouterProvider router={Router} />
+		<RouterProvider
+			router={Router}
+			future={{
+				v7_startTransition: true,
+			}}
+		/>
 	</StrictMode>
 );
