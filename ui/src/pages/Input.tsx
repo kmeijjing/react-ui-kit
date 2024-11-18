@@ -1,11 +1,11 @@
-import { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import SInput from '../components/SInput';
 import SButton from '../components/SButton';
 
 const Input = () => {
 	const [inputValue, setInputValue] = useState('');
 
-	const [formData, setFormData] = useState<any[]>([
+	const [formData, setFormData] = useState<Record<string, any>[]>([
 		{
 			label: 'AAA',
 			useInsideLabel: true,
