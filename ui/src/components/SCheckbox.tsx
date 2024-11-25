@@ -46,6 +46,7 @@ const SCheckbox = ({
 	checked,
 	value,
 	onChange,
+	className = '',
 }: SCheckboxProps) => {
 	const checkType = useCallback(
 		(checkValue: Checked) =>
@@ -104,6 +105,7 @@ const SCheckbox = ({
 			className={[
 				's-checkbox inline-flex items-center',
 				disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+				className,
 			].join(' ')}
 		>
 			<input
@@ -130,7 +132,8 @@ const SCheckbox = ({
 					<Check12 className={iconClass} />
 				)}
 			</span>
-			<span>{label}</span>
+
+			{label && <span dangerouslySetInnerHTML={{ __html: label }}></span>}
 		</label>
 	);
 };

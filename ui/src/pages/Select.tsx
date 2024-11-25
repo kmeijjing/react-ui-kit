@@ -3,12 +3,12 @@ import SSelect, { type Option } from '../components/SSelect';
 
 const Select = () => {
 	const options = [
-		{ label: 'item1', value: 'item1', disabled: true },
-		{ label: 'item2', value: 'item2', disabled: false },
+		{ label: 'item1', value: 'item1', disable: true },
+		{ label: 'item2', value: 'item2', disable: false },
 		{
 			label: 'item3item3item3item3item3item3item3item3',
 			value: 'item3',
-			disabled: false,
+			disable: false,
 		},
 	];
 	const [selectedValue, setSelectedValue] = useState<Option>(options[0]);

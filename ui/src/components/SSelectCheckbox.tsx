@@ -1,78 +1,93 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Icon from '@/components/Icon';
 import { createPortal } from 'react-dom';
-import DropdownOptions, {
+import DropdownOptionsWithCheckbox, {
 	type DropdownOptionProps,
-} from './DropdownOptions.tsx';
+} from './DropdownOptionsWithCheckbox.tsx';
 export type Option = {
 	label: string;
 	value: string | number;
 };
 
-export interface SSelectProps {
+export interface SSelectCheckboxProps {
 	options: DropdownOptionProps[];
-	value: DropdownOptionProps | null;
+	value: DropdownOptionProps[] | null;
 	name?: string;
 	label?: string;
 	placeholder?: string;
 	disabled?: boolean;
 	className?: string;
-	onChange?: (option: DropdownOptionProps) => void;
+	onChange?: (selectedOptions: DropdownOptionProps[]) => void;
 }
 
-const SSelect = ({
+const SSelectCheckbox = ({
 	options,
-	value,
-	name = 's-select',
+	value = [],
+	name = 's-select-checkbox',
 	label,
 	placeholder = '선택',
 	disabled = false,
 	className = '',
 	onChange,
-}: SSelectProps) => {
+}: SSelectCheckboxProps) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const [selectedValue, setSelectedValue] = useState(value);
-	const sSelectRef = useRef<HTMLDivElement | null>(null);
+	const [selectedValues, setSelectedValues] = useState<DropdownOptionProps[]>(
+		value as []
+	);
+	const sSelectCheckboxRef = useRef<HTMLDivElement | null>(null);
 
 	const handleChange = (option: DropdownOptionProps) => {
-		setSelectedValue(option);
-		setIsOpen((prev) => !prev);
-		onChange?.(option);
+		let updatedValues;
+		if (selectedValues.some((item) => item.value === option.value)) {
+			// 이미 선택된 옵션이면 제거
+			updatedValues = selectedValues.filter((item) => item.value !== option.value);
+		} else {
+			// 선택되지 않은 옵션이면 추가
+			updatedValues = [...selectedValues, option];
+		}
+		setSelectedValues(updatedValues);
+		onChange?.(updatedValues);
 	};
 
-	const handleToggleDropdown = () => {
+	const toggleDropdown = () => {
 		if (disabled) return;
 		setIsOpen((prev) => !prev);
 	};
 
-	const handleClickOutSide = useCallback((e: MouseEvent) => {
-		const dropdownElement = document.getElementById(`s-dropdown-options`);
-
-		if (
-			sSelectRef.current &&
-			!sSelectRef.current.contains(e.target as Node) &&
-			dropdownElement &&
-			!dropdownElement.contains(e.target as Node)
-		) {
-			setIsOpen(false);
-		}
+	const closeDropdown = useCallback(() => {
+		setIsOpen(false);
 	}, []);
 
 	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			const dropdownElement = document.getElementById(
+				's-dropdown-options-with-checkbox'
+			);
+			if (
+				sSelectCheckboxRef.current &&
+				!sSelectCheckboxRef.current.contains(event.target as Node) &&
+				dropdownElement &&
+				!dropdownElement.contains(event.target as Node)
+			) {
+				closeDropdown();
+			}
+		};
+
 		if (isOpen) {
-			document.addEventListener('mousedown', handleClickOutSide);
+			document.addEventListener('mousedown', handleClickOutside);
 		}
 		return () => {
-			document.removeEventListener('mousedown', handleClickOutSide);
+			document.removeEventListener('mousedown', handleClickOutside);
 		};
-	}, [isOpen, handleClickOutSide]);
+	}, [isOpen, closeDropdown]);
 
 	useEffect(() => {
-		setSelectedValue(value);
+		setSelectedValues(value as []);
 	}, [value]);
 
 	return (
 		<div
+			ref={sSelectCheckboxRef}
 			className={[
 				's-select relative flex h-28pxr flex-nowrap items-center  before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:z-10 before:border before:border-Grey_Lighten-1 before:content-[""]',
 				disabled
@@ -80,8 +95,7 @@ const SSelect = ({
 					: 'cursor-pointer bg-white before:border-Grey_Lighten-1',
 				className,
 			].join(' ')}
-			ref={sSelectRef}
-			onClick={handleToggleDropdown}
+			onClick={toggleDropdown}
 		>
 			{label && (
 				<label
@@ -96,10 +110,10 @@ const SSelect = ({
 			)}
 			<div className='s-select__content--container w-auto min-w-0 max-w-full flex-auto '>
 				<div className='s-select__content overflow-hidden text-ellipsis whitespace-nowrap pl-12pxr'>
-					{!selectedValue ? (
+					{selectedValues.length === 0 ? (
 						<span className='text-Grey_Lighten-1'>{placeholder}</span>
 					) : (
-						<span>{selectedValue.label}</span>
+						<span>{selectedValues.map((val) => val.label).join(', ')}</span>
 					)}
 				</div>
 			</div>
@@ -111,10 +125,11 @@ const SSelect = ({
 			</div>
 			{isOpen &&
 				createPortal(
-					<DropdownOptions
+					<DropdownOptionsWithCheckbox
 						onClick={handleChange}
-						parentRef={sSelectRef}
+						parentRef={sSelectCheckboxRef}
 						options={options}
+						selected={selectedValues}
 					/>,
 					document.body
 				)}
@@ -122,4 +137,4 @@ const SSelect = ({
 	);
 };
 
-export default SSelect;
+export default SSelectCheckbox;

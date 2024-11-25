@@ -85,9 +85,13 @@ const SDropdown = ({
 	const sDropdownRef = useRef<HTMLButtonElement | null>(null);
 
 	const handleClickOutSide = useCallback((e: MouseEvent) => {
+		const dropdownElement = document.getElementById(`s-dropdown-options`);
+
 		if (
 			sDropdownRef.current &&
-			!sDropdownRef.current.contains(e.target as Node)
+			!sDropdownRef.current.contains(e.target as Node) &&
+			dropdownElement &&
+			!dropdownElement.contains(e.target as Node)
 		) {
 			setIsOpen(false);
 		}
@@ -96,8 +100,6 @@ const SDropdown = ({
 	useEffect(() => {
 		if (isOpen) {
 			document.addEventListener('mousedown', handleClickOutSide);
-		} else {
-			document.removeEventListener('mousedown', handleClickOutSide);
 		}
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutSide);

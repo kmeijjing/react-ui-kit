@@ -24,9 +24,6 @@ const DropdownOptions = ({
 	const optionStyle = useDropdownPosition({
 		parentRef,
 		ulRef,
-		maxHeight: 300, // 필요에 따라 값 변경 가능
-		spacing: 4,
-		viewportMargin: 12,
 	});
 
 	const handleOptionClick = useCallback(
@@ -40,8 +37,9 @@ const DropdownOptions = ({
 
 	return (
 		<ul
+			id='s-dropdown-options'
 			ref={ulRef}
-			className='s-dropdown__options fixed z-[999] overflow-y-auto rounded-2pxr bg-white shadow-dropdownOptions'
+			className='s-dropdown-options fixed z-[999] overflow-y-auto rounded-2pxr bg-white shadow-dropdownOptions'
 			style={optionStyle}
 		>
 			{options.map(
