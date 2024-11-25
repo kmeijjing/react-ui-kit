@@ -35,6 +35,7 @@ const DropdownOptions = ({
 			ref={ulRef}
 			className='s-dropdown-options-with-checkbox fixed z-[999] overflow-y-auto rounded-2pxr bg-white shadow-dropdownOptions'
 			style={optionStyle}
+			role='option-list'
 		>
 			{options
 				.filter((opt) => opt.display !== false)
@@ -50,6 +51,7 @@ const DropdownOptions = ({
 							e.stopPropagation();
 							if (!opt.disable) onClick(opt);
 						}}
+						role='option'
 					>
 						<SCheckbox
 							label={opt.label}

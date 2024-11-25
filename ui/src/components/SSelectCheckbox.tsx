@@ -89,13 +89,14 @@ const SSelectCheckbox = ({
 		<div
 			ref={sSelectCheckboxRef}
 			className={[
-				's-select relative flex h-28pxr flex-nowrap items-center  before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:z-10 before:border before:border-Grey_Lighten-1 before:content-[""]',
+				's-select-checkbox relative flex h-28pxr flex-nowrap items-center  before:absolute before:bottom-0 before:left-0 before:right-0 before:top-0 before:z-10 before:border before:border-Grey_Lighten-1 before:content-[""]',
 				disabled
 					? 'cursor-not-allowed bg-Grey_Lighten-4 before:border-Grey_Lighten-2'
 					: 'cursor-pointer bg-white before:border-Grey_Lighten-1',
 				className,
 			].join(' ')}
 			onClick={toggleDropdown}
+			data-testid='s-select-checkbox'
 		>
 			{label && (
 				<label
