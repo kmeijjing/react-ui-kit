@@ -1,3 +1,4 @@
+import React from 'react';
 import SDropdown from '../components/SDropdown';
 
 const Dropdown = () => {

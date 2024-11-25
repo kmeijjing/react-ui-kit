@@ -1,5 +1,5 @@
 import { createPortal } from 'react-dom';
-import { useId, useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import colors from '../css/colors.ts';
 import { Dropdown12 } from '../assets/DropdownIcon.tsx';
 import DropdownOptions, {
@@ -82,11 +82,13 @@ const SDropdown = ({
 		: 'hover:before:bg-black hover:before:opacity-10';
 
 	const [isOpen, setIsOpen] = useState(false);
-	const id = useId();
-	const dropdownRef = useRef<HTMLButtonElement>(null);
+	const sDropdownRef = useRef<HTMLButtonElement | null>(null);
 
 	const handleClickOutSide = useCallback((e: MouseEvent) => {
-		if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+		if (
+			sDropdownRef.current &&
+			!sDropdownRef.current.contains(e.target as Node)
+		) {
 			setIsOpen(false);
 		}
 	}, []);
@@ -110,8 +112,7 @@ const SDropdown = ({
 	return (
 		<>
 			<button
-				id={`s-dropdown--${id}`}
-				ref={dropdownRef}
+				ref={sDropdownRef}
 				disabled={disabled}
 				onClick={() => setIsOpen((prev) => !prev)}
 				className={[
@@ -148,8 +149,8 @@ const SDropdown = ({
 			{isOpen &&
 				createPortal(
 					<DropdownOptions
+						parentRef={sDropdownRef}
 						onClick={handleClick}
-						parentId={`s-dropdown--${id}`}
 						options={options}
 					/>,
 					document.body

@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { RefObject, useCallback, useRef } from 'react';
+import { useDropdownPosition } from '../hooks/useDropdownPositon';
 
 export interface DropdownOptionProps {
 	label: string;
@@ -8,74 +9,25 @@ export interface DropdownOptionProps {
 }
 
 interface DropdownOptionsProps {
-	parentId: string;
+	parentRef: RefObject<HTMLDivElement | HTMLButtonElement>;
 	options: DropdownOptionProps[];
 	onClick: (arg: DropdownOptionProps) => void;
 }
 
-interface OptionStyle {
-	top: string;
-	left: string;
-	minWidth: string;
-	maxHeight?: string;
-}
-
-const INITIAL_STYLE: OptionStyle = {
-	top: '0rem',
-	left: '0rem',
-	minWidth: '0rem',
-};
-const MAX_HEIGHT = 300; // 최대 높이
-const SPACING = 4; // 옵션 간격
-const VIEWPORT_MARGIN = 12; // 화면 위아래 여백 추가
-
 const DropdownOptions = ({
-	parentId,
+	parentRef,
 	options = [],
 	onClick,
 }: DropdownOptionsProps) => {
 	const ulRef = useRef<HTMLUListElement>(null);
-	const [optionStyle, setOptionStyle] = useState<OptionStyle>(INITIAL_STYLE);
 
-	const getAvailableSpace = useCallback((parentRect: DOMRect) => {
-		const windowHeight = window.innerHeight;
-		return {
-			bottom: windowHeight - parentRect.bottom - VIEWPORT_MARGIN,
-			top: parentRect.top - VIEWPORT_MARGIN,
-		};
-	}, []);
-
-	const calculateDropdownHeight = useCallback((actualHeight: number) => {
-		return Math.min(actualHeight, MAX_HEIGHT);
-	}, []);
-
-	const calculatePosition = useCallback((): OptionStyle => {
-		const parent = document.getElementById(parentId);
-		if (!parent || !ulRef.current) return INITIAL_STYLE;
-
-		const parentRect = parent.getBoundingClientRect();
-		const { bottom: bottomSpace, top: topSpace } = getAvailableSpace(parentRect);
-		const dropdownHeight = calculateDropdownHeight(ulRef.current.scrollHeight);
-
-		const showAbove = bottomSpace < dropdownHeight && topSpace > bottomSpace;
-		const windowHeight = window.innerHeight;
-
-		return {
-			top: showAbove
-				? `${Math.max(VIEWPORT_MARGIN, parentRect.top - dropdownHeight - SPACING) / 12}rem`
-				: `${Math.min(windowHeight - VIEWPORT_MARGIN - dropdownHeight, parentRect.bottom + SPACING) / 12}rem`,
-			left: `${parentRect.left / 12}rem`,
-			minWidth: `${parentRect.width / 12}rem`,
-			maxHeight: `${dropdownHeight / 12}rem`,
-		};
-	}, [calculateDropdownHeight, getAvailableSpace, parentId]);
-
-	const updatePosition = useCallback(() => {
-		const newPosition = calculatePosition();
-		if (newPosition) {
-			setOptionStyle(newPosition);
-		}
-	}, [calculatePosition]);
+	const optionStyle = useDropdownPosition({
+		parentRef,
+		ulRef,
+		maxHeight: 300, // 필요에 따라 값 변경 가능
+		spacing: 4,
+		viewportMargin: 12,
+	});
 
 	const handleOptionClick = useCallback(
 		(e: React.MouseEvent, option: DropdownOptionProps) => {
@@ -86,23 +38,9 @@ const DropdownOptions = ({
 		[onClick]
 	);
 
-	useEffect(() => {
-		// 초기 위치 설정
-		requestAnimationFrame(updatePosition);
-
-		window.addEventListener('scroll', updatePosition, true);
-		window.addEventListener('resize', updatePosition);
-
-		return () => {
-			window.removeEventListener('scroll', updatePosition, true);
-			window.removeEventListener('resize', updatePosition);
-		};
-	}, [updatePosition]);
-
 	return (
 		<ul
 			ref={ulRef}
-			id={`s-dropdown__options--${parentId}`}
 			className='s-dropdown__options fixed z-[999] overflow-y-auto rounded-2pxr bg-white shadow-dropdownOptions'
 			style={optionStyle}
 		>
@@ -110,7 +48,7 @@ const DropdownOptions = ({
 				(opt, idx) =>
 					opt.display !== false && (
 						<li
-							key={`s-dropdown__option--${idx}`}
+							key={idx}
 							className={[
 								'px-12pxr py-4pxr text-Grey_Darken-4 hover:bg-Blue_C_Default hover:text-white aria-disabled:bg-white aria-disabled:text-Grey_Lighten-1',
 								opt?.disable ? 'cursor-not-allowed' : 'cursor-pointer',

@@ -122,7 +122,7 @@ const SSelect = ({
 				createPortal(
 					<DropdownOptions
 						onClick={handleChange}
-						parentId={`s-select--${id}`}
+						parentRef={sSelectRef}
 						options={options}
 					/>,
 					document.body
