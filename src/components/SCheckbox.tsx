@@ -39,13 +39,16 @@ export interface CheckboxProps {
 	 * Click handler
 	 */
 	onChange?: (arg: Checked) => void;
+	labelClass?: string;
 }
 const SCheckbox = ({
 	label,
+	className,
 	disabled = false,
 	checked,
 	value,
 	onChange,
+	labelClass,
 }: CheckboxProps) => {
 	const checkType = useCallback(
 		(checkValue: Checked) =>
@@ -104,6 +107,7 @@ const SCheckbox = ({
 			className={[
 				's-checkbox inline-flex items-center',
 				disabled ? 'cursor-not-allowed' : 'cursor-pointer',
+				labelClass,
 			].join(' ')}
 		>
 			<input
@@ -121,6 +125,7 @@ const SCheckbox = ({
 					isCheckedInIcon
 						? 'bg-Blue_C_Default before:border-Blue_C_Default'
 						: 'bg-white before:border-Grey_Default hover:bg-Blue_B_Lighten-5 hover:before:border hover:before:border-Blue_C_Default',
+					className,
 				].join(' ')}
 				aria-disabled={disabled}
 			>
