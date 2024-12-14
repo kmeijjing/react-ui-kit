@@ -51,6 +51,16 @@ const config: Config = {
 			},
 			colors: colors,
 			spacing: sizes,
+			animation: {
+				qmatDash: 'qmatDash 2s infinite linear',
+			},
+			keyframes: {
+				qmatDash: {
+					'0%': { strokeDasharray: '1, 200', strokeDashoffset: '0' },
+					'50%': { strokeDasharray: '89, 200', strokeDashoffset: '-35px' },
+					'100%': { strokeDasharray: '89, 200', strokeDashoffset: '-124px' },
+				},
+			},
 		},
 	},
 	plugins: [],
