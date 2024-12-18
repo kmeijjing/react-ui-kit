@@ -5,8 +5,8 @@ const Progess = () => {
 		<div className='p-12'>
 			<div className='font-bold'>Progess</div>
 
-			<SProgress />
-			<SProgress percent={20} />
+			<SProgress className='h-80pxr w-80pxr' />
+			{/* <SProgress percent={20} />
 			<SProgress
 				state='error'
 				percent={48}
@@ -15,7 +15,7 @@ const Progess = () => {
 			<SProgress
 				state='success'
 				percent={100}
-			/>
+			/> */}
 		</div>
 	);
 };
