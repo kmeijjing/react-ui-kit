@@ -184,7 +184,10 @@ const SInput = ({
 					{append}
 
 					{type === 'password' && (
-						<button data-testid='password-visible-button'>
+						<button
+							title='password-visible'
+							data-testid='password-visible-button'
+						>
 							<Icon
 								name={showPassword ? 'VisibilityOn_16' : 'VisibilityOff_16'}
 								color='Grey_Darken-1'
