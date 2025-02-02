@@ -62,8 +62,8 @@ const DatePickerPortal = ({
 
 			const top =
 				parentRect.bottom + dropdownHeight > viewportHeight
-					? parentRect.top - (dropdownHeight + margin)
-					: parentRect.bottom + margin;
+					? parentRect.top - (dropdownHeight + margin) + scrollY
+					: parentRect.bottom + margin + scrollY;
 
 			setPosition({
 				top: top,
@@ -78,7 +78,7 @@ const DatePickerPortal = ({
 				<div
 					ref={portalRef}
 					className={[
-						'rounded-2pxr bg-white  shadow-dropdownOptions',
+						'z-[99999] rounded-2pxr  bg-white shadow-dropdownOptions',
 						isOpen ? 'opacity-1' : 'pointer-events-none opacity-0',
 					].join(' ')}
 					style={{

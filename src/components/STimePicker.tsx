@@ -274,7 +274,7 @@ const STimePicker = ({
 				<SInput
 					useInsideLabel
 					label={label}
-					value={`${!use24 ? `${debouncedValue.period === 'AM' ? '오전 ' : '오후 '}` : ''}${useSeconds ? Object.values(debouncedValue).join(':') : [debouncedValue.hour, debouncedValue.minute].join(':')}`}
+					value={`${!use24 ? `${debouncedValue.period === 'AM' ? '오전 ' : '오후 '}` : ''}${useSeconds ? [debouncedValue.hour, debouncedValue.minute, debouncedValue.second].join(':') : [debouncedValue.hour, debouncedValue.minute].join(':')}`}
 					readonly
 					disable={disabled}
 					prepend={<ClockOutlineIcon16 className='text-Grey_Darken-1' />}
