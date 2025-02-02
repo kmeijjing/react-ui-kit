@@ -7,7 +7,9 @@ const FilePicker = () => {
 			<SFilePicker
 				disabled
 				placeholder='긴파일을 선택해주세요. 긴파일을 선택해주세요. 긴파일을 선택해주세요.'
+				className='w-200pxr'
 			/>
+			<SFilePicker clearable />
 		</>
 	);
 };
