@@ -265,6 +265,7 @@ const STimePicker = ({
 		<>
 			<div
 				ref={timePickerRef}
+				data-testid='s-time-picker'
 				className='w-fit'
 				onClick={() => {
 					if (disabled) return;
@@ -319,7 +320,7 @@ const STimePicker = ({
 
 								<div className='flex flex-col items-center gap-y-12pxr'>
 									<button
-										title='up'
+										title={`${type}_up`}
 										type='button'
 										onClick={() => updateTime(type, 'up')}
 									>
@@ -328,6 +329,7 @@ const STimePicker = ({
 
 									<div className='relative h-28pxr w-38pxr text-center before:pointer-events-none before:absolute before:left-0 before:top-0 before:h-full before:w-full before:rounded-4pxr before:border before:border-Grey_Lighten-1 before:content-[""] focus-within:before:border-positive focus-within:before:shadow-input hover:before:border-positive hover:before:shadow-input'>
 										<input
+											title={`${type}-input`}
 											type='text'
 											value={debouncedValue[type] || ''}
 											placeholder='00'
@@ -339,7 +341,7 @@ const STimePicker = ({
 
 									<button
 										type='button'
-										title='down'
+										title={`${type}_down`}
 										onClick={() => updateTime(type, 'down')}
 									>
 										<ArrowLeft12 className='-rotate-90 text-Grey_Lighten-2' />
